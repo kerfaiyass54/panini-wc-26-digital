@@ -1,1 +1,139 @@
-<p>welcome-page works!</p>
+<div class="page">
+
+  <!-- BACKGROUND -->
+
+
+  <!-- HERO -->
+
+  <section
+    class="hero"
+    [style.opacity]="heroOpacity"
+    [style.transform]="'scale(' + heroScale + ')'"
+  >
+
+    <div class="hero__content">
+
+      <div class="hero__top">
+
+        <span class="dot"></span>
+
+        FIFA WORLD CUP COLLECTION
+
+      </div>
+
+      <h1 class="hero__title">
+
+        Collect.
+
+        <br>
+
+        Trade.
+
+        <br>
+
+        Complete.
+
+      </h1>
+
+      <p class="hero__text">
+
+        The modern digital experience for your Panini World Cup album.
+
+      </p>
+
+    </div>
+
+
+  </section>
+
+  <!-- FLOATING CARDS -->
+  <section class="showcase">
+
+    <div
+      class="showcase__cards"
+      [class.showcase__cards--visible]="cardsVisible"
+    >
+
+      <!-- CARD -->
+
+      <div class="panel panel--large">
+
+        <div class="panel__number">
+          01
+        </div>
+
+        <div class="panel__emoji">
+          ⚽
+        </div>
+
+        <div class="panel__content">
+
+          <h2>
+            Build Your Album
+          </h2>
+
+          <p>
+            Save and organize every sticker you collect in one futuristic dashboard.
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- CARD -->
+
+      <div class="panel panel--small">
+
+        <div class="panel__number">
+          02
+        </div>
+
+        <div class="panel__emoji">
+          📈
+        </div>
+
+        <div class="panel__content">
+
+          <h2>
+            Track Progress
+          </h2>
+
+          <p>
+            Follow missing stickers, duplicates and completion percentage instantly.
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- CARD -->
+
+      <div class="panel panel--wide">
+
+        <div class="panel__number">
+          03
+        </div>
+
+        <div class="panel__emoji">
+          🌍
+        </div>
+
+        <div class="panel__content">
+
+          <h2>
+            Explore Nations
+          </h2>
+
+          <p>
+            Browse teams, players and legendary cards with a premium experience.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>

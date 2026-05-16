@@ -1,1 +1,343 @@
-<p>stickers-details works!</p>
+<div class="stickers-page">
+
+  <!-- HEADER -->
+
+  <section class="hero">
+
+    <div class="hero__badge">
+      ⚽ DIGITAL WORLD CUP COLLECTION
+    </div>
+
+    <h1 class="hero__title">
+      Stickers Manager
+    </h1>
+
+    <p class="hero__text">
+      Manage your collection with a modern dashboard.
+    </p>
+
+  </section>
+
+  <!-- ACTIONS -->
+
+  <section class="toolbar">
+
+    <div class="search-box">
+
+    <span class="search-icon">
+      🔍
+    </span>
+
+      <input
+        type="text"
+        placeholder="Search stickers..."
+        [value]="search()"
+        (input)="search.set($any($event.target).value)"
+      >
+
+    </div>
+
+    <button
+      class="add-btn"
+      data-bs-toggle="modal"
+      data-bs-target="#addModal"
+    >
+      ✦ Add Sticker
+    </button>
+
+  </section>
+
+  <!-- TABLE -->
+
+  <section class="table-wrapper">
+
+    <table class="stickers-table">
+
+      <thead>
+
+      <tr>
+
+        <th>ID</th>
+
+        <th>Name</th>
+
+        <th>Type</th>
+
+        <th>Nationality</th>
+
+        <th>Position</th>
+
+      </tr>
+
+      </thead>
+
+      <tbody>
+
+        @for (sticker of filteredStickers(); track sticker.id) {
+
+          <tr
+            data-bs-toggle="modal"
+            data-bs-target="#updateModal"
+            (click)="openSticker(sticker)"
+          >
+
+            <td>#{{ sticker.id }}</td>
+
+            <td>
+              ⚽ {{ sticker.name }}
+            </td>
+
+            <td>
+              <span class="type">
+                {{ sticker.type }}
+              </span>
+            </td>
+
+            <td>{{ sticker.nationality }}</td>
+
+            <td>{{ sticker.place }}</td>
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </section>
+
+  <!-- PAGINATION -->
+
+  <section class="pagination-box">
+
+    <button
+      class="page-btn"
+      (click)="previousPage()"
+    >
+      ←
+    </button>
+
+    <div class="page-number">
+
+      {{ currentPage() + 1 }}
+
+    </div>
+
+    <button
+      class="page-btn"
+      (click)="nextPage()"
+    >
+      →
+    </button>
+
+  </section>
+
+</div>
+
+<!-- UPDATE MODAL -->
+
+<div
+  class="modal fade"
+  id="updateModal"
+  tabindex="-1"
+  aria-hidden="true"
+>
+
+  <div class="modal-dialog modal-dialog-centered">
+
+    <div class="modal-content modern-modal">
+
+      <div class="modal-header border-0">
+
+        <h1 class="modal-title fs-5">
+          Edit Sticker
+        </h1>
+
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+        ></button>
+
+      </div>
+
+      <form
+        [formGroup]="updateForm"
+        (ngSubmit)="updateSticker()"
+      >
+
+        <div class="modal-body">
+
+          <div class="field">
+
+            <label>Name</label>
+
+            <input
+              type="text"
+              formControlName="name"
+            >
+
+          </div>
+
+          <div class="field">
+
+            <label>Type</label>
+
+            <input
+              type="text"
+              formControlName="type"
+            >
+
+          </div>
+
+          <div class="field">
+
+            <label>Nationality</label>
+
+            <input
+              type="text"
+              formControlName="nationality"
+            >
+
+          </div>
+
+          <div class="field">
+
+            <label>Place</label>
+
+            <input
+              type="text"
+              formControlName="place"
+            >
+
+          </div>
+
+        </div>
+
+        <div class="modal-footer border-0">
+
+          <button
+            type="button"
+            class="delete-btn"
+            (click)="deleteSticker()"
+          >
+            Delete
+          </button>
+
+          <button
+            type="submit"
+            class="save-btn"
+          >
+            Update
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ADD MODAL -->
+
+<div
+  class="modal fade"
+  id="addModal"
+  tabindex="-1"
+  aria-hidden="true"
+>
+
+  <div class="modal-dialog modal-dialog-centered">
+
+    <div class="modal-content modern-modal">
+
+      <div class="modal-header border-0">
+
+        <h1 class="modal-title fs-5">
+          Add Sticker
+        </h1>
+
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+        ></button>
+
+      </div>
+
+      <form
+        [formGroup]="addForm"
+        (ngSubmit)="addSticker()"
+      >
+
+        <div class="modal-body">
+
+          <div class="field">
+
+            <label>Name</label>
+
+            <input
+              type="text"
+              formControlName="name"
+            >
+
+          </div>
+
+          <div class="field">
+
+            <label>Type</label>
+
+            <input
+              type="text"
+              formControlName="type"
+            >
+
+          </div>
+
+          <div class="field">
+
+            <label>Nationality</label>
+
+            <input
+              type="text"
+              formControlName="nationality"
+            >
+
+          </div>
+
+          <div class="field">
+
+            <label>Place</label>
+
+            <input
+              type="text"
+              formControlName="place"
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="modal-footer border-0">
+
+          <button
+            type="submit"
+            class="save-btn"
+          >
+            Add Sticker
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>

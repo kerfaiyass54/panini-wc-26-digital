@@ -1,5 +1,30 @@
 import { Routes } from '@angular/router';
+import { App } from './app';
 
 export const routes: Routes = [
-
+  {
+    path: '',
+    component: App,
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./welcome-page/welcome-page').then(m => m.WelcomePage),
+      },
+      {
+        path: 'total-stats',
+        loadComponent: () =>
+          import('./stickers-total/stickers-total').then(m => m.StickersTotal),
+      },
+      {
+        path: 'stickers-details',
+        loadComponent: () =>
+          import('./stickers-details/stickers-details').then(m => m.StickersDetails),
+      },
+      {
+        path: '**',
+        redirectTo: '',
+      },
+    ],
+  },
 ];

@@ -18,8 +18,8 @@ export class NavBar {
   @Input() title = 'Panini WC';
 
   @Input() links: NavLink[] = [
-    { label: 'Total Stats',      path: '/stats',    exact: false },
-    { label: 'Sticker Details',  path: '/stickers', exact: false },
+    { label: 'Total Stats',      path: '/total-stats',    exact: false },
+    { label: 'Sticker Details',  path: '/stickers-details', exact: false },
   ];
 
   scrolled = false;

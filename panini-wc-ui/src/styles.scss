@@ -1,1 +1,186 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* RESET */
+
+* {
+
+  margin: 0;
+
+  padding: 0;
+
+  box-sizing: border-box;
+}
+
+html,
+body {
+
+  min-height: 100%;
+
+  scroll-behavior: smooth;
+}
+
+body {
+
+  font-family: 'Inter', sans-serif;
+
+  background:
+    #050816;
+
+  overflow-x: hidden;
+
+  color: white;
+}
+
+/* GLOBAL BACKGROUND */
+
+.app-background {
+
+  position: fixed;
+
+  inset: 0;
+
+  overflow: hidden;
+
+  z-index: -1;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+        180deg,
+        #060816 0%,
+        #04050f 100%
+    );
+}
+
+/* animated aurora */
+
+.app-background__aurora {
+
+  position: absolute;
+
+  inset: -300px;
+
+  background:
+    conic-gradient(
+        from 180deg at 50% 50%,
+        rgba(0,220,255,.14),
+        rgba(75,124,255,.12),
+        rgba(123,97,255,.14),
+        rgba(0,220,255,.14)
+    );
+
+  filter:
+    blur(140px);
+
+  animation:
+    rotateAurora 22s linear infinite;
+}
+
+/* grid */
+
+.app-background__grid {
+
+  position: absolute;
+
+  inset: 0;
+
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+
+  background-size: 60px 60px;
+
+  mask-image:
+    radial-gradient(circle at center, black 45%, transparent 100%);
+}
+
+/* noise */
+
+.app-background__noise {
+
+  position: absolute;
+
+  inset: 0;
+
+  opacity: .03;
+
+  background-image:
+    radial-gradient(white .5px, transparent .5px);
+
+  background-size: 5px 5px;
+}
+
+/* GLOBAL SCROLLBAR */
+
+::-webkit-scrollbar {
+
+  width: 10px;
+
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+
+  background:
+    rgba(255,255,255,.03);
+}
+
+::-webkit-scrollbar-thumb {
+
+  background:
+    linear-gradient(
+        180deg,
+        #00dcff,
+        #7b61ff
+    );
+
+  border-radius: 999px;
+
+  border:
+    2px solid rgba(5,8,22,.9);
+
+  transition:
+    background .3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+
+  background:
+    linear-gradient(
+        180deg,
+        #35e6ff,
+        #947dff
+    );
+}
+
+/* FIREFOX */
+
+* {
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    #5b7cff
+    rgba(255,255,255,.04);
+}
+
+/* ANIMATION */
+
+@keyframes rotateAurora {
+
+  from {
+
+    transform:
+      rotate(0deg)
+      scale(1);
+  }
+
+  to {
+
+    transform:
+      rotate(360deg)
+      scale(1.1);
+  }
+}
