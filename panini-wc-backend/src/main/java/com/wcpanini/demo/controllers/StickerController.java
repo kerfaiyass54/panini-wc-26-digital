@@ -1,6 +1,7 @@
 package com.wcpanini.demo.controllers;
 
 import com.wcpanini.demo.dtos.StickerDTO;
+import com.wcpanini.demo.dtos.StickerStatsDTO;
 import com.wcpanini.demo.services.StickerService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -44,5 +45,10 @@ public class StickerController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         stickerService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/stats")
+    public ResponseEntity<StickerStatsDTO> getStats() {
+        return ResponseEntity.ok(stickerService.getStats());
     }
 }

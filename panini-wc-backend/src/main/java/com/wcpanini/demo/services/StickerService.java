@@ -1,6 +1,7 @@
 package com.wcpanini.demo.services;
 
 import com.wcpanini.demo.dtos.StickerDTO;
+import com.wcpanini.demo.dtos.StickerStatsDTO;
 import com.wcpanini.demo.entities.Sticker;
 import com.wcpanini.demo.repositories.StickerRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -87,5 +88,23 @@ public class StickerService {
 
     private StickerDTO toDTO(Sticker s) {
         return new StickerDTO(s.getId(), s.getName(), s.getType(), s.getNationality(), s.getPlace());
+    }
+
+    public StickerStatsDTO getStats() {
+
+        long total   = stickerRepository.count();
+
+        long logos   = stickerRepository.countByTypeIgnoreCase("logo");
+
+        long intros  = stickerRepository.countByTypeIgnoreCase("intro");
+
+        long players = stickerRepository.countByTypeIgnoreCase("player");
+
+        return new StickerStatsDTO(
+                total,
+                logos,
+                intros,
+                players
+        );
     }
 }

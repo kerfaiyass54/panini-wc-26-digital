@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StickerRepository extends JpaRepository<Sticker, Long> {
+
+    long countByTypeIgnoreCase(String type);
+
 }
