@@ -1,0 +1,28 @@
+<nav class="navbar" [class.scrolled]="scrolled">
+  <div class="navbar__inner">
+
+    <!-- Brand -->
+    <a class="navbar__brand" routerLink="/">
+      <span class="navbar__brand-icon">⬡</span>
+      <span class="navbar__brand-title">{{ title }}</span>
+    </a>
+
+    <!-- Links -->
+    <ul class="navbar__links">
+      @for (link of links; track link.path) {
+        <li class="navbar__item">
+          <a
+            class="navbar__link"
+            [routerLink]="link.path"
+            routerLinkActive="navbar__link--active"
+            [routerLinkActiveOptions]="{ exact: link.exact ?? false }"
+          >
+            <span class="navbar__link-label">{{ link.label }}</span>
+            <span class="navbar__link-bar"></span>
+          </a>
+        </li>
+      }
+    </ul>
+
+  </div>
+</nav>
