@@ -47,6 +47,27 @@ public class StickerController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<Page<StickerDTO>> search(
+
+            @RequestParam String query,
+
+            @RequestParam(defaultValue = "0")
+            int page,
+
+            @RequestParam(defaultValue = "5")
+            int size
+    ) {
+
+        return ResponseEntity.ok(
+                stickerService.search(
+                        query,
+                        page,
+                        size
+                )
+        );
+    }
+
     @GetMapping("/stats")
     public ResponseEntity<StickerStatsDTO> getStats() {
         return ResponseEntity.ok(stickerService.getStats());

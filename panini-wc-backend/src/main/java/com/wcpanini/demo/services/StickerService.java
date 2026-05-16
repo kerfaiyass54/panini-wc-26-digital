@@ -107,4 +107,24 @@ public class StickerService {
                 players
         );
     }
+
+    public Page<StickerDTO> search(
+            String query,
+            int page,
+            int size
+    ) {
+
+        Pageable pageable =
+                PageRequest.of(page, size);
+
+        return stickerRepository
+                .findByNameContainingIgnoreCaseOrTypeContainingIgnoreCaseOrNationalityContainingIgnoreCaseOrPlaceContainingIgnoreCase(
+                        query,
+                        query,
+                        query,
+                        query,
+                        pageable
+                )
+                .map(this::toDTO);
+    }
 }
