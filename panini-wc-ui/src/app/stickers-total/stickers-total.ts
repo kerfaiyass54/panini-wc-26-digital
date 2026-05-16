@@ -1,5 +1,15 @@
-import { Component, signal, computed } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  signal,
+  OnInit,
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
+import { StickerService, StickerStatsDTO } from '../services/sticker.service';
+
+
 
 @Component({
   selector: 'app-stickers-total',
@@ -8,28 +18,74 @@ import { CommonModule } from '@angular/common';
   templateUrl: './stickers-total.html',
   styleUrl: './stickers-total.scss',
 })
-export class StickersTotal {
+export class StickersTotal implements OnInit {
 
-  // TOTAL STICKERS
+  private readonly stickerService =
+    inject(StickerService);
 
-  totalStickers = signal(684);
+  // SIGNALS
 
-  collected = signal(472);
+  totalStickers = signal(528);
 
-  // CATEGORIES
+  collected = signal(0);
 
-  logos = signal(32);
+  logos = signal(0);
 
-  introPictures = signal(18);
+  introPictures = signal(0);
 
-  players = signal(422);
+  players = signal(0);
 
   // PERCENTAGE
 
-  percentage = computed(() =>
+  percentage = computed(() => {
 
-    Math.round(
+    if (this.totalStickers() === 0) {
+
+      return 0;
+    }
+
+    return Math.round(
       (this.collected() / this.totalStickers()) * 100
-    )
-  );
+    );
+  });
+
+  // INIT
+
+  ngOnInit(): void {
+
+    this.loadStats();
+  }
+
+  // LOAD STATS
+
+  loadStats(): void {
+
+    this.stickerService
+      .getStats()
+      .subscribe({
+
+        next: (stats: StickerStatsDTO) => {
+
+          this.totalStickers.set(528);
+
+          // collected = all stickers for now
+
+          this.collected.set(stats.total);
+
+          this.logos.set(stats.logos);
+
+          this.introPictures.set(stats.intros);
+
+          this.players.set(stats.players);
+        },
+
+        error: (err) => {
+
+          console.error(
+            'Error loading stats',
+            err
+          );
+        },
+      });
+  }
 }

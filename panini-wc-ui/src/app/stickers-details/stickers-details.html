@@ -32,7 +32,7 @@
         type="text"
         placeholder="Search stickers..."
         [value]="search()"
-        (input)="search.set($any($event.target).value)"
+        (input)="onSearch($any($event.target).value)"
       >
 
     </div>
@@ -73,7 +73,7 @@
 
       <tbody>
 
-        @for (sticker of filteredStickers(); track sticker.id) {
+        @for (sticker of stickers(); track sticker.id) {
 
           <tr
             data-bs-toggle="modal"
@@ -93,7 +93,7 @@
               </span>
             </td>
 
-            <td>{{ sticker.nationality }}</td>
+            <td> {{ sticker.nationality || 'None' }}</td>
 
             <td>{{ sticker.place }}</td>
 
@@ -221,6 +221,7 @@
             type="button"
             class="delete-btn"
             (click)="deleteSticker()"
+            data-bs-dismiss="modal"
           >
             Delete
           </button>
@@ -228,6 +229,7 @@
           <button
             type="submit"
             class="save-btn"
+            data-bs-dismiss="modal"
           >
             Update
           </button>

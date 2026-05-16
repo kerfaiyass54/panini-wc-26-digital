@@ -1,6 +1,7 @@
 import {
   Component,
-  computed,
+  inject,
+  OnInit,
   signal,
 } from '@angular/core';
 
@@ -12,19 +13,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { StickerDTO, StickerService } from '../services/sticker.service';
 
-interface Sticker {
-
-  id: number;
-
-  name: string;
-
-  type: string;
-
-  nationality: string;
-
-  place: string;
-}
 
 @Component({
   selector: 'app-stickers-details',
@@ -36,98 +26,31 @@ interface Sticker {
   templateUrl: './stickers-details.html',
   styleUrl: './stickers-details.scss',
 })
-export class StickersDetails {
+export class StickersDetails implements OnInit {
+
+  private readonly stickerService =
+    inject(StickerService);
+
+  // SEARCH
 
   search = signal('');
 
-  filteredStickers = computed(() => {
+  // DATA
 
-    const query = this.search()
-      .toLowerCase()
-      .trim();
-
-    if (!query) {
-
-      return this.stickers();
-    }
-
-    return this.stickers().filter(sticker =>
-
-      sticker.name
-        .toLowerCase()
-        .includes(query)
-
-      ||
-
-      sticker.type
-        .toLowerCase()
-        .includes(query)
-
-      ||
-
-      sticker.nationality
-        .toLowerCase()
-        .includes(query)
-
-      ||
-
-      sticker.place
-        .toLowerCase()
-        .includes(query)
-    );
-  });
-
-  // SIGNALS
-
-  stickers = signal<Sticker[]>([
-    {
-      id: 1,
-      name: 'Lionel Messi',
-      type: 'Legendary',
-      nationality: 'Argentina',
-      place: 'Forward',
-    },
-    {
-      id: 2,
-      name: 'Cristiano Ronaldo',
-      type: 'Rare',
-      nationality: 'Portugal',
-      place: 'Forward',
-    },
-    {
-      id: 3,
-      name: 'Kylian Mbappé',
-      type: 'Epic',
-      nationality: 'France',
-      place: 'Forward',
-    },
-    {
-      id: 4,
-      name: 'Neymar Jr',
-      type: 'Ultra Rare',
-      nationality: 'Brazil',
-      place: 'Forward',
-    },
-    {
-      id: 5,
-      name: 'Luka Modrić',
-      type: 'Golden',
-      nationality: 'Croatia',
-      place: 'Midfielder',
-    },
-  ]);
+  stickers = signal<StickerDTO[]>([]);
 
   currentPage = signal(0);
 
-  totalPages = signal(8);
+  totalPages = signal(0);
 
-  selectedStickerId = signal<number | null>(null);
+  pageSize = 5;
 
-  selectedSticker = computed(() =>
-    this.stickers().find(
-      s => s.id === this.selectedStickerId()
-    )
-  );
+  selectedStickerId =
+    signal<number | null>(null);
+
+  // SELECTED
+
+  selectedSticker = signal<StickerDTO | null>(null);
 
   // UPDATE FORM
 
@@ -147,7 +70,6 @@ export class StickersDetails {
 
     nationality: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required],
     }),
 
     place: new FormControl('', {
@@ -172,7 +94,6 @@ export class StickersDetails {
 
     nationality: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required],
     }),
 
     place: new FormControl('', {
@@ -181,11 +102,99 @@ export class StickersDetails {
     }),
   });
 
+  // INIT
+
+  ngOnInit(): void {
+
+    this.loadStickers();
+  }
+
+  // LOAD
+
+  loadStickers(): void {
+
+    this.stickerService
+      .getAll(
+        this.currentPage(),
+        this.pageSize,
+        'id'
+      )
+      .subscribe({
+
+        next: (response) => {
+
+          this.stickers.set(
+            response.content
+          );
+
+          this.totalPages.set(
+            response.totalPages
+          );
+        },
+
+        error: (err) => {
+
+          console.error(
+            'Error loading stickers',
+            err
+          );
+        },
+      });
+  }
+
+  // SEARCH
+
+  onSearch(value: string): void {
+
+    this.search.set(value);
+
+    if (!value.trim()) {
+
+      this.loadStickers();
+
+      return;
+    }
+
+    this.stickerService
+      .search(
+        value,
+        this.currentPage(),
+        this.pageSize
+      )
+      .subscribe({
+
+        next: (response) => {
+
+          this.stickers.set(
+            response.content
+          );
+
+          this.totalPages.set(
+            response.totalPages
+          );
+        },
+
+        error: (err) => {
+
+          console.error(
+            'Search error',
+            err
+          );
+        },
+      });
+  }
+
   // OPEN MODAL
 
-  openSticker(sticker: Sticker): void {
+  openSticker(sticker: StickerDTO): void {
 
-    this.selectedStickerId.set(sticker.id);
+    this.selectedStickerId.set(
+      sticker.id!
+    );
+
+    this.selectedSticker.set(
+      sticker
+    );
 
     this.updateForm.patchValue({
 
@@ -195,7 +204,8 @@ export class StickersDetails {
 
       type: sticker.type,
 
-      nationality: sticker.nationality,
+      nationality:
+        sticker.nationality ?? '',
 
       place: sticker.place,
     });
@@ -207,27 +217,38 @@ export class StickersDetails {
 
     if (this.addForm.invalid) return;
 
-    const value = this.addForm.getRawValue();
+    const value =
+      this.addForm.getRawValue();
 
-    const sticker: Sticker = {
+    this.stickerService
+      .create({
 
-      id: Date.now(),
+        name: value.name,
 
-      name: value.name,
+        type: value.type,
 
-      type: value.type,
+        nationality:
+          value.nationality || '',
 
-      nationality: value.nationality,
+        place: value.place,
+      })
+      .subscribe({
 
-      place: value.place,
-    };
+        next: () => {
 
-    this.stickers.update(list => [
-      sticker,
-      ...list,
-    ]);
+          this.loadStickers();
 
-    this.addForm.reset();
+          this.addForm.reset();
+        },
+
+        error: (err) => {
+
+          console.error(
+            'Error creating sticker',
+            err
+          );
+        },
+      });
   }
 
   // UPDATE
@@ -236,32 +257,64 @@ export class StickersDetails {
 
     if (this.updateForm.invalid) return;
 
-    const updated = this.updateForm.getRawValue();
+    const updated =
+      this.updateForm.getRawValue();
 
-    this.stickers.update(list =>
-      list.map(sticker =>
-        sticker.id === updated.id
-          ? {
-            id: updated.id ?? 0,
-            name: updated.name ?? '',
-            type: updated.type ?? '',
-            nationality: updated.nationality ?? '',
-            place: updated.place ?? '',
-          }
-          : sticker
+    this.stickerService
+      .update(
+        updated.id!,
+        {
+          name: updated.name!,
+          type: updated.type!,
+          nationality:
+            updated.nationality || '',
+
+          place: updated.place!,
+        }
       )
-    );
+      .subscribe({
+
+        next: () => {
+
+          this.loadStickers();
+        },
+
+        error: (err) => {
+
+          console.error(
+            'Error updating sticker',
+            err
+          );
+        },
+      });
   }
 
   // DELETE
 
   deleteSticker(): void {
 
-    const id = this.updateForm.value.id;
+    const id =
+      this.updateForm.value.id;
 
-    this.stickers.update(list =>
-      list.filter(s => s.id !== id)
-    );
+    if (!id) return;
+
+    this.stickerService
+      .delete(id)
+      .subscribe({
+
+        next: () => {
+
+          this.loadStickers();
+        },
+
+        error: (err) => {
+
+          console.error(
+            'Error deleting sticker',
+            err
+          );
+        },
+      });
   }
 
   // PAGINATION
@@ -273,7 +326,11 @@ export class StickersDetails {
       this.totalPages() - 1
     ) {
 
-      this.currentPage.update(v => v + 1);
+      this.currentPage.update(
+        v => v + 1
+      );
+
+      this.loadStickers();
     }
   }
 
@@ -281,7 +338,11 @@ export class StickersDetails {
 
     if (this.currentPage() > 0) {
 
-      this.currentPage.update(v => v - 1);
+      this.currentPage.update(
+        v => v - 1
+      );
+
+      this.loadStickers();
     }
   }
 }
