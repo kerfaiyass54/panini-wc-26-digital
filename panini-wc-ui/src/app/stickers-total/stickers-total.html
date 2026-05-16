@@ -1,1 +1,141 @@
-<p>stickers-total works!</p>
+<div class="totals-page">
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="hero__badge">
+      ⚽ COLLECTION ANALYTICS
+    </div>
+
+    <h1 class="hero__title">
+      Total Statistics
+    </h1>
+
+    <p class="hero__text">
+      Track your World Cup sticker collection progress in real time.
+    </p>
+
+  </section>
+
+  <!-- MAIN STATS -->
+
+  <section class="stats-overview">
+
+    <div class="main-card">
+
+      <div class="main-card__glow"></div>
+
+      <div class="main-card__content">
+
+        <span class="main-card__label">
+          TOTAL COLLECTED
+        </span>
+
+        <h2>
+          {{ collected() }}
+          <small>/ {{ totalStickers() }}</small>
+        </h2>
+
+        <div class="progress-wrapper">
+
+          <div class="progress-bar">
+
+            <div
+              class="progress-bar__fill"
+              [style.width.%]="percentage()"
+            ></div>
+
+          </div>
+
+          <span class="progress-value">
+            {{ percentage() }}%
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- CATEGORY CARDS -->
+
+  <section class="categories">
+
+    <!-- LOGOS -->
+
+    <div class="category-card">
+
+      <div class="category-card__icon">
+        🛡️
+      </div>
+
+      <div class="category-card__info">
+
+        <span>
+          Logos
+        </span>
+
+        <h3>
+          {{ logos() }}
+        </h3>
+
+      </div>
+
+      <div class="category-card__blur"></div>
+
+    </div>
+
+    <!-- INTRO -->
+
+    <div class="category-card">
+
+      <div class="category-card__icon">
+        🌍
+      </div>
+
+      <div class="category-card__info">
+
+        <span>
+          Intro Pictures
+        </span>
+
+        <h3>
+          {{ introPictures() }}
+        </h3>
+
+      </div>
+
+      <div class="category-card__blur"></div>
+
+    </div>
+
+    <!-- PLAYERS -->
+
+    <div class="category-card">
+
+      <div class="category-card__icon">
+        ⚽
+      </div>
+
+      <div class="category-card__info">
+
+        <span>
+          Players
+        </span>
+
+        <h3>
+          {{ players() }}
+        </h3>
+
+      </div>
+
+      <div class="category-card__blur"></div>
+
+    </div>
+
+  </section>
+
+</div>

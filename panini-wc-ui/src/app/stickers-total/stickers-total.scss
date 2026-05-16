@@ -1,0 +1,422 @@
+.totals-page {
+
+  width: 100%;
+
+  max-width: 1400px;
+
+  margin: 50px auto;
+
+  padding: 2rem;
+
+  animation:
+    pageReveal .9s ease;
+}
+
+/* HERO */
+
+.hero {
+
+  text-align: center;
+
+  margin-bottom: 3rem;
+}
+
+.hero__badge {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding:
+    .7rem 1.1rem;
+
+  border-radius: 999px;
+
+  background:
+    rgba(255,255,255,.04);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  color:
+    rgba(255,255,255,.7);
+
+  font-size: .72rem;
+
+  letter-spacing: .18em;
+
+  margin-bottom: 1.2rem;
+
+  backdrop-filter:
+    blur(20px);
+}
+
+.hero__title {
+
+  font-size:
+    clamp(2.5rem, 6vw, 5rem);
+
+  font-weight: 900;
+
+  letter-spacing: -.08em;
+
+  color: white;
+
+  margin-bottom: .8rem;
+}
+
+.hero__text {
+
+  color:
+    rgba(255,255,255,.55);
+
+  font-size: 1rem;
+}
+
+/* MAIN CARD */
+
+.stats-overview {
+
+  margin-bottom: 2rem;
+}
+
+.main-card {
+
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 36px;
+
+  padding: 3rem;
+
+  background:
+    rgba(255,255,255,.04);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:
+    blur(20px);
+
+  animation:
+    fadeUp 1s ease;
+}
+
+.main-card:hover {
+
+  transform:
+    translateY(-5px);
+
+  transition:
+    .35s ease;
+}
+
+.main-card__glow {
+
+  position: absolute;
+
+  width: 400px;
+
+  height: 400px;
+
+  background:
+    radial-gradient(
+        circle,
+        rgba(0,220,255,.16),
+        transparent 70%
+    );
+
+  top: -120px;
+
+  right: -120px;
+
+  filter:
+    blur(40px);
+}
+
+.main-card__label {
+
+  color:
+    rgba(255,255,255,.55);
+
+  letter-spacing: .2em;
+
+  font-size: .72rem;
+}
+
+.main-card h2 {
+
+  font-size:
+    clamp(4rem, 8vw, 7rem);
+
+  font-weight: 900;
+
+  color: white;
+
+  line-height: 1;
+
+  margin:
+    1rem 0 2rem;
+}
+
+.main-card h2 small {
+
+  font-size: 2rem;
+
+  color:
+    rgba(255,255,255,.4);
+}
+
+/* PROGRESS */
+
+.progress-wrapper {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 1rem;
+}
+
+.progress-bar {
+
+  flex: 1;
+
+  height: 18px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(255,255,255,.06);
+
+  overflow: hidden;
+}
+
+.progress-bar__fill {
+
+  height: 100%;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+        90deg,
+        #00dcff,
+        #5b7cff
+    );
+
+  box-shadow:
+    0 0 25px rgba(0,220,255,.4);
+
+  animation:
+    progressGrow 1.5s ease;
+}
+
+.progress-value {
+
+  color: white;
+
+  font-weight: 800;
+
+  font-size: 1.2rem;
+}
+
+/* CATEGORIES */
+
+.categories {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 1.5rem;
+}
+
+.category-card {
+
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 28px;
+
+  padding: 2rem;
+
+  background:
+    rgba(255,255,255,.04);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:
+    blur(20px);
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 1.5rem;
+
+  transition:
+    .35s ease;
+
+  animation:
+    fadeUp .8s ease;
+}
+
+.category-card:hover {
+
+  transform:
+    translateY(-8px);
+
+  border-color:
+    rgba(0,220,255,.3);
+
+  box-shadow:
+    0 20px 50px rgba(0,220,255,.12);
+}
+
+.category-card__icon {
+
+  width: 72px;
+
+  height: 72px;
+
+  border-radius: 22px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 2rem;
+
+  background:
+    rgba(255,255,255,.06);
+}
+
+.category-card__info span {
+
+  display: block;
+
+  color:
+    rgba(255,255,255,.5);
+
+  margin-bottom: .3rem;
+
+  font-size: .9rem;
+}
+
+.category-card__info h3 {
+
+  font-size: 2.3rem;
+
+  font-weight: 800;
+
+  color: white;
+
+  margin: 0;
+}
+
+.category-card__blur {
+
+  position: absolute;
+
+  width: 180px;
+
+  height: 180px;
+
+  background:
+    radial-gradient(
+        circle,
+        rgba(91,124,255,.16),
+        transparent 70%
+    );
+
+  top: -50px;
+
+  right: -50px;
+
+  opacity: 0;
+
+  transition:
+    .35s ease;
+}
+
+.category-card:hover .category-card__blur {
+
+  opacity: 1;
+}
+
+/* ANIMATIONS */
+
+@keyframes pageReveal {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      translateY(20px);
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+@keyframes fadeUp {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      translateY(35px);
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+@keyframes progressGrow {
+
+  from {
+
+    width: 0;
+  }
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+
+  .categories {
+
+    grid-template-columns: 1fr;
+  }
+
+  .main-card {
+
+    padding: 2rem;
+  }
+
+  .main-card h2 {
+
+    font-size: 4rem;
+  }
+}
