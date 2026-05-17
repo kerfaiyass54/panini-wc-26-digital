@@ -693,3 +693,92 @@ tbody tr:hover .type {
       translateY(0);
   }
 }
+
+/* DETAILS MODAL */
+
+.details-modal {
+
+  overflow: hidden;
+}
+
+.details-field {
+
+  margin-bottom: 1.2rem;
+
+  padding: 1rem;
+
+  border-radius: 18px;
+
+  background:
+    rgba(255,255,255,.03);
+
+  border:
+    1px solid rgba(255,255,255,.06);
+
+  transition:
+    .25s ease;
+
+  &:hover {
+
+    border-color:
+      rgba(0,220,255,.18);
+
+    background:
+      rgba(255,255,255,.05);
+  }
+}
+
+.details-label {
+
+  display: block;
+
+  margin-bottom: .55rem;
+
+  color:
+    rgba(255,255,255,.5);
+
+  font-size: .75rem;
+
+  text-transform: uppercase;
+
+  letter-spacing: .12em;
+
+  font-weight: 700;
+}
+
+.details-value {
+
+  color: white;
+
+  font-size: 1rem;
+
+  font-weight: 600;
+}
+
+.details-place {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: .55rem .9rem;
+
+  border-radius: 999px;
+
+  background:
+    rgba(0,220,255,.1);
+
+  border:
+    1px solid rgba(0,220,255,.18);
+
+  color:
+    #8cecff;
+
+  font-weight: 700;
+
+  letter-spacing: .08em;
+
+  font-size: .9rem;
+}

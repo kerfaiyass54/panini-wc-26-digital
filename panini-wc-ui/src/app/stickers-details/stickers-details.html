@@ -148,6 +148,8 @@
 
 <!-- UPDATE MODAL -->
 
+<!-- DETAILS MODAL -->
+
 <div
   class="modal fade"
   id="updateModal"
@@ -157,12 +159,12 @@
 
   <div class="modal-dialog modal-dialog-centered">
 
-    <div class="modal-content modern-modal">
+    <div class="modal-content modern-modal details-modal">
 
       <div class="modal-header border-0">
 
         <h1 class="modal-title fs-5">
-          Edit Sticker
+          Sticker Details
         </h1>
 
         <button
@@ -173,187 +175,95 @@
 
       </div>
 
-      <form
-        [formGroup]="updateForm"
-        (ngSubmit)="updateSticker()"
-      >
+      <div class="modal-body">
 
-        <div class="modal-body">
+        <!-- NAME -->
 
-          <!-- NAME -->
+        <div class="details-field">
 
-          <div class="field">
+          <span class="details-label">
+            Name
+          </span>
 
-            <label>Name</label>
-
-            <input
-              type="text"
-              formControlName="name"
-            >
-
+          <div class="details-value">
+            ⚽ {{ selectedSticker()?.name }}
           </div>
 
-          <!-- TYPE -->
+        </div>
 
-          <div class="field">
+        <!-- TYPE -->
 
-            <label>Type</label>
+        <div class="details-field">
 
-            <select
-              formControlName="type"
-              (change)="updateEditPlace()"
-            >
+          <span class="details-label">
+            Type
+          </span>
 
-              <option value="">
-                Select type
-              </option>
+          <div class="details-value">
 
-              <option value="player">
-                player
-              </option>
-
-              <option value="logo">
-                logo
-              </option>
-
-              <option value="intro">
-                intro
-              </option>
-
-            </select>
-
-          </div>
-
-          <!-- NATIONALITY -->
-
-          @if (
-            !isIntro(
-              updateForm.value.type ?? ''
-            )
-            ) {
-
-            <div class="field">
-
-              <label>Nationality</label>
-
-              <select
-                formControlName="nationality"
-                (change)="updateEditPlace()"
-              >
-
-                <option value="">
-                  Select country
-                </option>
-
-                @for (
-                  country of countries;
-                  track country.code
-                  ) {
-
-                  <option
-                    [value]="country.name"
-                  >
-                    {{ country.name }}
-                  </option>
-
-                }
-
-              </select>
-
-            </div>
-
-          }
-
-          <!-- PLAYER NUMBER -->
-
-          @if (
-            isPlayer(
-              updateForm.value.type ?? ''
-            )
-            ) {
-
-            <div class="field">
-
-              <label>
-                Number (1-12)
-              </label>
-
-              <input
-                type="number"
-                min="1"
-                max="12"
-                formControlName="number"
-                (input)="updateEditPlace()"
-              >
-
-            </div>
-
-          }
-
-          <!-- INTRO NUMBER -->
-
-          @if (
-            isIntro(
-              updateForm.value.type ?? ''
-            )
-            ) {
-
-            <div class="field">
-
-              <label>
-                Number (0-8)
-              </label>
-
-              <input
-                type="number"
-                min="0"
-                max="8"
-                formControlName="number"
-                (input)="updateEditPlace()"
-              >
-
-            </div>
-
-          }
-
-          <!-- PLACE -->
-
-          <div class="field">
-
-            <label>Place</label>
-
-            <input
-              type="text"
-              formControlName="place"
-              readonly
-            >
+            <span class="type">
+              {{ selectedSticker()?.type }}
+            </span>
 
           </div>
 
         </div>
 
-        <div class="modal-footer border-0">
+        <!-- NATIONALITY -->
 
-          <button
-            type="button"
-            class="delete-btn"
-            (click)="deleteSticker()"
-            data-bs-dismiss="modal"
-          >
-            Delete
-          </button>
+        <div class="details-field">
 
-          <button
-            type="submit"
-            class="save-btn"
-            data-bs-dismiss="modal"
-          >
-            Update
-          </button>
+          <span class="details-label">
+            Nationality
+          </span>
+
+          <div class="details-value">
+
+            {{
+              selectedSticker()?.nationality
+              || 'None'
+            }}
+
+          </div>
 
         </div>
 
-      </form>
+        <!-- PLACE -->
+
+        <div class="details-field">
+
+          <span class="details-label">
+            Place
+          </span>
+
+          <div class="details-place">
+            {{ selectedSticker()?.place }}
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="modal-footer border-0">
+
+        <button
+          type="button"
+          class="delete-btn"
+          (click)="deleteSticker()"
+          data-bs-dismiss="modal"
+        >
+          Delete Sticker
+        </button>
+
+        <button
+          type="button"
+          class="save-btn"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+
+      </div>
 
     </div>
 

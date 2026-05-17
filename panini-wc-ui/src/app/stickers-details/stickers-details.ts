@@ -62,6 +62,8 @@ export class StickersDetails
 
   pageSize = 5;
 
+  // SELECTED STICKER
+
   selectedStickerId =
     signal<number | null>(null);
 
@@ -71,48 +73,6 @@ export class StickersDetails
   // ADD FORM
 
   addForm = new FormGroup({
-
-    name:
-      new FormControl('', {
-        nonNullable: true,
-        validators: [
-          Validators.required
-        ],
-      }),
-
-    type:
-      new FormControl('', {
-        nonNullable: true,
-        validators: [
-          Validators.required
-        ],
-      }),
-
-    nationality:
-      new FormControl('', {
-        nonNullable: true,
-      }),
-
-    number:
-      new FormControl<number | null>(
-        null
-      ),
-
-    place:
-      new FormControl('', {
-        nonNullable: true,
-        validators: [
-          Validators.required
-        ],
-      }),
-  });
-
-  // UPDATE FORM
-
-  updateForm = new FormGroup({
-
-    id:
-      new FormControl<number>(0),
 
     name:
       new FormControl('', {
@@ -188,7 +148,7 @@ export class StickersDetails
     nationality: string,
     type: string,
     number: any
-  ): any {
+  ): string {
 
     // INTRO
 
@@ -216,7 +176,10 @@ export class StickersDetails
           c.name === nationality
       );
 
-    if (!country) return '';
+    if (!country) {
+
+      return '';
+    }
 
     // LOGO
 
@@ -241,7 +204,7 @@ export class StickersDetails
     return `${country.code} ${number}`;
   }
 
-  // UPDATE ADD PLACE
+  // UPDATE PLACE
 
   updateAddPlace(): void {
 
@@ -257,26 +220,26 @@ export class StickersDetails
       this.addForm.value
         .number ?? null;
 
-    // RESET NATIONALITY
-    // FOR INTRO
+    // INTRO
 
     if (
       this.isIntro(type)
     ) {
 
       this.addForm.patchValue({
+
         nationality: ''
       });
     }
 
-    // RESET NUMBER
-    // FOR LOGO
+    // LOGO
 
     if (
       this.isLogo(type)
     ) {
 
       this.addForm.patchValue({
+
         number: 0
       });
     }
@@ -289,58 +252,7 @@ export class StickersDetails
       );
 
     this.addForm.patchValue({
-      place
-    });
-  }
 
-  // UPDATE EDIT PLACE
-
-  updateEditPlace(): void {
-
-    const nationality =
-      this.updateForm.value
-        .nationality ?? '';
-
-    const type =
-      this.updateForm.value
-        .type ?? '';
-
-    const number =
-      this.updateForm.value
-        .number ?? null;
-
-    // RESET NATIONALITY
-    // FOR INTRO
-
-    if (
-      this.isIntro(type)
-    ) {
-
-      this.updateForm.patchValue({
-        nationality: ''
-      });
-    }
-
-    // RESET NUMBER
-    // FOR LOGO
-
-    if (
-      this.isLogo(type)
-    ) {
-
-      this.updateForm.patchValue({
-        number: 0
-      });
-    }
-
-    const place =
-      this.generatePlace(
-        nationality,
-        type,
-        this.updateForm.value.number
-      );
-
-    this.updateForm.patchValue({
       place
     });
   }
@@ -422,7 +334,7 @@ export class StickersDetails
       });
   }
 
-  // OPEN MODAL
+  // OPEN DETAILS MODAL
 
   openSticker(
     sticker: StickerDTO
@@ -435,27 +347,9 @@ export class StickersDetails
     this.selectedSticker.set(
       sticker
     );
-
-    this.updateForm.patchValue({
-
-      id:
-      sticker.id,
-
-      name:
-      sticker.name,
-
-      type:
-      sticker.type,
-
-      nationality:
-        sticker.nationality ?? '',
-
-      place:
-      sticker.place,
-    });
   }
 
-  // ADD
+  // ADD STICKER
 
   addSticker(): void {
 
@@ -488,6 +382,15 @@ export class StickersDetails
           this.loadStickers();
 
           this.addForm.reset();
+
+          this.addForm.patchValue({
+
+            name: '',
+            type: '',
+            nationality: '',
+            number: null,
+            place: '',
+          });
         },
 
         error: (err) => {
@@ -500,59 +403,12 @@ export class StickersDetails
       });
   }
 
-  // UPDATE
-
-  updateSticker(): void {
-
-    if (
-      this.updateForm.invalid
-    ) return;
-
-    const updated =
-      this.updateForm
-        .getRawValue();
-
-    this.stickerService
-      .update(
-        updated.id!,
-        {
-
-          name:
-            updated.name!,
-
-          type:
-            updated.type!,
-
-          nationality:
-            updated.nationality || '',
-
-          place:
-            updated.place!,
-        }
-      )
-      .subscribe({
-
-        next: () => {
-
-          this.loadStickers();
-        },
-
-        error: (err) => {
-
-          console.error(
-            'Error updating sticker',
-            err
-          );
-        },
-      });
-  }
-
-  // DELETE
+  // DELETE STICKER
 
   deleteSticker(): void {
 
     const id =
-      this.updateForm.value.id;
+      this.selectedSticker()?.id;
 
     if (!id) return;
 
@@ -563,6 +419,10 @@ export class StickersDetails
         next: () => {
 
           this.loadStickers();
+
+          this.selectedSticker.set(
+            null
+          );
         },
 
         error: (err) => {
