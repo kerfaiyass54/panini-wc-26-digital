@@ -1,9 +1,9 @@
-interface Country {
+export interface Country {
   name: string;
   code: string;
 }
 
-const wc26Teams: Country[] = [
+export const wc26Teams: Country[] = [
   { name: 'Algeria', code: 'ALG' },
   { name: 'Argentina', code: 'ARG' },
   { name: 'Australia', code: 'AUS' },

@@ -13,8 +13,16 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { StickerDTO, StickerService } from '../services/sticker.service';
 
+import {
+  StickerDTO,
+  StickerService
+} from '../services/sticker.service';
+
+import {
+  wc26Teams,
+  Country
+} from '../constants/codes';
 
 @Component({
   selector: 'app-stickers-details',
@@ -26,10 +34,16 @@ import { StickerDTO, StickerService } from '../services/sticker.service';
   templateUrl: './stickers-details.html',
   styleUrl: './stickers-details.scss',
 })
-export class StickersDetails implements OnInit {
+export class StickersDetails
+  implements OnInit {
 
   private readonly stickerService =
     inject(StickerService);
+
+  // COUNTRIES
+
+  countries: Country[] =
+    wc26Teams;
 
   // SEARCH
 
@@ -37,69 +51,102 @@ export class StickersDetails implements OnInit {
 
   // DATA
 
-  stickers = signal<StickerDTO[]>([]);
+  stickers =
+    signal<StickerDTO[]>([]);
 
-  currentPage = signal(0);
+  currentPage =
+    signal(0);
 
-  totalPages = signal(0);
+  totalPages =
+    signal(0);
 
   pageSize = 5;
 
   selectedStickerId =
     signal<number | null>(null);
 
-  // SELECTED
-
-  selectedSticker = signal<StickerDTO | null>(null);
-
-  // UPDATE FORM
-
-  updateForm = new FormGroup({
-
-    id: new FormControl<number>(0),
-
-    name: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-
-    type: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-
-    nationality: new FormControl('', {
-      nonNullable: true,
-    }),
-
-    place: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-  });
+  selectedSticker =
+    signal<StickerDTO | null>(null);
 
   // ADD FORM
 
   addForm = new FormGroup({
 
-    name: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
+    name:
+      new FormControl('', {
+        nonNullable: true,
+        validators: [
+          Validators.required
+        ],
+      }),
 
-    type: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
+    type:
+      new FormControl('', {
+        nonNullable: true,
+        validators: [
+          Validators.required
+        ],
+      }),
 
-    nationality: new FormControl('', {
-      nonNullable: true,
-    }),
+    nationality:
+      new FormControl('', {
+        nonNullable: true,
+      }),
 
-    place: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
+    number:
+      new FormControl<number | null>(
+        null
+      ),
+
+    place:
+      new FormControl('', {
+        nonNullable: true,
+        validators: [
+          Validators.required
+        ],
+      }),
+  });
+
+  // UPDATE FORM
+
+  updateForm = new FormGroup({
+
+    id:
+      new FormControl<number>(0),
+
+    name:
+      new FormControl('', {
+        nonNullable: true,
+        validators: [
+          Validators.required
+        ],
+      }),
+
+    type:
+      new FormControl('', {
+        nonNullable: true,
+        validators: [
+          Validators.required
+        ],
+      }),
+
+    nationality:
+      new FormControl('', {
+        nonNullable: true,
+      }),
+
+    number:
+      new FormControl<number | null>(
+        null
+      ),
+
+    place:
+      new FormControl('', {
+        nonNullable: true,
+        validators: [
+          Validators.required
+        ],
+      }),
   });
 
   // INIT
@@ -107,6 +154,195 @@ export class StickersDetails implements OnInit {
   ngOnInit(): void {
 
     this.loadStickers();
+  }
+
+  // TYPE HELPERS
+
+  isIntro(type: string): boolean {
+
+    return (
+      type.toLowerCase() ===
+      'intro'
+    );
+  }
+
+  isPlayer(type: string): boolean {
+
+    return (
+      type.toLowerCase() ===
+      'player'
+    );
+  }
+
+  isLogo(type: string): boolean {
+
+    return (
+      type.toLowerCase() ===
+      'logo'
+    );
+  }
+
+  // GENERATE PLACE
+
+  generatePlace(
+    nationality: string,
+    type: string,
+    number: any
+  ): any {
+
+    // INTRO
+
+    if (
+      this.isIntro(type)
+    ) {
+
+      if (
+        number === null ||
+        number < 0 ||
+        number > 8
+      ) {
+
+        return '';
+      }
+
+      return `FWC ${number}`;
+    }
+
+    // COUNTRY
+
+    const country =
+      this.countries.find(
+        c =>
+          c.name === nationality
+      );
+
+    if (!country) return '';
+
+    // LOGO
+
+    if (
+      this.isLogo(type)
+    ) {
+
+      return `${country.code} 0`;
+    }
+
+    // PLAYER
+
+    if (
+      number === null ||
+      number < 1 ||
+      number > 12
+    ) {
+
+      return '';
+    }
+
+    return `${country.code} ${number}`;
+  }
+
+  // UPDATE ADD PLACE
+
+  updateAddPlace(): void {
+
+    const nationality =
+      this.addForm.value
+        .nationality ?? '';
+
+    const type =
+      this.addForm.value
+        .type ?? '';
+
+    const number =
+      this.addForm.value
+        .number ?? null;
+
+    // RESET NATIONALITY
+    // FOR INTRO
+
+    if (
+      this.isIntro(type)
+    ) {
+
+      this.addForm.patchValue({
+        nationality: ''
+      });
+    }
+
+    // RESET NUMBER
+    // FOR LOGO
+
+    if (
+      this.isLogo(type)
+    ) {
+
+      this.addForm.patchValue({
+        number: 0
+      });
+    }
+
+    const place =
+      this.generatePlace(
+        nationality,
+        type,
+        this.addForm.value.number
+      );
+
+    this.addForm.patchValue({
+      place
+    });
+  }
+
+  // UPDATE EDIT PLACE
+
+  updateEditPlace(): void {
+
+    const nationality =
+      this.updateForm.value
+        .nationality ?? '';
+
+    const type =
+      this.updateForm.value
+        .type ?? '';
+
+    const number =
+      this.updateForm.value
+        .number ?? null;
+
+    // RESET NATIONALITY
+    // FOR INTRO
+
+    if (
+      this.isIntro(type)
+    ) {
+
+      this.updateForm.patchValue({
+        nationality: ''
+      });
+    }
+
+    // RESET NUMBER
+    // FOR LOGO
+
+    if (
+      this.isLogo(type)
+    ) {
+
+      this.updateForm.patchValue({
+        number: 0
+      });
+    }
+
+    const place =
+      this.generatePlace(
+        nationality,
+        type,
+        this.updateForm.value.number
+      );
+
+    this.updateForm.patchValue({
+      place
+    });
   }
 
   // LOAD
@@ -144,7 +380,9 @@ export class StickersDetails implements OnInit {
 
   // SEARCH
 
-  onSearch(value: string): void {
+  onSearch(
+    value: string
+  ): void {
 
     this.search.set(value);
 
@@ -186,7 +424,9 @@ export class StickersDetails implements OnInit {
 
   // OPEN MODAL
 
-  openSticker(sticker: StickerDTO): void {
+  openSticker(
+    sticker: StickerDTO
+  ): void {
 
     this.selectedStickerId.set(
       sticker.id!
@@ -198,16 +438,20 @@ export class StickersDetails implements OnInit {
 
     this.updateForm.patchValue({
 
-      id: sticker.id,
+      id:
+      sticker.id,
 
-      name: sticker.name,
+      name:
+      sticker.name,
 
-      type: sticker.type,
+      type:
+      sticker.type,
 
       nationality:
         sticker.nationality ?? '',
 
-      place: sticker.place,
+      place:
+      sticker.place,
     });
   }
 
@@ -215,7 +459,9 @@ export class StickersDetails implements OnInit {
 
   addSticker(): void {
 
-    if (this.addForm.invalid) return;
+    if (
+      this.addForm.invalid
+    ) return;
 
     const value =
       this.addForm.getRawValue();
@@ -223,14 +469,17 @@ export class StickersDetails implements OnInit {
     this.stickerService
       .create({
 
-        name: value.name,
+        name:
+        value.name,
 
-        type: value.type,
+        type:
+        value.type,
 
         nationality:
           value.nationality || '',
 
-        place: value.place,
+        place:
+        value.place,
       })
       .subscribe({
 
@@ -255,21 +504,30 @@ export class StickersDetails implements OnInit {
 
   updateSticker(): void {
 
-    if (this.updateForm.invalid) return;
+    if (
+      this.updateForm.invalid
+    ) return;
 
     const updated =
-      this.updateForm.getRawValue();
+      this.updateForm
+        .getRawValue();
 
     this.stickerService
       .update(
         updated.id!,
         {
-          name: updated.name!,
-          type: updated.type!,
+
+          name:
+            updated.name!,
+
+          type:
+            updated.type!,
+
           nationality:
             updated.nationality || '',
 
-          place: updated.place!,
+          place:
+            updated.place!,
         }
       )
       .subscribe({
@@ -336,7 +594,9 @@ export class StickersDetails implements OnInit {
 
   previousPage(): void {
 
-    if (this.currentPage() > 0) {
+    if (
+      this.currentPage() > 0
+    ) {
 
       this.currentPage.update(
         v => v - 1

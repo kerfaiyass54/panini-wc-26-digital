@@ -1,6 +1,6 @@
 <div class="stickers-page">
 
-  <!-- HEADER -->
+  <!-- HERO -->
 
   <section class="hero">
 
@@ -18,15 +18,15 @@
 
   </section>
 
-  <!-- ACTIONS -->
+  <!-- TOOLBAR -->
 
   <section class="toolbar">
 
     <div class="search-box">
 
-    <span class="search-icon">
-      🔍
-    </span>
+      <span class="search-icon">
+        🔍
+      </span>
 
       <input
         type="text"
@@ -65,7 +65,7 @@
 
         <th>Nationality</th>
 
-        <th>Position</th>
+        <th>Place</th>
 
       </tr>
 
@@ -73,7 +73,10 @@
 
       <tbody>
 
-        @for (sticker of stickers(); track sticker.id) {
+        @for (
+          sticker of stickers();
+          track sticker.id
+          ) {
 
           <tr
             data-bs-toggle="modal"
@@ -81,21 +84,29 @@
             (click)="openSticker(sticker)"
           >
 
-            <td>#{{ sticker.id }}</td>
+            <td>
+              #{{ sticker.id }}
+            </td>
 
             <td>
               ⚽ {{ sticker.name }}
             </td>
 
             <td>
+
               <span class="type">
                 {{ sticker.type }}
               </span>
+
             </td>
 
-            <td> {{ sticker.nationality || 'None' }}</td>
+            <td>
+              {{ sticker.nationality || 'None' }}
+            </td>
 
-            <td>{{ sticker.place }}</td>
+            <td>
+              {{ sticker.place }}
+            </td>
 
           </tr>
 
@@ -169,6 +180,8 @@
 
         <div class="modal-body">
 
+          <!-- NAME -->
+
           <div class="field">
 
             <label>Name</label>
@@ -180,27 +193,130 @@
 
           </div>
 
+          <!-- TYPE -->
+
           <div class="field">
 
             <label>Type</label>
 
-            <input
-              type="text"
+            <select
               formControlName="type"
+              (change)="updateEditPlace()"
             >
+
+              <option value="">
+                Select type
+              </option>
+
+              <option value="player">
+                player
+              </option>
+
+              <option value="logo">
+                logo
+              </option>
+
+              <option value="intro">
+                intro
+              </option>
+
+            </select>
 
           </div>
 
-          <div class="field">
+          <!-- NATIONALITY -->
 
-            <label>Nationality</label>
+          @if (
+            !isIntro(
+              updateForm.value.type ?? ''
+            )
+            ) {
 
-            <input
-              type="text"
-              formControlName="nationality"
-            >
+            <div class="field">
 
-          </div>
+              <label>Nationality</label>
+
+              <select
+                formControlName="nationality"
+                (change)="updateEditPlace()"
+              >
+
+                <option value="">
+                  Select country
+                </option>
+
+                @for (
+                  country of countries;
+                  track country.code
+                  ) {
+
+                  <option
+                    [value]="country.name"
+                  >
+                    {{ country.name }}
+                  </option>
+
+                }
+
+              </select>
+
+            </div>
+
+          }
+
+          <!-- PLAYER NUMBER -->
+
+          @if (
+            isPlayer(
+              updateForm.value.type ?? ''
+            )
+            ) {
+
+            <div class="field">
+
+              <label>
+                Number (1-12)
+              </label>
+
+              <input
+                type="number"
+                min="1"
+                max="12"
+                formControlName="number"
+                (input)="updateEditPlace()"
+              >
+
+            </div>
+
+          }
+
+          <!-- INTRO NUMBER -->
+
+          @if (
+            isIntro(
+              updateForm.value.type ?? ''
+            )
+            ) {
+
+            <div class="field">
+
+              <label>
+                Number (0-8)
+              </label>
+
+              <input
+                type="number"
+                min="0"
+                max="8"
+                formControlName="number"
+                (input)="updateEditPlace()"
+              >
+
+            </div>
+
+          }
+
+          <!-- PLACE -->
 
           <div class="field">
 
@@ -209,6 +325,7 @@
             <input
               type="text"
               formControlName="place"
+              readonly
             >
 
           </div>
@@ -278,6 +395,8 @@
 
         <div class="modal-body">
 
+          <!-- NAME -->
+
           <div class="field">
 
             <label>Name</label>
@@ -289,27 +408,130 @@
 
           </div>
 
+          <!-- TYPE -->
+
           <div class="field">
 
             <label>Type</label>
 
-            <input
-              type="text"
+            <select
               formControlName="type"
+              (change)="updateAddPlace()"
             >
+
+              <option value="">
+                Select type
+              </option>
+
+              <option value="player">
+                player
+              </option>
+
+              <option value="logo">
+                logo
+              </option>
+
+              <option value="intro">
+                intro
+              </option>
+
+            </select>
 
           </div>
 
-          <div class="field">
+          <!-- NATIONALITY -->
 
-            <label>Nationality</label>
+          @if (
+            !isIntro(
+              addForm.value.type ?? ''
+            )
+            ) {
 
-            <input
-              type="text"
-              formControlName="nationality"
-            >
+            <div class="field">
 
-          </div>
+              <label>Nationality</label>
+
+              <select
+                formControlName="nationality"
+                (change)="updateAddPlace()"
+              >
+
+                <option value="">
+                  Select country
+                </option>
+
+                @for (
+                  country of countries;
+                  track country.code
+                  ) {
+
+                  <option
+                    [value]="country.name"
+                  >
+                    {{ country.name }}
+                  </option>
+
+                }
+
+              </select>
+
+            </div>
+
+          }
+
+          <!-- NUMBER -->
+
+          @if (
+            isPlayer(
+              addForm.value.type ?? ''
+            )
+            ) {
+
+            <div class="field">
+
+              <label>
+                Number (1-12)
+              </label>
+
+              <input
+                type="number"
+                min="1"
+                max="12"
+                formControlName="number"
+                (input)="updateAddPlace()"
+              >
+
+            </div>
+
+          }
+
+          <!-- INTRO NUMBER -->
+
+          @if (
+            isIntro(
+              addForm.value.type ?? ''
+            )
+            ) {
+
+            <div class="field">
+
+              <label>
+                Number (0-8)
+              </label>
+
+              <input
+                type="number"
+                min="0"
+                max="8"
+                formControlName="number"
+                (input)="updateAddPlace()"
+              >
+
+            </div>
+
+          }
+
+          <!-- PLACE -->
 
           <div class="field">
 
@@ -318,12 +540,12 @@
             <input
               type="text"
               formControlName="place"
+              readonly
             >
 
           </div>
 
         </div>
-
 
         <div class="modal-footer border-0">
 
