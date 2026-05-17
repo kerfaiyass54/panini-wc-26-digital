@@ -370,7 +370,7 @@ export class StickersDetails
         value.type,
 
         nationality:
-          value.nationality || '',
+          value.nationality.toLowerCase() || '',
 
         place:
         value.place,
