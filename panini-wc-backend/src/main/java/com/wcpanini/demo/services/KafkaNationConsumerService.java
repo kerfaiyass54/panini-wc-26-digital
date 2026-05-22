@@ -1,8 +1,8 @@
 package com.wcpanini.demo.services;
 
-
-
+import org.apache.kafka.common.TopicPartition;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.listener.ConsumerSeekAware;
 import org.springframework.stereotype.Service;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
@@ -11,7 +11,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-public class KafkaNationConsumerService {
+public class KafkaNationConsumerService
+        implements ConsumerSeekAware {
 
     private final ObjectMapper objectMapper;
 
@@ -60,15 +61,33 @@ public class KafkaNationConsumerService {
         }
     }
 
-    // RETURN ALL DATA
+    // LOAD LAST MESSAGE ON STARTUP
+    @Override
+    public void onPartitionsAssigned(
+            Map<TopicPartition, Long> assignments,
+            ConsumerSeekCallback callback
+    ) {
 
+        assignments.forEach(
+                (topicPartition, offset) -> {
+
+                    callback.seekRelative(
+                            topicPartition.topic(),
+                            topicPartition.partition(),
+                            -1,
+                            true
+                    );
+                }
+        );
+    }
+
+    // RETURN ALL DATA
     public Map<String, Integer> getAllStats() {
 
         return stickersStats;
     }
 
     // RETURN ONE COUNTRY
-
     public Integer getCountryCount(
             String country
     ) {
