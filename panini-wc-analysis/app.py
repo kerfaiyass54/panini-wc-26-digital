@@ -1,29 +1,47 @@
-from stats.nationality_stats import (
-    process_nationality_stats
+from kafka import KafkaConsumer
+
+from stats.nationality_stats import process_nationality_stats
+from stats.nations_stats import process_nations_stats
+from stats.groups_stats import process_groups_stats
+from stats.continent_stats import process_continent_stats
+
+consumer = KafkaConsumer(
+    "stickers-refresh-topic",
+    bootstrap_servers="localhost:29092",
+    auto_offset_reset="latest",
+    group_id="python-analytics"
 )
 
-from stats.nations_stats import (
-    process_nations_stats
-)
+process_nationality_stats()
 
-from stats.groups_stats import (
-    process_groups_stats
-)
+process_nations_stats()
 
-from stats.continent_stats import (
-    process_continent_stats
-)
+process_groups_stats()
 
-if __name__ == "__main__":
+process_continent_stats()
 
-    process_nationality_stats()
+print("all analytics sent to kafka")
 
-    process_nations_stats()
+print("waiting for refresh events...")
 
-    process_groups_stats()
+while True:
 
-    process_continent_stats()
+    for message in consumer:
 
-    print(
-        "all analytics sent to kafkaProducer"
-    )
+        try:
+
+            print("refresh received")
+
+            process_nationality_stats()
+
+            process_nations_stats()
+
+            process_groups_stats()
+
+            process_continent_stats()
+
+            print("all analytics sent to kafka")
+
+        except Exception as e:
+
+            print("analytics error:", e)
