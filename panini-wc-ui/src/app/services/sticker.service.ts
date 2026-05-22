@@ -130,6 +130,12 @@ export class StickerService {
       `${this.API}/search?query=${query}&page=${page}&size=${size}`
     );
   }
+
+  logos(){
+    return this.http.get<any>(
+      `${this.API}/logos`
+    );
+  }
 }
 
 

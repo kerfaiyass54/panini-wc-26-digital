@@ -21,6 +21,7 @@ export class NavBar {
     { label: 'Total Stats',      path: '/total-stats',    exact: false },
     { label: 'Sticker Details',  path: '/stickers-details', exact: false },
     { label: 'Sticker stats',  path: '/stickers-stats', exact: false },
+    { label: 'Nations stats',  path: '/nations-stats', exact: false }
   ];
 
   scrolled = false;

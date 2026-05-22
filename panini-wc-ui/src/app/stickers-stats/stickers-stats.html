@@ -111,7 +111,6 @@
 
         <div
           class="group-card"
-          (click)="openGroup(group)"
         >
 
           <div class="group-name">
@@ -136,74 +135,3 @@
 
 </div>
 
-<!-- MODAL -->
-
-@if (selectedGroup) {
-
-  <div
-    class="modal-overlay"
-    (click)="closeModal()"
-  >
-
-    <div
-      class="stats-modal"
-      (click)="$event.stopPropagation()"
-    >
-
-      <div class="modal-top">
-
-        <div>
-
-          <div class="mini">
-            GROUP DETAILS
-          </div>
-
-          <h2>
-            Group {{ selectedGroup }}
-          </h2>
-
-        </div>
-
-        <button
-          class="close-btn"
-          (click)="closeModal()"
-        >
-          ✕
-        </button>
-
-      </div>
-
-      <div class="group-total">
-
-        Total Stickers:
-        {{ selectedGroupTotal }}
-
-      </div>
-
-      <div class="countries-list">
-
-        @for (
-          country of
-            selectedGroupCountries;
-          track country
-          ) {
-
-          <div
-            class="country-item"
-          >
-
-            <span>
-              {{ country }}
-            </span>
-
-          </div>
-
-        }
-
-      </div>
-
-    </div>
-
-  </div>
-
-}
