@@ -1,28 +1,97 @@
 <nav class="navbar" [class.scrolled]="scrolled">
+
   <div class="navbar__inner">
 
-    <!-- Brand -->
-    <a class="navbar__brand" routerLink="/">
-      <span class="navbar__brand-icon">⬡</span>
-      <span class="navbar__brand-title">{{ title }}</span>
+    <!-- BRAND -->
+
+    <a
+      class="navbar__brand"
+      routerLink="/"
+    >
+
+      <span class="navbar__brand-icon">
+        ⬡
+      </span>
+
+      <span class="navbar__brand-title">
+        {{ title }}
+      </span>
+
     </a>
 
-    <!-- Links -->
+    <!-- LINKS -->
+
     <ul class="navbar__links">
-      @for (link of links; track link.path) {
+
+      @for (
+        link of links;
+        track link.path
+        ) {
+
         <li class="navbar__item">
+
           <a
             class="navbar__link"
             [routerLink]="link.path"
             routerLinkActive="navbar__link--active"
-            [routerLinkActiveOptions]="{ exact: link.exact ?? false }"
+            [routerLinkActiveOptions]="{
+              exact: link.exact ?? false
+            }"
           >
-            <span class="navbar__link-label">{{ link.label }}</span>
+
+            <span class="navbar__link-label">
+              {{ link.label }}
+            </span>
+
             <span class="navbar__link-bar"></span>
+
           </a>
+
         </li>
+
       }
+
     </ul>
 
+    <!-- PROFILE -->
+
+    <div class="navbar__profile">
+
+      <div class="profile-info">
+
+        <div class="profile-avatar">
+
+          {{
+            username
+              ?.charAt(0)
+              ?.toUpperCase()
+          }}
+
+        </div>
+
+        <div class="profile-details">
+
+          <div class="profile-name">
+            {{ username }}
+          </div>
+
+          <div class="profile-email">
+            {{ email }}
+          </div>
+
+        </div>
+
+      </div>
+
+      <button
+        class="logout-btn"
+        (click)="logout()"
+      >
+        Logout
+      </button>
+
+    </div>
+
   </div>
+
 </nav>

@@ -1,37 +1,33 @@
 import {
-  HttpEvent,
   HttpInterceptorFn
 } from '@angular/common/http';
 
-import { inject }
-  from '@angular/core';
+import Keycloak from 'keycloak-js';
 
-import {
-  KeycloakService
-} from 'keycloak-angular';
-import { Observable } from 'rxjs';
+declare const window: Window & {
+  Keycloak?: Keycloak;
+};
 
 export const authInterceptor:
-  (req: any, next: any) => Promise<Observable<HttpEvent<unknown>>> = async (
-  req,
-  next
-) => {
+  HttpInterceptorFn = (req, next) => {
 
   const keycloak =
-    inject(KeycloakService);
+    window.Keycloak;
 
-  const token =
-    await keycloak.getToken();
+  if (
+    keycloak &&
+    keycloak.token
+  ) {
 
-  const cloned =
-    req.clone({
+    req = req.clone({
 
       setHeaders: {
 
         Authorization:
-          `Bearer ${token}`
+          `Bearer ${keycloak.token}`
       }
     });
+  }
 
-  return next(cloned);
+  return next(req);
 };
