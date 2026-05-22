@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/stickers")
 public class StickerController {
@@ -71,5 +73,10 @@ public class StickerController {
     @GetMapping("/stats")
     public ResponseEntity<StickerStatsDTO> getStats() {
         return ResponseEntity.ok(stickerService.getStats());
+    }
+
+    @GetMapping("/logos")
+    public ResponseEntity<List<String>>  getLogos() {
+        return ResponseEntity.ok(stickerService.getLogoNationalities());
     }
 }

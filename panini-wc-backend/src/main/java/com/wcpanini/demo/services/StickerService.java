@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.kafka.core.KafkaTemplate;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 public class StickerService {
@@ -147,5 +149,17 @@ public class StickerService {
                         pageable
                 )
                 .map(this::toDTO);
+    }
+
+    public List<String> getLogoNationalities() {
+
+        return stickerRepository.findAll()
+                .stream()
+                .filter(sticker ->
+                        sticker.getType()
+                                .equalsIgnoreCase("logo")
+                )
+                .map(Sticker::getNationality)
+                .toList();
     }
 }
