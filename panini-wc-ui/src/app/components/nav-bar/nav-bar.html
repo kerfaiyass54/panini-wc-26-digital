@@ -1,4 +1,5 @@
-<nav class="navbar" [class.scrolled]="scrolled">
+<nav class="navbar"
+     [class.scrolled]="scrolled">
 
   <div class="navbar__inner">
 
@@ -34,21 +35,18 @@
             class="navbar__link"
             [routerLink]="link.path"
             routerLinkActive="navbar__link--active"
-            [routerLinkActiveOptions]="{
-              exact: link.exact ?? false
-            }"
           >
 
             <span class="navbar__link-label">
               {{ link.label }}
             </span>
 
-            <span class="navbar__link-bar"></span>
+            <span class="navbar__link-bar">
+            </span>
 
           </a>
 
         </li>
-
       }
 
     </ul>
@@ -57,28 +55,20 @@
 
     <div class="navbar__profile">
 
-      <div class="profile-info">
+      <div class="profile-avatar">
 
-        <div class="profile-avatar">
+        {{ avatarLetter }}
 
-          {{
-            username
-              ?.charAt(0)
-              ?.toUpperCase()
-          }}
+      </div>
 
+      <div class="profile-details">
+
+        <div class="profile-name">
+          {{ username }}
         </div>
 
-        <div class="profile-details">
-
-          <div class="profile-name">
-            {{ username }}
-          </div>
-
-          <div class="profile-email">
-            {{ email }}
-          </div>
-
+        <div class="profile-email">
+          {{ email }}
         </div>
 
       </div>

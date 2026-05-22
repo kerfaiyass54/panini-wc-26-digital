@@ -2,8 +2,7 @@ import {
   Component,
   HostListener,
   Input,
-  inject,
-  Signal
+  inject
 } from '@angular/core';
 
 import {
@@ -11,12 +10,8 @@ import {
   RouterLinkActive
 } from '@angular/router';
 
-import {
-  KEYCLOAK_EVENT_SIGNAL,
-  KeycloakEventType
-} from 'keycloak-angular';
-
-import Keycloak from 'keycloak-js';
+import Keycloak
+  from 'keycloak-js';
 
 export interface NavLink {
 
@@ -29,25 +24,18 @@ export interface NavLink {
 
 @Component({
   selector: 'app-nav-bar',
-
-  standalone: true,
-
   imports: [
     RouterLink,
     RouterLinkActive
   ],
-
   templateUrl: './nav-bar.html',
-
   styleUrl: './nav-bar.scss',
 })
 export class NavBar {
 
-  @Input()
-  title = 'Panini WC';
+  @Input() title = 'Panini WC';
 
-  @Input()
-  links: NavLink[] = [
+  @Input() links: NavLink[] = [
 
     {
       label: 'Total Stats',
@@ -70,47 +58,42 @@ export class NavBar {
     }
   ];
 
+  private keycloak =
+    inject(Keycloak);
+
   scrolled = false;
 
-  username = '';
+  get username(): string {
 
-  email = '';
+    return (
+      this.keycloak
+        .tokenParsed?.[
+        'preferred_username'
+        ] as string
+    ) ?? '';
+  }
 
-  private readonly keycloakSignal:
-    Signal<any> = inject(
-    KEYCLOAK_EVENT_SIGNAL
-  );
+  get email(): string {
 
-  constructor() {
+    return (
+      this.keycloak
+        .tokenParsed?.[
+        'email'
+        ] as string
+    ) ?? '';
+  }
 
-    const event =
-      this.keycloakSignal();
+  get avatarLetter(): string {
 
-    if (
-      event.type ===
-      KeycloakEventType.Ready
-    ) {
-
-      const keycloak =
-        event.args as Keycloak;
-
-      this.username =
-        keycloak.tokenParsed?.['preferred_username'] || '';
-
-      this.email =
-        keycloak.tokenParsed?.['email'] || '';
-    }
+    return this.username
+      ?.charAt(0)
+      ?.toUpperCase() || 'U';
   }
 
   logout(): void {
 
-    const event =
-      this.keycloakSignal();
+    this.keycloak.logout({
 
-    const keycloak =
-      event.args as Keycloak;
-
-    keycloak.logout({
       redirectUri:
       window.location.origin
     });
