@@ -1,0 +1,403 @@
+.stats-page {
+
+  width: 100%;
+
+  max-width: 1500px;
+
+  margin: 100px auto;
+
+  padding: 1.5rem;
+
+  color: white;
+}
+
+.hero {
+
+  text-align: center;
+
+  margin-bottom: 3rem;
+}
+
+.hero__badge {
+
+  display: inline-block;
+
+  padding: .5rem 1rem;
+
+  border-radius: 999px;
+
+  background:
+    rgba(255,255,255,.05);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  font-size: .72rem;
+
+  letter-spacing: .15em;
+
+  margin-bottom: 1rem;
+}
+
+.hero__title {
+
+  font-size:
+    clamp(2.5rem,5vw,5rem);
+
+  font-weight: 900;
+
+  margin-bottom: .5rem;
+}
+
+.hero__text {
+
+  color:
+    rgba(255,255,255,.65);
+}
+
+/* SECTION */
+
+.section-title {
+
+  font-size: 1.4rem;
+
+  font-weight: 800;
+
+  margin-bottom: 1rem;
+}
+
+/* TOP */
+
+.stats-cards {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap: 1.2rem;
+
+  margin-bottom: 2rem;
+}
+
+.stats-card {
+
+  padding: 2rem;
+
+  border-radius: 28px;
+
+  background:
+    rgba(255,255,255,.04);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:
+    blur(20px);
+
+  transition: .4s ease;
+
+  &:hover {
+
+    transform:
+      translateY(-10px);
+
+    box-shadow:
+      0 25px 50px rgba(0,220,255,.12);
+  }
+}
+
+.emoji {
+
+  font-size: 2rem;
+
+  margin-bottom: 1rem;
+}
+
+.mini {
+
+  font-size: .72rem;
+
+  letter-spacing: .15em;
+
+  color:
+    rgba(255,255,255,.55);
+
+  margin-bottom: .8rem;
+}
+
+.stats-card h2 {
+
+  font-size: 1.8rem;
+
+  margin-bottom: .4rem;
+}
+
+.stats-card span {
+
+  color:
+    rgba(255,255,255,.65);
+}
+
+/* CHART */
+
+.chart-section {
+
+  margin-bottom: 2rem;
+}
+
+.chart-card {
+
+  height: 520px;
+
+  padding: 1.5rem;
+
+  border-radius: 28px;
+
+  background:
+    rgba(255,255,255,.04);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:
+    blur(20px);
+}
+
+.small-chart {
+
+  height: 420px;
+}
+
+/* GROUPS */
+
+.groups-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit,minmax(180px,1fr));
+
+  gap: 1rem;
+}
+
+.group-card {
+
+  padding: 1.5rem;
+
+  border-radius: 24px;
+
+  background:
+    rgba(255,255,255,.04);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  cursor: pointer;
+
+  transition: .35s ease;
+
+  &:hover {
+
+    transform:
+      translateY(-8px);
+
+    background:
+      rgba(0,220,255,.08);
+  }
+}
+
+.group-name {
+
+  font-size: 1rem;
+
+  margin-bottom: .8rem;
+
+  font-weight: 700;
+}
+
+.group-value {
+
+  font-size: 2rem;
+
+  font-weight: 900;
+
+  color: #00dcff;
+}
+
+/* MODAL */
+
+.modal-overlay {
+
+  position: fixed;
+
+  inset: 0;
+
+  background:
+    rgba(0,0,0,.65);
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  backdrop-filter:
+    blur(8px);
+
+  z-index: 9999;
+}
+
+.stats-modal {
+
+  width: 100%;
+
+  max-width: 550px;
+
+  padding: 2rem;
+
+  border-radius: 30px;
+
+  background:
+    rgba(15,20,35,.95);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  animation:
+    modalUp .35s ease;
+}
+
+.modal-top {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 1.5rem;
+}
+
+.close-btn {
+
+  width: 42px;
+
+  height: 42px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  background:
+    rgba(255,255,255,.08);
+
+  color: white;
+}
+
+.group-total {
+
+  margin-bottom: 1rem;
+
+  color:
+    #00dcff;
+
+  font-weight: 700;
+}
+
+.countries-list {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: .8rem;
+}
+
+.country-item {
+
+  padding: 1rem 1.2rem;
+
+  border-radius: 18px;
+
+  background:
+    rgba(255,255,255,.04);
+
+  transition: .25s ease;
+
+  &:hover {
+
+    transform:
+      translateX(6px);
+
+    background:
+      rgba(0,220,255,.08);
+  }
+}
+
+/* REVEAL */
+
+.hidden-section {
+
+  opacity: 0;
+
+  transform:
+    translateY(80px)
+    scale(.96);
+
+  transition:
+    opacity 1s ease,
+    transform 1s ease;
+}
+
+.show-section {
+
+  opacity: 1;
+
+  transform:
+    translateY(0)
+    scale(1);
+}
+
+/* ANIMATION */
+
+@keyframes modalUp {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      translateY(40px)
+      scale(.92);
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+/* RESPONSIVE */
+
+@media (
+max-width: 1000px
+) {
+
+  .stats-cards {
+
+    grid-template-columns:
+      1fr;
+  }
+
+  .chart-card {
+
+    height: 420px;
+  }
+}

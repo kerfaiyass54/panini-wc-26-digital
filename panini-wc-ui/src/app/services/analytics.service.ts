@@ -23,9 +23,9 @@ export class AnalyticsService {
     Observable<Record<string, number>> {
 
     return this.http.get<
-      Record<string, number>
+      any
     >(
-      `${this.baseUrl}/nations`
+      `${this.baseUrl}/stats`
     );
   }
 
@@ -34,7 +34,7 @@ export class AnalyticsService {
   ): Observable<number> {
 
     return this.http.get<number>(
-      `${this.baseUrl}/nations/${nation}`
+      `${this.baseUrl}/stats/${nation}`
     );
   }
 
@@ -43,10 +43,10 @@ export class AnalyticsService {
   // =========================
 
   getAllGroups():
-    Observable<Record<string, number>> {
+    Observable<any> {
 
     return this.http.get<
-      Record<string, number>
+      any
     >(
       `${this.baseUrl}/groups`
     );
@@ -69,7 +69,7 @@ export class AnalyticsService {
     Observable<Record<string, number>> {
 
     return this.http.get<
-      Record<string, number>
+      any
     >(
       `${this.baseUrl}/continents`
     );

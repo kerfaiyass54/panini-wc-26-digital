@@ -1,0 +1,209 @@
+<div class="stats-page">
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="hero__badge">
+      ⚽ WORLD CUP ANALYTICS
+    </div>
+
+    <h1 class="hero__title">
+      Stickers Statistics
+    </h1>
+
+    <p class="hero__text">
+      Explore all stickers statistics with interactive charts.
+    </p>
+
+  </section>
+
+
+
+  <!-- NATIONS -->
+
+  <section
+    class="chart-section hidden-section"
+    #reveal
+  >
+
+    <div class="section-title">
+
+      Nations Overview
+
+    </div>
+
+    <div class="chart-card">
+
+      <canvas
+        id="nationsChart"
+      ></canvas>
+
+    </div>
+
+  </section>
+
+  <!-- GROUPS -->
+
+  <section
+    class="chart-section hidden-section"
+    #reveal
+  >
+
+    <div class="section-title">
+
+      Groups Distribution
+
+    </div>
+
+    <div class="chart-card small-chart">
+
+      <canvas
+        id="groupsChart"
+      ></canvas>
+
+    </div>
+
+  </section>
+
+  <!-- CONTINENTS -->
+
+  <section
+    class="chart-section hidden-section"
+    #reveal
+  >
+
+    <div class="section-title">
+
+      Continents Distribution
+
+    </div>
+
+    <div class="chart-card small-chart">
+
+      <canvas
+        id="continentsChart"
+      ></canvas>
+
+    </div>
+
+  </section>
+
+  <!-- GROUPS SUMMARY -->
+
+  <section
+    class="groups-section hidden-section"
+    #reveal
+  >
+
+    <div class="section-title">
+
+      Groups Summary
+
+    </div>
+
+    <div class="groups-grid">
+
+      @for (
+        group of groups;
+        track group.name
+        ) {
+
+        <div
+          class="group-card"
+          (click)="openGroup(group)"
+        >
+
+          <div class="group-name">
+
+            Group {{ group.name }}
+
+          </div>
+
+          <div class="group-value">
+
+            {{ group.total }}
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  </section>
+
+</div>
+
+<!-- MODAL -->
+
+@if (selectedGroup) {
+
+  <div
+    class="modal-overlay"
+    (click)="closeModal()"
+  >
+
+    <div
+      class="stats-modal"
+      (click)="$event.stopPropagation()"
+    >
+
+      <div class="modal-top">
+
+        <div>
+
+          <div class="mini">
+            GROUP DETAILS
+          </div>
+
+          <h2>
+            Group {{ selectedGroup }}
+          </h2>
+
+        </div>
+
+        <button
+          class="close-btn"
+          (click)="closeModal()"
+        >
+          ✕
+        </button>
+
+      </div>
+
+      <div class="group-total">
+
+        Total Stickers:
+        {{ selectedGroupTotal }}
+
+      </div>
+
+      <div class="countries-list">
+
+        @for (
+          country of
+            selectedGroupCountries;
+          track country
+          ) {
+
+          <div
+            class="country-item"
+          >
+
+            <span>
+              {{ country }}
+            </span>
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  </div>
+
+}

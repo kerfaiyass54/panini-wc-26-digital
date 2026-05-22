@@ -20,6 +20,7 @@ export class NavBar {
   @Input() links: NavLink[] = [
     { label: 'Total Stats',      path: '/total-stats',    exact: false },
     { label: 'Sticker Details',  path: '/stickers-details', exact: false },
+    { label: 'Sticker stats',  path: '/stickers-stats', exact: false },
   ];
 
   scrolled = false;
