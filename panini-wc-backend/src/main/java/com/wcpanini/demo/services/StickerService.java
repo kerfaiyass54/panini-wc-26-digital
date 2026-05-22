@@ -11,15 +11,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.kafka.core.KafkaTemplate;
 
 @Service
 @Transactional(readOnly = true)
 public class StickerService {
 
     private final StickerRepository stickerRepository;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
-    public StickerService(StickerRepository stickerRepository) {
+    public StickerService(StickerRepository stickerRepository, KafkaTemplate<String, String> kafkaTemplate) {
         this.stickerRepository = stickerRepository;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     // ──────────────────────────────────────────────
@@ -44,13 +47,23 @@ public class StickerService {
 
     @Transactional
     public StickerDTO create(StickerDTO dto) {
+
         Sticker sticker = new Sticker(
                 dto.name(),
                 dto.type(),
                 dto.nationality(),
                 dto.place()
         );
-        return toDTO(stickerRepository.save(sticker));
+
+        StickerDTO saved =
+                toDTO(stickerRepository.save(sticker));
+
+        kafkaTemplate.send(
+                "stickers-refresh-topic",
+                "refresh"
+        );
+
+        return saved;
     }
 
     // ──────────────────────────────────────────────
@@ -66,6 +79,10 @@ public class StickerService {
         sticker.setType(dto.type());
         sticker.setNationality(dto.nationality());
         sticker.setPlace(dto.place());
+        kafkaTemplate.send(
+                "stickers-refresh-topic",
+                "refresh"
+        );
 
         return toDTO(stickerRepository.save(sticker));
     }
@@ -79,6 +96,10 @@ public class StickerService {
         if (!stickerRepository.existsById(id)) {
             throw new EntityNotFoundException("Sticker not found: " + id);
         }
+        kafkaTemplate.send(
+                "stickers-refresh-topic",
+                "refresh"
+        );
         stickerRepository.deleteById(id);
     }
 
