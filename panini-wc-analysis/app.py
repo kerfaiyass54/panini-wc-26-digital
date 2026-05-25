@@ -12,16 +12,6 @@ consumer = KafkaConsumer(
     group_id="python-analytics"
 )
 
-process_nationality_stats()
-
-process_nations_stats()
-
-process_groups_stats()
-
-process_continent_stats()
-
-print("all analytics sent to kafka")
-
 print("waiting for refresh events...")
 
 while True:
@@ -30,15 +20,25 @@ while True:
 
         try:
 
-            print("refresh received")
+            value = message.value.decode("utf-8")
 
-            process_nationality_stats()
+            # example:
+            # "refresh for: yassine@gmail.com"
 
-            process_nations_stats()
+            email = (
+                value
+                .replace("refresh for:", "")
+                .replace('"', "")
+                .strip()
+            )
 
-            process_groups_stats()
+            print(f"refresh received for {email}")
 
-            process_continent_stats()
+            process_nations_stats(email)
+
+            process_groups_stats(email)
+
+            process_continent_stats(email)
 
             print("all analytics sent to kafka")
 

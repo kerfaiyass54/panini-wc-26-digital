@@ -3,7 +3,7 @@ import psycopg2
 
 from config.settings import POSTGRES_CONFIG
 
-def get_stickers_dataframe():
+def get_stickers_dataframe(email):
 
     connection = psycopg2.connect(
         host=POSTGRES_CONFIG["host"],
@@ -13,11 +13,22 @@ def get_stickers_dataframe():
         password=POSTGRES_CONFIG["password"],
     )
 
-    query = "SELECT * FROM stickers"
+    query = """
+            SELECT s.name, \
+                   s.type, \
+                   s.nationality, \
+                   s.place
+            FROM owning o
+                     INNER JOIN stickers s
+                                ON s.place = o.code
+            WHERE o.email = %s
+            ORDER BY s.place ASC \
+            """
 
     dataframe = pd.read_sql(
         query,
-        connection
+        connection,
+        params=[email]
     )
 
     connection.close()

@@ -6,9 +6,9 @@ from kafkaProducer.producer import publish
 
 from constants.worldcup import CONTINENTS
 
-def process_continent_stats():
+def process_continent_stats(email):
 
-    dataframe = get_stickers_dataframe()
+    dataframe = get_stickers_dataframe(email)
 
     dataframe["nationality"] = (
         dataframe["nationality"]
@@ -34,7 +34,12 @@ def process_continent_stats():
 
         stats[continent] = int(count)
 
+    payload = {
+        "email": email,
+        "data": stats
+    }
+
     publish(
         "stickers-continents-topic",
-        stats
+        payload
     )

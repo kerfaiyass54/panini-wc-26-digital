@@ -6,9 +6,9 @@ from kafkaProducer.producer import publish
 
 from constants.worldcup import GROUPS
 
-def process_groups_stats():
+def process_groups_stats(email):
 
-    dataframe = get_stickers_dataframe()
+    dataframe = get_stickers_dataframe(email)
 
     # CLEAN VALUES
 
@@ -36,7 +36,12 @@ def process_groups_stats():
 
         stats[group] = int(count)
 
+    payload = {
+        "email": email,
+        "data": stats
+    }
+
     publish(
         "stickers-groups-topic",
-        stats
+        payload
     )

@@ -4,9 +4,9 @@ from db.postgres import (
 
 from kafkaProducer.producer import publish
 
-def process_nations_stats():
+def process_nations_stats(email):
 
-    dataframe = get_stickers_dataframe()
+    dataframe = get_stickers_dataframe(email)
 
     result = (
         dataframe["nationality"]
@@ -14,7 +14,12 @@ def process_nations_stats():
         .to_dict()
     )
 
+    payload = {
+        "email": email,
+        "data": result
+    }
+
     publish(
         "stickers-nations-topic",
-        result
+        payload
     )

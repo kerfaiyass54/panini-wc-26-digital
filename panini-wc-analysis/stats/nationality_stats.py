@@ -4,9 +4,9 @@ from db.postgres import (
 
 from kafkaProducer.producer import publish
 
-def process_nationality_stats():
+def process_nationality_stats(email):
 
-    dataframe = get_stickers_dataframe()
+    dataframe = get_stickers_dataframe(email)
 
     dataframe = dataframe.dropna(
         subset=["nationality"]
@@ -24,6 +24,9 @@ def process_nationality_stats():
     )
 
     payload = {
+
+        "email":
+            email,
 
         "most_nationality":
             most_common,
