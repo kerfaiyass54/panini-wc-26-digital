@@ -2,7 +2,7 @@ import {
   Component,
   OnInit,
   OnDestroy,
-  inject,
+  inject,ChangeDetectorRef
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
@@ -38,6 +38,9 @@ export class StickersDetails
   private keycloak =
     inject(Keycloak);
 
+  private readonly cdr =
+    inject(ChangeDetectorRef);
+
   // ─────────────────────────────────────────
   // SEARCH
   // ─────────────────────────────────────────
@@ -54,6 +57,9 @@ export class StickersDetails
   private autoScrollInterval: any;
 
   isPaused = false;
+
+  nationalityCounts:
+    Record<string, number> = {};
 
   // ─────────────────────────────────────────
   // NATIONS
@@ -138,6 +144,26 @@ export class StickersDetails
       this.startAutoScroll();
 
     }, 500);
+
+    this.nations.forEach(nation => {
+
+      this.stickerService
+        .countByNationality(
+          nation,
+          this.email
+        )
+        .subscribe(count => {
+          this.cdr.detectChanges();
+
+
+          this.nationalityCounts[nation] =
+            count;
+        });
+    });
+  }
+
+  truncate(val: number): number {
+    return Math.trunc(val);
   }
 
   // ─────────────────────────────────────────

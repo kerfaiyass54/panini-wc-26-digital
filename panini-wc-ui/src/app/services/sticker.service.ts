@@ -109,6 +109,24 @@ export class StickerService {
   }
 
   // ─────────────────────────────────────────
+// COUNT STICKERS BY NATIONALITY
+// ─────────────────────────────────────────
+
+  // ─────────────────────────────────────────
+// COUNT OWNED STICKERS BY NATIONALITY
+// ─────────────────────────────────────────
+
+  countByNationality(
+    nationality: string,
+    email: string
+  ): Observable<number> {
+
+    return this.http.get<number>(
+      `${this.API}/catalog/stickers/count/${nationality}/${email}`
+    );
+  }
+
+  // ─────────────────────────────────────────
   // ADD STICKER
   // ─────────────────────────────────────────
 
@@ -223,4 +241,9 @@ export class StickerService {
       `${this.API}/catalog/stickers/nationality/${nationality}`
     );
   }
+
+  // ─────────────────────────────────────────
+// COUNT OWNED STICKERS BY NATIONALITY
+// ─────────────────────────────────────────
+
 }
