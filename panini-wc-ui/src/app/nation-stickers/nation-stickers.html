@@ -1,0 +1,76 @@
+<div class="page">
+
+  <button
+    class="back-btn"
+    (click)="goBack()"
+  >
+    ← Back
+  </button>
+
+  <div class="hero">
+
+    <h1 class="title">
+      {{ nationality }} Stickers
+    </h1>
+
+    <p class="subtitle">
+      Manage your collection
+    </p>
+
+  </div>
+
+  <div class="grid">
+
+    @for (
+      sticker of stickers;
+      track sticker.place
+      ) {
+
+      <div
+        class="card"
+        [class.owned]="
+          hasSticker(sticker.place)
+        "
+      >
+
+        <div class="card-top">
+
+          <div class="code">
+            {{ sticker.place }}
+          </div>
+
+        </div>
+
+        <div class="name">
+          {{ sticker.name }}
+        </div>
+
+        @if (
+          hasSticker(sticker.place)
+          ) {
+
+          <button
+            class="duplicate-btn"
+            (click)="duplicateSticker(sticker.place)"
+          >
+            Duplicate
+          </button>
+
+        } @else {
+
+          <button
+            class="add-btn"
+            (click)="addSticker(sticker.place)"
+          >
+            Add Sticker
+          </button>
+
+        }
+
+      </div>
+
+    }
+
+  </div>
+
+</div>

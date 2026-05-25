@@ -24,6 +24,10 @@ export const routes: Routes = [
         path: 'stickers-stats',
         loadComponent: () =>
           import('./stickers-stats/stickers-stats').then(m => m.StickersStats),
+      },{
+        path: 'nation-stickers/:nationality',
+        loadComponent: () =>
+          import('./nation-stickers/nation-stickers').then(m => m.NationStickers),
       },
       {
         path: '**',

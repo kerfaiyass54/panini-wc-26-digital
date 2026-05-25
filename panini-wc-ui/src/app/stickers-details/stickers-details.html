@@ -36,31 +36,54 @@
   <!-- CAROUSEL -->
   <div class="carousel-wrapper">
 
-    <div class="carousel">
+    @if (filteredNations.length > 0) {
 
-      <div
-        class="nation-card"
-        *ngFor="
-          let nation of filteredNations;
-          trackBy: trackByNation
-        "
-        (mouseenter)="pauseCarousel()"
-        (mouseleave)="resumeCarousel()"
-      >
+      <div class="carousel">
 
-        <div class="card-glow"></div>
+        @for (
+          nation of filteredNations;
+          track nation
+          ) {
 
-        <div class="nation-icon">
-          ⚽
-        </div>
+          <div
+            class="nation-card"
+            (mouseenter)="pauseCarousel()"
+            (mouseleave)="resumeCarousel()"
+            [routerLink]="[
+              '/nation-stickers',
+              nation
+            ]"
+          >
 
-        <div class="nation-name">
-          {{ nation }}
-        </div>
+            <div class="card-glow"></div>
+
+            <div class="nation-icon">
+              ⚽
+            </div>
+
+            <div class="nation-name">
+              {{ nation }}
+            </div>
+
+          </div>
+        }
 
       </div>
 
-    </div>
+    } @else {
+
+      <div class="empty-state">
+
+        <h3>
+          No country found
+        </h3>
+
+        <p>
+          Try another search keyword
+        </p>
+
+      </div>
+    }
 
   </div>
 

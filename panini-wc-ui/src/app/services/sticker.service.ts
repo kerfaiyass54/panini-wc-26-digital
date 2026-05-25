@@ -88,9 +88,9 @@ export class StickerService {
   getCatalog(
     page: number = 0,
     size: number = 50
-  ): Observable<PageResponse<StickerSimpleResponse>> {
+  ): Observable<any> {
 
-    return this.http.get<PageResponse<StickerSimpleResponse>>(
+    return this.http.get<any>(
       `${this.API}/catalog/stickers?page=${page}&size=${size}`
     );
   }
@@ -216,13 +216,11 @@ export class StickerService {
 // ─────────────────────────────────────────
 
   getByNationality(
-    nationality: string,
-    page: number = 0,
-    size: number = 50
-  ): Observable<PageResponse<StickerSimpleResponse>> {
+    nationality: string
+  ): Observable<any> {
 
-    return this.http.get<PageResponse<StickerSimpleResponse>>(
-      `${this.API}/catalog/stickers/nationality/${nationality}?page=${page}&size=${size}`
+    return this.http.get<any>(
+      `${this.API}/catalog/stickers/nationality/${nationality}`
     );
   }
 }

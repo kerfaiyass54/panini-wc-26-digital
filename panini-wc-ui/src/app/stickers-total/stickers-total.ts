@@ -1,7 +1,7 @@
 import {
   Component,
   OnInit,
-  inject,
+  inject, ChangeDetectorRef
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
@@ -31,6 +31,9 @@ export class StickersTotal
   private readonly keycloak =
     inject(Keycloak);
 
+  private readonly cdr =
+    inject(ChangeDetectorRef);
+
   stats: any = {
     totalOwnedStickers: 0,
     totalFinishedCountries: 0,
@@ -54,13 +57,6 @@ export class StickersTotal
 
   ngOnInit(): void {
 
-    this.loadStatistics();
-  }
-
-  // ─────────────────────────────────────────
-
-  private loadStatistics(): void {
-
     this.stickerService
       .getStatistics(this.email)
       .subscribe({
@@ -68,6 +64,8 @@ export class StickersTotal
         next: (response) => {
 
           this.stats = response;
+          this.cdr.detectChanges();
+
         },
 
         error: (err) => {
@@ -76,4 +74,7 @@ export class StickersTotal
         }
       });
   }
+
+  // ─────────────────────────────────────────
+
 }

@@ -16,6 +16,7 @@ import { Subscription } from 'rxjs';
 
 import Keycloak from 'keycloak-js';
 import { StickerService } from '../services/sticker.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-stickers-details',
@@ -23,6 +24,7 @@ import { StickerService } from '../services/sticker.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    RouterLink
   ],
   templateUrl: './stickers-details.html',
   styleUrl: './stickers-details.scss',
@@ -66,7 +68,7 @@ export class StickersDetails
     'bosnia and herzegovina',
     'brazil',
     'canada',
-    'cape verde',
+    'cabo verde',
     'colombia',
     'congo dr',
     'croatia',
@@ -79,9 +81,9 @@ export class StickersDetails
     'germany',
     'ghana',
     'haiti',
-    'iran',
+    'ir iran',
     'iraq',
-    'ivory coast',
+    'côte d’ivoire',
     'japan',
     'jordan',
     'mexico',
@@ -97,12 +99,13 @@ export class StickersDetails
     'scotland',
     'senegal',
     'south africa',
+    'korea republic',
     'spain',
     'sweden',
     'switzerland',
     'tunisia',
-    'turkey',
-    'united states',
+    'türkiye',
+    'usa',
     'uruguay',
     'uzbekistan'
   ];
