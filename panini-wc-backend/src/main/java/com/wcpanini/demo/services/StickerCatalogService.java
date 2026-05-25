@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 public class StickerCatalogService {
@@ -27,17 +29,28 @@ public class StickerCatalogService {
         return stickerRepository.findAllSimple(pageable);
     }
 
-    public Page<StickerSimpleResponse> getStickersByNationality(
+    public long countByNationalityAndEmail(
             String nationality,
-            Pageable pageable
+            String email
     ) {
 
         return stickerRepository
-                .findByNationality(nationality, pageable)
+                .countOwnedByNationalityAndEmail(
+                        nationality,
+                        email
+                );
+    }
+
+    public List<StickerSimpleResponse> getStickersByNationality(
+            String nationality
+    ) {
+
+        return stickerRepository
+                .findByNationality(nationality).stream()
                 .map(sticker -> new StickerSimpleResponse(
                         sticker.getName(),
                         sticker.getNationality(),
                         sticker.getPlace()
-                ));
+                )).toList();
     }
 }

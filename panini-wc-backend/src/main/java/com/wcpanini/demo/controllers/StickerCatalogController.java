@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/catalog")
 @CrossOrigin("*")
@@ -37,20 +39,32 @@ public class StickerCatalogController {
     }
 
     @GetMapping("/stickers/nationality/{nationality}")
-    public ResponseEntity<Page<StickerSimpleResponse>> getStickersByNationality(
-            @PathVariable String nationality,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "50") int size
+    public ResponseEntity<List<StickerSimpleResponse>> getStickersByNationality(
+            @PathVariable String nationality
     ) {
 
-        Pageable pageable = PageRequest.of(page, size);
 
-        Page<StickerSimpleResponse> stickers =
+        List<StickerSimpleResponse> stickers =
                 stickerCatalogService.getStickersByNationality(
-                        nationality,
-                        pageable
+                        nationality
                 );
 
         return ResponseEntity.ok(stickers);
+    }
+
+    @GetMapping("/stickers/count/{nationality}/{email}")
+    public ResponseEntity<Long> countByNationalityAndEmail(
+            @PathVariable String nationality,
+            @PathVariable String email
+    ) {
+
+        long total =
+                stickerCatalogService
+                        .countByNationalityAndEmail(
+                                nationality,
+                                email
+                        );
+
+        return ResponseEntity.ok(total);
     }
 }

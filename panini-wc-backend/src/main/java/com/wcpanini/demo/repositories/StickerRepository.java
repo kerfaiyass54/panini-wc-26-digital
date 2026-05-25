@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface StickerRepository extends JpaRepository<Sticker, Long> {
 
@@ -31,8 +33,22 @@ public interface StickerRepository extends JpaRepository<Sticker, Long> {
     """)
     Page<StickerSimpleResponse> findAllSimple(Pageable pageable);
 
-    Page<Sticker> findByNationality(
-            String nationality,
-            Pageable pageable
+    List<Sticker> findByNationality(
+            String nationality
     );
+
+    @Query("""
+    SELECT COUNT(o.id)
+    FROM Owning o
+    JOIN Sticker s
+        ON s.place = o.code
+    WHERE LOWER(s.nationality) =
+          LOWER(:nationality)
+    AND o.email = :email
+""")
+    long countOwnedByNationalityAndEmail(
+            String nationality,
+            String email
+    );
+
 }
