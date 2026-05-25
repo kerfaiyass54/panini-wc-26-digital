@@ -2,7 +2,11 @@ import {
   Component,
   OnInit,
   OnDestroy,
-  inject,ChangeDetectorRef
+  inject,
+  ChangeDetectorRef,
+  AfterViewInit,
+  ElementRef,
+  ViewChild,
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
@@ -15,7 +19,14 @@ import {
 import { Subscription } from 'rxjs';
 
 import Keycloak from 'keycloak-js';
-import { StickerService } from '../services/sticker.service';
+
+import {
+  StickerService,
+  Owning,
+  Duplicate,
+  PageResponse,
+} from '../services/sticker.service';
+
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -30,7 +41,10 @@ import { RouterLink } from '@angular/router';
   styleUrl: './stickers-details.scss',
 })
 export class StickersDetails
-  implements OnInit, OnDestroy {
+  implements
+    OnInit,
+    OnDestroy,
+    AfterViewInit {
 
   private readonly stickerService =
     inject(StickerService);
@@ -42,6 +56,16 @@ export class StickersDetails
     inject(ChangeDetectorRef);
 
   // ─────────────────────────────────────────
+  // VIEWCHILD
+  // ─────────────────────────────────────────
+
+  @ViewChild('ownedSection')
+  ownedSection!: ElementRef;
+
+  @ViewChild('duplicateSection')
+  duplicateSection!: ElementRef;
+
+  // ─────────────────────────────────────────
   // SEARCH
   // ─────────────────────────────────────────
 
@@ -49,6 +73,50 @@ export class StickersDetails
     new FormControl('');
 
   private searchSub?: Subscription;
+
+  // ─────────────────────────────────────────
+  // OWNED SEARCH
+  // ─────────────────────────────────────────
+
+  ownedSearch =
+    new FormControl('');
+
+  duplicateSearch =
+    new FormControl('');
+
+  // ─────────────────────────────────────────
+  // TABLE DATA
+  // ─────────────────────────────────────────
+
+  ownedRows: Owning[] = [];
+
+  filteredOwned: Owning[] = [];
+
+  duplicateRows: Duplicate[] = [];
+
+  filteredDuplicates: Duplicate[] = [];
+
+  // ─────────────────────────────────────────
+  // PAGINATION
+  // ─────────────────────────────────────────
+
+  ownedPage = 0;
+
+  duplicatePage = 0;
+
+  pageSize = 5;
+
+  ownedTotalPages = 0;
+
+  duplicateTotalPages = 0;
+
+  // ─────────────────────────────────────────
+  // ANIMATION
+  // ─────────────────────────────────────────
+
+  showOwned = false;
+
+  showDuplicates = false;
 
   // ─────────────────────────────────────────
   // CAROUSEL
@@ -139,6 +207,10 @@ export class StickersDetails
 
     this.handleSearch();
 
+    this.loadOwnings();
+
+    this.loadDuplicates();
+
     setTimeout(() => {
 
       this.startAutoScroll();
@@ -153,16 +225,210 @@ export class StickersDetails
           this.email
         )
         .subscribe(count => {
-          this.cdr.detectChanges();
-
 
           this.nationalityCounts[nation] =
             count;
+
+          this.cdr.detectChanges();
         });
     });
+
+    // SEARCH OWNED
+
+    this.ownedSearch
+      .valueChanges
+      .subscribe(value => {
+
+        const query =
+          (value || '')
+            .toLowerCase();
+
+        this.filteredOwned =
+          this.ownedRows.filter(row =>
+            row.place
+              .toLowerCase()
+              .includes(query)
+          );
+      });
+
+    // SEARCH DUPLICATES
+
+    this.duplicateSearch
+      .valueChanges
+      .subscribe(value => {
+
+        const query =
+          (value || '')
+            .toLowerCase();
+
+        this.filteredDuplicates =
+          this.duplicateRows.filter(row =>
+            row.place
+              .toLowerCase()
+              .includes(query)
+          );
+      });
   }
 
+  // ─────────────────────────────────────────
+
+  ngAfterViewInit(): void {
+
+    const observer =
+      new IntersectionObserver(entries => {
+
+        entries.forEach(entry => {
+
+          if (
+            entry.target ===
+            this.ownedSection.nativeElement
+          ) {
+
+            this.showOwned =
+              entry.isIntersecting;
+          }
+
+          if (
+            entry.target ===
+            this.duplicateSection.nativeElement
+          ) {
+
+            this.showDuplicates =
+              entry.isIntersecting;
+          }
+
+          this.cdr.detectChanges();
+        });
+
+      }, {
+        threshold: 0.2
+      });
+
+    observer.observe(
+      this.ownedSection.nativeElement
+    );
+
+    observer.observe(
+      this.duplicateSection.nativeElement
+    );
+  }
+
+  // ─────────────────────────────────────────
+
+  loadOwnings(): void {
+
+    this.stickerService
+      .getOwnings(
+        this.email,
+        this.ownedPage,
+        this.pageSize
+      )
+      .subscribe({
+
+        next: (
+          response:
+          PageResponse<Owning>
+        ) => {
+
+          this.ownedRows =
+            response.content;
+
+          this.filteredOwned =
+            response.content;
+
+          this.ownedTotalPages =
+            response.totalPages;
+
+          this.cdr.detectChanges();
+        }
+      });
+  }
+
+  // ─────────────────────────────────────────
+
+  loadDuplicates(): void {
+
+    this.stickerService
+      .getDuplicates(
+        this.email,
+        this.duplicatePage,
+        this.pageSize
+      )
+      .subscribe({
+
+        next: (
+          response:
+          PageResponse<Duplicate>
+        ) => {
+
+          this.duplicateRows =
+            response.content;
+
+          this.filteredDuplicates =
+            response.content;
+
+          this.duplicateTotalPages =
+            response.totalPages;
+
+          this.cdr.detectChanges();
+        }
+      });
+  }
+
+  // ─────────────────────────────────────────
+
+  nextOwned(): void {
+
+    if (
+      this.ownedPage <
+      this.ownedTotalPages - 1
+    ) {
+
+      this.ownedPage++;
+
+      this.loadOwnings();
+    }
+  }
+
+  prevOwned(): void {
+
+    if (this.ownedPage > 0) {
+
+      this.ownedPage--;
+
+      this.loadOwnings();
+    }
+  }
+
+  // ─────────────────────────────────────────
+
+  nextDuplicates(): void {
+
+    if (
+      this.duplicatePage <
+      this.duplicateTotalPages - 1
+    ) {
+
+      this.duplicatePage++;
+
+      this.loadDuplicates();
+    }
+  }
+
+  prevDuplicates(): void {
+
+    if (this.duplicatePage > 0) {
+
+      this.duplicatePage--;
+
+      this.loadDuplicates();
+    }
+  }
+
+  // ─────────────────────────────────────────
+
   truncate(val: number): number {
+
     return Math.trunc(val);
   }
 
@@ -191,14 +457,12 @@ export class StickersDetails
               .toLowerCase()
               .trim();
 
-          // STOP animation while typing
           if (query.length > 0) {
 
             this.stopAutoScroll();
 
           } else {
 
-            // START animation again
             this.startAutoScroll();
           }
 
@@ -232,7 +496,6 @@ export class StickersDetails
 
         carousel.scrollLeft += 1;
 
-        // infinite loop
         if (
           carousel.scrollLeft >=
           carousel.scrollWidth -
@@ -270,7 +533,6 @@ export class StickersDetails
       (this.searchControl.value ?? '')
         .trim();
 
-    // do not resume if user searching
     if (query.length > 0) {
 
       return;

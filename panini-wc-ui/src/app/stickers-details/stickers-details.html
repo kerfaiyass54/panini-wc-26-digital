@@ -95,4 +95,186 @@
 
   </div>
 
+  <!-- OWNED SECTION -->
+
+  <section
+    #ownedSection
+    class="table-section"
+    [class.visible]="showOwned"
+  >
+
+    <div class="table-header">
+
+      <h2>
+        🏆 Owned Stickers
+      </h2>
+
+      <input
+        type="text"
+        [formControl]="ownedSearch"
+        placeholder="Search owned..."
+        class="table-search"
+      />
+
+    </div>
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+        <tr>
+          <th>ID</th>
+          <th>Sticker</th>
+          <th>Email</th>
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+          @for (
+            row of filteredOwned;
+            track row.id
+            ) {
+
+            <tr>
+
+              <td>
+                #{{ row.id }}
+              </td>
+
+              <td>
+                {{ row.code }}
+              </td>
+
+              <td>
+                {{ row.email }}
+              </td>
+
+            </tr>
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <div class="pagination">
+
+      <button
+        (click)="prevOwned()"
+      >
+        Previous
+      </button>
+
+      <span>
+      {{ ownedPage + 1 }}
+        /
+        {{ ownedTotalPages }}
+    </span>
+
+      <button
+        (click)="nextOwned()"
+      >
+        Next
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- DUPLICATES SECTION -->
+
+  <section
+    #duplicateSection
+    class="table-section"
+    [class.visible]="showDuplicates"
+  >
+
+    <div class="table-header">
+
+      <h2>
+        🔥 Duplicates
+      </h2>
+
+      <input
+        type="text"
+        [formControl]="duplicateSearch"
+        placeholder="Search duplicates..."
+        class="table-search"
+      />
+
+    </div>
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+        <tr>
+          <th>ID</th>
+          <th>Sticker</th>
+          <th>Count</th>
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+          @for (
+            row of filteredDuplicates;
+            track row.id
+            ) {
+
+            <tr>
+
+              <td>
+                #{{ row.id }}
+              </td>
+
+              <td>
+                {{ row.place }}
+              </td>
+
+              <td>
+                {{ row.count }}
+              </td>
+
+            </tr>
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <div class="pagination">
+
+      <button
+        (click)="prevDuplicates()"
+      >
+        Previous
+      </button>
+
+      <span>
+      {{ duplicatePage + 1 }}
+        /
+        {{ duplicateTotalPages }}
+    </span>
+
+      <button
+        (click)="nextDuplicates()"
+      >
+        Next
+      </button>
+
+    </div>
+
+  </section>
+
 </div>
