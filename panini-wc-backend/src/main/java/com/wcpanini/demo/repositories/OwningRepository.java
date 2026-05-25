@@ -17,7 +17,7 @@ public interface OwningRepository extends JpaRepository<Owning, Long> {
 
     Page<Owning> findAllByEmail(String email, Pageable pageable);
 
-    long countByEmail(String email);
+    Long countByEmail(String email);
 
     @Query("""
         SELECT COUNT(DISTINCT s.nationality)
@@ -27,7 +27,7 @@ public interface OwningRepository extends JpaRepository<Owning, Long> {
         GROUP BY s.nationality
         HAVING COUNT(s.id) >= 12
     """)
-    long countFinishedCountries(String email);
+    Long countFinishedCountries(String email);
 
     @Query("""
         SELECT COUNT(o.id)
@@ -36,7 +36,7 @@ public interface OwningRepository extends JpaRepository<Owning, Long> {
         WHERE o.email = :email
         AND LOWER(s.type) = 'logo'
     """)
-    long countOwnedLogos(String email);
+    Long countOwnedLogos(String email);
 
     @Query("""
         SELECT COUNT(o.id)
@@ -45,5 +45,5 @@ public interface OwningRepository extends JpaRepository<Owning, Long> {
         WHERE o.email = :email
         AND LOWER(s.type) = 'player'
     """)
-    long countOwnedPlayers(String email);
+    Long countOwnedPlayers(String email);
 }

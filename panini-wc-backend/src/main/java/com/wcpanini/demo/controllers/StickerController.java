@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/stickers")
+@CrossOrigin("*")
 public class StickerController {
 
     private final StickerService stickerService;

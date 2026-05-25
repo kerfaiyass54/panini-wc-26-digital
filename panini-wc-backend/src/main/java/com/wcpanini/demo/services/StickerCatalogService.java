@@ -26,4 +26,18 @@ public class StickerCatalogService {
 
         return stickerRepository.findAllSimple(pageable);
     }
+
+    public Page<StickerSimpleResponse> getStickersByNationality(
+            String nationality,
+            Pageable pageable
+    ) {
+
+        return stickerRepository
+                .findByNationality(nationality, pageable)
+                .map(sticker -> new StickerSimpleResponse(
+                        sticker.getName(),
+                        sticker.getNationality(),
+                        sticker.getPlace()
+                ));
+    }
 }

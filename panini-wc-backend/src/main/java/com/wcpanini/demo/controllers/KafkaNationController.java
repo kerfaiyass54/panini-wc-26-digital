@@ -8,6 +8,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/stats")
+@CrossOrigin("*")
 public class KafkaNationController {
 
     private final KafkaNationConsumerService service;

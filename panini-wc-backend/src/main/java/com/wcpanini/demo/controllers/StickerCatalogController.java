@@ -35,4 +35,22 @@ public class StickerCatalogController {
 
         return ResponseEntity.ok(stickers);
     }
+
+    @GetMapping("/stickers/nationality/{nationality}")
+    public ResponseEntity<Page<StickerSimpleResponse>> getStickersByNationality(
+            @PathVariable String nationality,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size
+    ) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<StickerSimpleResponse> stickers =
+                stickerCatalogService.getStickersByNationality(
+                        nationality,
+                        pageable
+                );
+
+        return ResponseEntity.ok(stickers);
+    }
 }

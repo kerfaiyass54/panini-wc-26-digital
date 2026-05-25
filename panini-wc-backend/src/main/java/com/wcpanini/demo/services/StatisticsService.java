@@ -5,6 +5,8 @@ import com.wcpanini.demo.repositories.OwningRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional(readOnly = true)
 public class StatisticsService {
@@ -22,16 +24,24 @@ public class StatisticsService {
     ) {
 
         long totalOwnedStickers =
-                owningRepository.countByEmail(email);
+                Optional.ofNullable(
+                        owningRepository.countByEmail(email)
+                ).orElse(0L);
 
         long totalFinishedCountries =
-                owningRepository.countFinishedCountries(email);
+                Optional.ofNullable(
+                        owningRepository.countFinishedCountries(email)
+                ).orElse(0L);
 
         long totalLogos =
-                owningRepository.countOwnedLogos(email);
+                Optional.ofNullable(
+                        owningRepository.countOwnedLogos(email)
+                ).orElse(0L);
 
         long totalPlayers =
-                owningRepository.countOwnedPlayers(email);
+                Optional.ofNullable(
+                        owningRepository.countOwnedPlayers(email)
+                ).orElse(0L);
 
         return new StatisticsResponse(
                 totalOwnedStickers,

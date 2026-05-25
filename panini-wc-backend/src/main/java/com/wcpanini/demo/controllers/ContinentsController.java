@@ -9,6 +9,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/continents")
+@CrossOrigin("*")
 public class ContinentsController {
 
     private final ContinentsConsumerService

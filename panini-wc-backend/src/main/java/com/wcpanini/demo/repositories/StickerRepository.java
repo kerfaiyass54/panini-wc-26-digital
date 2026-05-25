@@ -30,4 +30,9 @@ public interface StickerRepository extends JpaRepository<Sticker, Long> {
         ORDER BY s.place ASC
     """)
     Page<StickerSimpleResponse> findAllSimple(Pageable pageable);
+
+    Page<Sticker> findByNationality(
+            String nationality,
+            Pageable pageable
+    );
 }
