@@ -19,22 +19,24 @@ export class AnalyticsService {
   // NATIONS
   // =========================
 
-  getAllNations():
-    Observable<Record<string, number>> {
+  getAllNations(
+    email: string
+  ): Observable<Record<string, number>> {
 
     return this.http.get<
       any
     >(
-      `${this.baseUrl}/stats`
+      `${this.baseUrl}/stats?email=${email}`
     );
   }
 
   getNationCount(
-    nation: string
+    nation: string,
+    email: string
   ): Observable<number> {
 
     return this.http.get<number>(
-      `${this.baseUrl}/stats/${nation}`
+      `${this.baseUrl}/stats/${nation}?email=${email}`
     );
   }
 
@@ -42,22 +44,24 @@ export class AnalyticsService {
   // GROUPS
   // =========================
 
-  getAllGroups():
-    Observable<any> {
+  getAllGroups(
+    email: string
+  ): Observable<any> {
 
     return this.http.get<
       any
     >(
-      `${this.baseUrl}/groups`
+      `${this.baseUrl}/groups?email=${email}`
     );
   }
 
   getGroupCount(
-    group: string
+    group: string,
+    email: string
   ): Observable<number> {
 
     return this.http.get<number>(
-      `${this.baseUrl}/groups/${group}`
+      `${this.baseUrl}/groups/${group}?email=${email}`
     );
   }
 
@@ -65,22 +69,24 @@ export class AnalyticsService {
   // CONTINENTS
   // =========================
 
-  getAllContinents():
-    Observable<Record<string, number>> {
+  getAllContinents(
+    email: string
+  ): Observable<Record<string, number>> {
 
     return this.http.get<
       any
     >(
-      `${this.baseUrl}/continents`
+      `${this.baseUrl}/continents?email=${email}`
     );
   }
 
   getContinentCount(
-    continent: string
+    continent: string,
+    email: string
   ): Observable<number> {
 
     return this.http.get<number>(
-      `${this.baseUrl}/continents/${continent}`
+      `${this.baseUrl}/continents/${continent}?email=${email}`
     );
   }
 }

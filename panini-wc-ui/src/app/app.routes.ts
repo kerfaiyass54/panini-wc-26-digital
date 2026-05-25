@@ -24,10 +24,6 @@ export const routes: Routes = [
         path: 'stickers-stats',
         loadComponent: () =>
           import('./stickers-stats/stickers-stats').then(m => m.StickersStats),
-      },{
-        path: 'nations-stats',
-        loadComponent: () =>
-          import('./nations-stats/nations-stats').then(m => m.NationsStats),
       },
       {
         path: '**',

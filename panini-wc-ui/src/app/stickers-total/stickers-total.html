@@ -1,138 +1,94 @@
-<div class="totals-page">
+<div class="stats-page">
+
+  <!-- BACKGROUND -->
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
 
   <!-- HERO -->
-
   <section class="hero">
 
-    <div class="hero__badge">
-      ⚽ COLLECTION ANALYTICS
-    </div>
-
-    <h1 class="hero__title">
-      Total Statistics
+    <h1 class="title">
+      Sticker Collection Statistics
     </h1>
 
-    <p class="hero__text">
-      Track your World Cup sticker collection progress in real time.
+    <p class="subtitle">
+      Track your World Cup sticker journey in real time
     </p>
 
   </section>
 
-  <!-- MAIN STATS -->
+  <!-- STATS GRID -->
+  <section class="stats-grid">
 
-  <section class="stats-overview">
+    <div class="stat-card">
 
-    <div class="main-card">
+      <div class="card-glow"></div>
 
-      <div class="main-card__glow"></div>
+      <div class="stat-icon">
+        📦
+      </div>
 
-      <div class="main-card__content">
+      <div class="stat-value">
+        {{ stats.totalOwnedStickers }}
+      </div>
 
-        <span class="main-card__label">
-          TOTAL COLLECTED
-        </span>
-
-        <h2>
-          {{ collected() }}
-          <small>/ 528 </small>
-        </h2>
-
-        <div class="progress-wrapper">
-
-          <div class="progress-bar">
-
-            <div
-              class="progress-bar__fill"
-              [style.width.%]="percentage()"
-            ></div>
-
-          </div>
-
-          <span class="progress-value">
-            {{ percentage() }}%
-          </span>
-
-        </div>
-
+      <div class="stat-label">
+        Total Stickers
       </div>
 
     </div>
 
-  </section>
+    <div class="stat-card">
 
-  <!-- CATEGORY CARDS -->
+      <div class="card-glow"></div>
 
-  <section class="categories">
-
-    <!-- LOGOS -->
-
-    <div class="category-card">
-
-      <div class="category-card__icon">
-        🛡️
-      </div>
-
-      <div class="category-card__info">
-
-        <span>
-          Logos
-        </span>
-
-        <h3>
-          {{ logos() }}
-        </h3>
-
-      </div>
-
-      <div class="category-card__blur"></div>
-
-    </div>
-
-    <!-- INTRO -->
-
-    <div class="category-card">
-
-      <div class="category-card__icon">
+      <div class="stat-icon">
         🌍
       </div>
 
-      <div class="category-card__info">
-
-        <span>
-          Intro Pictures
-        </span>
-
-        <h3>
-          {{ introPictures() }}
-        </h3>
-
+      <div class="stat-value">
+        {{ stats.totalFinishedCountries }}
       </div>
 
-      <div class="category-card__blur"></div>
+      <div class="stat-label">
+        Finished Nations
+      </div>
 
     </div>
 
-    <!-- PLAYERS -->
+    <div class="stat-card">
 
-    <div class="category-card">
+      <div class="card-glow"></div>
 
-      <div class="category-card__icon">
+      <div class="stat-icon">
+        🛡️
+      </div>
+
+      <div class="stat-value">
+        {{ stats.totalLogos }}
+      </div>
+
+      <div class="stat-label">
+        Logos Collected
+      </div>
+
+    </div>
+
+    <div class="stat-card">
+
+      <div class="card-glow"></div>
+
+      <div class="stat-icon">
         ⚽
       </div>
 
-      <div class="category-card__info">
-
-        <span>
-          Players
-        </span>
-
-        <h3>
-          {{ players() }}
-        </h3>
-
+      <div class="stat-value">
+        {{ stats.totalPlayers }}
       </div>
 
-      <div class="category-card__blur"></div>
+      <div class="stat-label">
+        Players Collected
+      </div>
 
     </div>
 

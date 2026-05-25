@@ -50,11 +50,6 @@ export class NavBar {
     {
       label: 'Sticker Stats',
       path: '/stickers-stats'
-    },
-
-    {
-      label: 'Nations Stats',
-      path: '/nations-stats'
     }
   ];
 

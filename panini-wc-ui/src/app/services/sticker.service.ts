@@ -8,19 +8,48 @@ import { Observable } from 'rxjs';
 // DTOs
 // ─────────────────────────────────────────────
 
-export interface StickerDTO {
-  id?: number;
-  name: string;
+export interface StickerSimpleResponse {
+  id: number;
+  code: string;
   type: string;
   nationality: string;
+  playerName: string;
+}
+
+export interface StatisticsResponse {
+  totalOwned: number;
+  totalDuplicates: number;
+  missing: number;
+  completionPercentage: number;
+}
+
+export interface AddStickerRequest {
+  email: string;
+  code: string;
+}
+
+export interface CheckStickerRequest {
+  email: string;
   place: string;
 }
 
-export interface StickerStatsDTO {
-  total: number;
-  logos: number;
-  intros: number;
-  players: number;
+export interface DuplicateRequest {
+  email: string;
+  place: string;
+}
+
+export interface Owning {
+  id: number;
+  email: string;
+  place: string;
+  code: string;
+}
+
+export interface Duplicate {
+  id: number;
+  email: string;
+  place: string;
+  count: number;
 }
 
 export interface PageResponse<T> {
@@ -39,7 +68,7 @@ export interface PageResponse<T> {
 }
 
 // ─────────────────────────────────────────────
-// Service
+// SERVICE
 // ─────────────────────────────────────────────
 
 @Injectable({
@@ -50,92 +79,150 @@ export class StickerService {
   private readonly http = inject(HttpClient);
 
   private readonly API =
-    'http://localhost:9090/api/stickers';
+    'http://localhost:9090/api';
 
   // ─────────────────────────────────────────
-  // GET ALL PAGINATED
+  // CATALOG
   // ─────────────────────────────────────────
 
-  getAll(
+  getCatalog(
     page: number = 0,
-    size: number = 5,
-    sortBy: string = 'id'
-  ): Observable<PageResponse<StickerDTO>> {
+    size: number = 50
+  ): Observable<PageResponse<StickerSimpleResponse>> {
 
-    return this.http.get<PageResponse<StickerDTO>>(
-      `${this.API}?page=${page}&size=${size}&sortBy=${sortBy}`
+    return this.http.get<PageResponse<StickerSimpleResponse>>(
+      `${this.API}/catalog/stickers?page=${page}&size=${size}`
     );
   }
 
   // ─────────────────────────────────────────
-  // GET STATS
+  // STATISTICS
   // ─────────────────────────────────────────
 
-  getStats(): Observable<StickerStatsDTO> {
+  getStatistics(
+    email: string
+  ): Observable<StatisticsResponse> {
 
-    return this.http.get<StickerStatsDTO>(
-      `${this.API}/stats`
+    return this.http.get<StatisticsResponse>(
+      `${this.API}/statistics/${email}`
     );
   }
 
   // ─────────────────────────────────────────
-  // CREATE
+  // ADD STICKER
   // ─────────────────────────────────────────
 
-  create(
-    sticker: StickerDTO
-  ): Observable<StickerDTO> {
+  addSticker(
+    request: AddStickerRequest
+  ): Observable<Owning> {
 
-    return this.http.post<StickerDTO>(
-      this.API,
-      sticker
+    return this.http.post<Owning>(
+      `${this.API}/stickers/owning`,
+      request
     );
   }
 
   // ─────────────────────────────────────────
-  // UPDATE
+  // CHECK STICKER
   // ─────────────────────────────────────────
 
-  update(
-    id: number,
-    sticker: StickerDTO
-  ): Observable<StickerDTO> {
+  hasSticker(
+    request: CheckStickerRequest
+  ): Observable<boolean> {
 
-    return this.http.put<StickerDTO>(
-      `${this.API}/${id}`,
-      sticker
+    return this.http.post<boolean>(
+      `${this.API}/stickers/has`,
+      request
     );
   }
 
   // ─────────────────────────────────────────
-  // DELETE
+  // CREATE DUPLICATE
   // ─────────────────────────────────────────
 
-  delete(
-    id: number
-  ): Observable<void> {
+  duplicateSticker(
+    request: DuplicateRequest
+  ): Observable<Duplicate> {
 
-    return this.http.delete<void>(
-      `${this.API}/${id}`
+    return this.http.post<Duplicate>(
+      `${this.API}/stickers/duplicate`,
+      request
     );
   }
 
-  search(
-    query: string,
+  // ─────────────────────────────────────────
+  // INCREASE DUPLICATE
+  // ─────────────────────────────────────────
+
+  increaseDuplicate(
+    request: DuplicateRequest
+  ): Observable<Duplicate> {
+
+    return this.http.put<Duplicate>(
+      `${this.API}/stickers/duplicate/increase`,
+      request
+    );
+  }
+
+  // ─────────────────────────────────────────
+  // GET OWNINGS
+  // ─────────────────────────────────────────
+
+  getOwnings(
+    email: string,
     page: number = 0,
-    size: number = 5
-  ) {
+    size: number = 10
+  ): Observable<PageResponse<Owning>> {
 
-    return this.http.get<PageResponse<StickerDTO>>(
-      `${this.API}/search?query=${query}&page=${page}&size=${size}`
+    return this.http.get<PageResponse<Owning>>(
+      `${this.API}/stickers/ownings/${email}?page=${page}&size=${size}`
     );
   }
 
-  logos(){
-    return this.http.get<any>(
-      `${this.API}/logos`
+  // ─────────────────────────────────────────
+  // GET DUPLICATES
+  // ─────────────────────────────────────────
+
+  getDuplicates(
+    email: string,
+    page: number = 0,
+    size: number = 10
+  ): Observable<PageResponse<Duplicate>> {
+
+    return this.http.get<PageResponse<Duplicate>>(
+      `${this.API}/stickers/duplicates/${email}?page=${page}&size=${size}`
+    );
+  }
+
+  // ─────────────────────────────────────────
+  // REMOVE DUPLICATE
+  // ─────────────────────────────────────────
+
+  removeDuplicate(
+    email: string,
+    place: string
+  ): Observable<string> {
+
+    return this.http.delete(
+      `${this.API}/stickers/duplicate?email=${email}&place=${place}`,
+      {
+        responseType: 'text'
+      }
+    );
+  }
+
+  // ─────────────────────────────────────────
+// GET STICKERS BY NATIONALITY
+// ─────────────────────────────────────────
+
+  getByNationality(
+    nationality: string,
+    page: number = 0,
+    size: number = 50
+  ): Observable<PageResponse<StickerSimpleResponse>> {
+
+    return this.http.get<PageResponse<StickerSimpleResponse>>(
+      `${this.API}/catalog/stickers/nationality/${nationality}?page=${page}&size=${size}`
     );
   }
 }
-
-

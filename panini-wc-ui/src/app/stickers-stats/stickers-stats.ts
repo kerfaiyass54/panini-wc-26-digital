@@ -17,6 +17,7 @@ import {
   Chart,
   registerables
 } from 'chart.js';
+import Keycloak from 'keycloak-js';
 
 Chart.register(...registerables);
 
@@ -59,6 +60,20 @@ export class StickersStats
 
   groups:
     GroupResponse[] = [];
+
+  private keycloak =
+    inject(Keycloak);
+
+
+  get email(): string {
+
+    return (
+      this.keycloak
+        .tokenParsed?.[
+        'email'
+        ] as string
+    ) ?? '';
+  }
 
   // TOP
 
@@ -105,7 +120,7 @@ export class StickersStats
   loadNations(): void {
 
     this.analytics
-      .getAllNations()
+      .getAllNations(this.email)
       .subscribe({
 
         next: (response) => {
@@ -138,7 +153,7 @@ export class StickersStats
   loadContinents(): void {
 
     this.analytics
-      .getAllContinents()
+      .getAllContinents(this.email)
       .subscribe({
 
         next: (response) => {
@@ -171,7 +186,7 @@ export class StickersStats
   loadGroups(): void {
 
     this.analytics
-      .getAllGroups()
+      .getAllGroups(this.email)
       .subscribe({
 
         next: (response: any) => {

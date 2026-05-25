@@ -1,28 +1,21 @@
 import {
   Component,
-  inject,
   OnInit,
-  signal,
+  OnDestroy,
+  inject,
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
 import {
-  FormControl,
-  FormGroup,
   ReactiveFormsModule,
-  Validators,
+  FormControl,
 } from '@angular/forms';
 
-import {
-  StickerDTO,
-  StickerService
-} from '../services/sticker.service';
+import { Subscription } from 'rxjs';
 
-import {
-  wc26Teams,
-  Country
-} from '../constants/codes';
+import Keycloak from 'keycloak-js';
+import { StickerService } from '../services/sticker.service';
 
 @Component({
   selector: 'app-stickers-details',
@@ -35,434 +28,235 @@ import {
   styleUrl: './stickers-details.scss',
 })
 export class StickersDetails
-  implements OnInit {
+  implements OnInit, OnDestroy {
 
   private readonly stickerService =
     inject(StickerService);
 
-  // COUNTRIES
+  private keycloak =
+    inject(Keycloak);
 
-  countries: Country[] =
-    wc26Teams;
-
+  // ─────────────────────────────────────────
   // SEARCH
+  // ─────────────────────────────────────────
 
-  search = signal('');
+  searchControl =
+    new FormControl('');
 
-  // DATA
+  private searchSub?: Subscription;
 
-  stickers =
-    signal<StickerDTO[]>([]);
+  // ─────────────────────────────────────────
+  // CAROUSEL
+  // ─────────────────────────────────────────
 
-  currentPage =
-    signal(0);
+  private autoScrollInterval: any;
 
-  totalPages =
-    signal(0);
+  isPaused = false;
 
-  pageSize = 5;
+  // ─────────────────────────────────────────
+  // NATIONS
+  // ─────────────────────────────────────────
 
-  // SELECTED STICKER
+  nations: string[] = [
+    'algeria',
+    'argentina',
+    'australia',
+    'austria',
+    'belgium',
+    'bosnia and herzegovina',
+    'brazil',
+    'canada',
+    'cape verde',
+    'colombia',
+    'congo dr',
+    'croatia',
+    'curaçao',
+    'czechia',
+    'ecuador',
+    'egypt',
+    'england',
+    'france',
+    'germany',
+    'ghana',
+    'haiti',
+    'iran',
+    'iraq',
+    'ivory coast',
+    'japan',
+    'jordan',
+    'mexico',
+    'morocco',
+    'netherlands',
+    'new zealand',
+    'norway',
+    'panama',
+    'paraguay',
+    'portugal',
+    'qatar',
+    'saudi arabia',
+    'scotland',
+    'senegal',
+    'south africa',
+    'spain',
+    'sweden',
+    'switzerland',
+    'tunisia',
+    'turkey',
+    'united states',
+    'uruguay',
+    'uzbekistan'
+  ];
 
-  selectedStickerId =
-    signal<number | null>(null);
+  filteredNations: string[] = [];
 
-  selectedSticker =
-    signal<StickerDTO | null>(null);
+  // ─────────────────────────────────────────
 
-  // ADD FORM
+  get email(): string {
 
-  addForm = new FormGroup({
+    return (
+      this.keycloak
+        .tokenParsed?.[
+        'email'
+        ] as string
+    ) ?? '';
+  }
 
-    name:
-      new FormControl('', {
-        nonNullable: true,
-        validators: [
-          Validators.required
-        ],
-      }),
-
-    type:
-      new FormControl('', {
-        nonNullable: true,
-        validators: [
-          Validators.required
-        ],
-      }),
-
-    nationality:
-      new FormControl('', {
-        nonNullable: true,
-      }),
-
-    number:
-      new FormControl<number | null>(
-        null
-      ),
-
-    place:
-      new FormControl('', {
-        nonNullable: true,
-        validators: [
-          Validators.required
-        ],
-      }),
-  });
-
-  // INIT
+  // ─────────────────────────────────────────
 
   ngOnInit(): void {
 
-    this.loadStickers();
+    this.filteredNations =
+      [...this.nations];
+
+    this.handleSearch();
+
+    setTimeout(() => {
+
+      this.startAutoScroll();
+
+    }, 500);
   }
 
-  // TYPE HELPERS
+  // ─────────────────────────────────────────
 
-  isIntro(type: string): boolean {
+  ngOnDestroy(): void {
 
-    return (
-      type.toLowerCase() ===
-      'intro'
-    );
-  }
+    if (this.autoScrollInterval) {
 
-  isPlayer(type: string): boolean {
-
-    return (
-      type.toLowerCase() ===
-      'player'
-    );
-  }
-
-  isLogo(type: string): boolean {
-
-    return (
-      type.toLowerCase() ===
-      'logo'
-    );
-  }
-
-  // GENERATE PLACE
-
-  generatePlace(
-    nationality: string,
-    type: string,
-    number: any
-  ): string {
-
-    // INTRO
-
-    if (
-      this.isIntro(type)
-    ) {
-
-      if (
-        number === null ||
-        number < 0 ||
-        number > 8
-      ) {
-
-        return '';
-      }
-
-      return `FWC ${number}`;
+      clearInterval(this.autoScrollInterval);
     }
 
-    // COUNTRY
-
-    const country =
-      this.countries.find(
-        c =>
-          c.name === nationality
-      );
-
-    if (!country) {
-
-      return '';
-    }
-
-    // LOGO
-
-    if (
-      this.isLogo(type)
-    ) {
-
-      return `${country.code} 0`;
-    }
-
-    // PLAYER
-
-    if (
-      number === null ||
-      number < 1 ||
-      number > 12
-    ) {
-
-      return '';
-    }
-
-    return `${country.code} ${number}`;
+    this.searchSub?.unsubscribe();
   }
 
-  // UPDATE PLACE
+  // ─────────────────────────────────────────
 
-  updateAddPlace(): void {
+  private handleSearch(): void {
 
-    const nationality =
-      this.addForm.value
-        .nationality ?? '';
+    this.searchSub =
+      this.searchControl.valueChanges
+        .subscribe(value => {
 
-    const type =
-      this.addForm.value
-        .type ?? '';
+          const query =
+            (value ?? '')
+              .toLowerCase()
+              .trim();
 
-    const number =
-      this.addForm.value
-        .number ?? null;
+          // STOP animation while typing
+          if (query.length > 0) {
 
-    // INTRO
+            this.stopAutoScroll();
 
-    if (
-      this.isIntro(type)
-    ) {
+          } else {
 
-      this.addForm.patchValue({
+            // START animation again
+            this.startAutoScroll();
+          }
 
-        nationality: ''
-      });
-    }
-
-    // LOGO
-
-    if (
-      this.isLogo(type)
-    ) {
-
-      this.addForm.patchValue({
-
-        number: 0
-      });
-    }
-
-    const place =
-      this.generatePlace(
-        nationality,
-        type,
-        this.addForm.value.number
-      );
-
-    this.addForm.patchValue({
-
-      place
-    });
+          this.filteredNations =
+            this.nations.filter(nation =>
+              nation.includes(query)
+            );
+        });
   }
 
-  // LOAD
+  // ─────────────────────────────────────────
 
-  loadStickers(): void {
+  startAutoScroll(): void {
 
-    this.stickerService
-      .getAll(
-        this.currentPage(),
-        this.pageSize,
-        'id'
-      )
-      .subscribe({
+    if (this.autoScrollInterval) {
 
-        next: (response) => {
+      clearInterval(this.autoScrollInterval);
+    }
 
-          this.stickers.set(
-            response.content
-          );
+    const carousel =
+      document.querySelector(
+        '.carousel'
+      ) as HTMLElement;
 
-          this.totalPages.set(
-            response.totalPages
-          );
-        },
+    if (!carousel) return;
 
-        error: (err) => {
+    this.autoScrollInterval =
+      setInterval(() => {
 
-          console.error(
-            'Error loading stickers',
-            err
-          );
-        },
-      });
+        if (this.isPaused) return;
+
+        carousel.scrollLeft += 1;
+
+        // infinite loop
+        if (
+          carousel.scrollLeft >=
+          carousel.scrollWidth -
+          carousel.clientWidth
+        ) {
+
+          carousel.scrollLeft = 0;
+        }
+
+      }, 18);
   }
 
-  // SEARCH
+  // ─────────────────────────────────────────
 
-  onSearch(
-    value: string
-  ): void {
+  stopAutoScroll(): void {
 
-    this.search.set(value);
+    if (this.autoScrollInterval) {
 
-    if (!value.trim()) {
+      clearInterval(this.autoScrollInterval);
+    }
+  }
 
-      this.loadStickers();
+  // ─────────────────────────────────────────
+
+  pauseCarousel(): void {
+
+    this.isPaused = true;
+  }
+
+  // ─────────────────────────────────────────
+
+  resumeCarousel(): void {
+
+    const query =
+      (this.searchControl.value ?? '')
+        .trim();
+
+    // do not resume if user searching
+    if (query.length > 0) {
 
       return;
     }
 
-    this.stickerService
-      .search(
-        value,
-        this.currentPage(),
-        this.pageSize
-      )
-      .subscribe({
-
-        next: (response) => {
-
-          this.stickers.set(
-            response.content
-          );
-
-          this.totalPages.set(
-            response.totalPages
-          );
-        },
-
-        error: (err) => {
-
-          console.error(
-            'Search error',
-            err
-          );
-        },
-      });
+    this.isPaused = false;
   }
 
-  // OPEN DETAILS MODAL
+  // ─────────────────────────────────────────
 
-  openSticker(
-    sticker: StickerDTO
-  ): void {
+  trackByNation(
+    index: number,
+    nation: string
+  ): string {
 
-    this.selectedStickerId.set(
-      sticker.id!
-    );
-
-    this.selectedSticker.set(
-      sticker
-    );
-  }
-
-  // ADD STICKER
-
-  addSticker(): void {
-
-    if (
-      this.addForm.invalid
-    ) return;
-
-    const value =
-      this.addForm.getRawValue();
-
-    this.stickerService
-      .create({
-
-        name:
-        value.name,
-
-        type:
-        value.type,
-
-        nationality:
-          value.nationality.toLowerCase() || '',
-
-        place:
-        value.place,
-      })
-      .subscribe({
-
-        next: () => {
-
-          this.loadStickers();
-
-          this.addForm.reset();
-
-          this.addForm.patchValue({
-
-            name: '',
-            type: '',
-            nationality: '',
-            number: null,
-            place: '',
-          });
-        },
-
-        error: (err) => {
-
-          console.error(
-            'Error creating sticker',
-            err
-          );
-        },
-      });
-  }
-
-  // DELETE STICKER
-
-  deleteSticker(): void {
-
-    const id =
-      this.selectedSticker()?.id;
-
-    if (!id) return;
-
-    this.stickerService
-      .delete(id)
-      .subscribe({
-
-        next: () => {
-
-          this.loadStickers();
-
-          this.selectedSticker.set(
-            null
-          );
-        },
-
-        error: (err) => {
-
-          console.error(
-            'Error deleting sticker',
-            err
-          );
-        },
-      });
-  }
-
-  // PAGINATION
-
-  nextPage(): void {
-
-    if (
-      this.currentPage() <
-      this.totalPages() - 1
-    ) {
-
-      this.currentPage.update(
-        v => v + 1
-      );
-
-      this.loadStickers();
-    }
-  }
-
-  previousPage(): void {
-
-    if (
-      this.currentPage() > 0
-    ) {
-
-      this.currentPage.update(
-        v => v - 1
-      );
-
-      this.loadStickers();
-    }
+    return nation;
   }
 }

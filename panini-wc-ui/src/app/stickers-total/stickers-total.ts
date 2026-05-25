@@ -1,91 +1,79 @@
 import {
   Component,
-  computed,
-  inject,
-  signal,
   OnInit,
+  inject,
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { StickerService, StickerStatsDTO } from '../services/sticker.service';
 
+import Keycloak from 'keycloak-js';
 
+import {
+  StatisticsResponse,
+  StickerService
+} from '../services/sticker.service';
 
 @Component({
   selector: 'app-stickers-total',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule
+  ],
   templateUrl: './stickers-total.html',
   styleUrl: './stickers-total.scss',
 })
-export class StickersTotal implements OnInit {
+export class StickersTotal
+  implements OnInit {
 
   private readonly stickerService =
     inject(StickerService);
 
-  // SIGNALS
+  private readonly keycloak =
+    inject(Keycloak);
 
-  totalStickers = signal(528);
+  stats: any = {
+    totalOwnedStickers: 0,
+    totalFinishedCountries: 0,
+    totalLogos: 0,
+    totalPlayers: 0
+  };
 
-  collected = signal(0);
+  // ─────────────────────────────────────────
 
-  logos = signal(0);
+  get email(): string {
 
-  introPictures = signal(0);
+    return (
+      this.keycloak
+        .tokenParsed?.[
+        'email'
+        ] as string
+    ) ?? '';
+  }
 
-  players = signal(0);
-
-  // PERCENTAGE
-
-  percentage = computed(() => {
-
-    if (this.totalStickers() === 0) {
-
-      return 0;
-    }
-
-    return Math.round(
-      (this.collected() / this.totalStickers()) * 100
-    );
-  });
-
-  // INIT
+  // ─────────────────────────────────────────
 
   ngOnInit(): void {
 
-    this.loadStats();
+    this.loadStatistics();
   }
 
-  // LOAD STATS
+  // ─────────────────────────────────────────
 
-  loadStats(): void {
+  private loadStatistics(): void {
 
     this.stickerService
-      .getStats()
+      .getStatistics(this.email)
       .subscribe({
 
-        next: (stats: StickerStatsDTO) => {
+        next: (response) => {
 
-          this.totalStickers.set(528);
-
-          // collected = all stickers for now
-
-          this.collected.set(stats.total);
-
-          this.logos.set(stats.logos);
-
-          this.introPictures.set(stats.intros);
-
-          this.players.set(stats.players);
+          this.stats = response;
         },
 
         error: (err) => {
 
-          console.error(
-            'Error loading stats',
-            err
-          );
-        },
+          console.error(err);
+        }
       });
   }
 }

@@ -1,474 +1,64 @@
-<div class="stickers-page">
+<div class="details-page">
+
+  <!-- BACKGROUND -->
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
 
   <!-- HERO -->
+  <div class="hero">
 
-  <section class="hero">
-
-    <div class="hero__badge">
-      ⚽ DIGITAL WORLD CUP COLLECTION
-    </div>
-
-    <h1 class="hero__title">
-      Stickers Manager
+    <h1 class="title">
+      Sticker Nations
     </h1>
 
-    <p class="hero__text">
-      Manage your collection with a modern dashboard.
+    <p class="subtitle">
+      Explore all national sticker collections
     </p>
 
-  </section>
-
-  <!-- TOOLBAR -->
-
-  <section class="toolbar">
-
-    <div class="search-box">
-
-      <span class="search-icon">
-        🔍
-      </span>
+    <!-- SEARCH -->
+    <div class="search-wrapper">
 
       <input
         type="text"
-        placeholder="Search stickers..."
-        [value]="search()"
-        (input)="onSearch($any($event.target).value)"
-      >
-
-    </div>
-
-    <button
-      class="add-btn"
-      data-bs-toggle="modal"
-      data-bs-target="#addModal"
-    >
-      ✦ Add Sticker
-    </button>
-
-  </section>
-
-  <!-- TABLE -->
-
-  <section class="table-wrapper">
-
-    <table class="stickers-table">
-
-      <thead>
-
-      <tr>
-
-        <th>ID</th>
-
-        <th>Name</th>
-
-        <th>Type</th>
-
-        <th>Nationality</th>
-
-        <th>Place</th>
-
-      </tr>
-
-      </thead>
-
-      <tbody>
-
-        @for (
-          sticker of stickers();
-          track sticker.id
-          ) {
-
-          <tr
-            data-bs-toggle="modal"
-            data-bs-target="#updateModal"
-            (click)="openSticker(sticker)"
-          >
-
-            <td>
-              #{{ sticker.id }}
-            </td>
-
-            <td>
-              ⚽ {{ sticker.name }}
-            </td>
-
-            <td>
-
-              <span class="type">
-                {{ sticker.type }}
-              </span>
-
-            </td>
-
-            <td>
-              {{ sticker.nationality || 'None' }}
-            </td>
-
-            <td>
-              {{ sticker.place }}
-            </td>
-
-          </tr>
-
-        }
-
-      </tbody>
-
-    </table>
-
-  </section>
-
-  <!-- PAGINATION -->
-
-  <section class="pagination-box">
-
-    <button
-      class="page-btn"
-      (click)="previousPage()"
-    >
-      ←
-    </button>
-
-    <div class="page-number">
-
-      {{ currentPage() + 1 }}
-
-    </div>
-
-    <button
-      class="page-btn"
-      (click)="nextPage()"
-    >
-      →
-    </button>
-
-  </section>
-
-</div>
-
-<!-- UPDATE MODAL -->
-
-<!-- DETAILS MODAL -->
-
-<div
-  class="modal fade"
-  id="updateModal"
-  tabindex="-1"
-  aria-hidden="true"
->
-
-  <div class="modal-dialog modal-dialog-centered">
-
-    <div class="modal-content modern-modal details-modal">
-
-      <div class="modal-header border-0">
-
-        <h1 class="modal-title fs-5">
-          Sticker Details
-        </h1>
-
-        <button
-          type="button"
-          class="btn-close btn-close-white"
-          data-bs-dismiss="modal"
-        ></button>
-
-      </div>
-
-      <div class="modal-body">
-
-        <!-- NAME -->
-
-        <div class="details-field">
-
-          <span class="details-label">
-            Name
-          </span>
-
-          <div class="details-value">
-            ⚽ {{ selectedSticker()?.name }}
-          </div>
-
-        </div>
-
-        <!-- TYPE -->
-
-        <div class="details-field">
-
-          <span class="details-label">
-            Type
-          </span>
-
-          <div class="details-value">
-
-            <span class="type">
-              {{ selectedSticker()?.type }}
-            </span>
-
-          </div>
-
-        </div>
-
-        <!-- NATIONALITY -->
-
-        <div class="details-field">
-
-          <span class="details-label">
-            Nationality
-          </span>
-
-          <div class="details-value">
-
-            {{
-              selectedSticker()?.nationality
-              || 'None'
-            }}
-
-          </div>
-
-        </div>
-
-        <!-- PLACE -->
-
-        <div class="details-field">
-
-          <span class="details-label">
-            Place
-          </span>
-
-          <div class="details-place">
-            {{ selectedSticker()?.place }}
-          </div>
-
-        </div>
-
-      </div>
-
-      <div class="modal-footer border-0">
-
-        <button
-          type="button"
-          class="delete-btn"
-          (click)="deleteSticker()"
-          data-bs-dismiss="modal"
-        >
-          Delete Sticker
-        </button>
-
-        <button
-          type="button"
-          class="save-btn"
-          data-bs-dismiss="modal"
-        >
-          Close
-        </button>
-
+        [formControl]="searchControl"
+        placeholder="Search country..."
+        class="search-input"
+      />
+
+      <div class="search-icon">
+        🔎
       </div>
 
     </div>
 
   </div>
 
-</div>
+  <!-- CAROUSEL -->
+  <div class="carousel-wrapper">
 
-<!-- ADD MODAL -->
+    <div class="carousel">
 
-<div
-  class="modal fade"
-  id="addModal"
-  tabindex="-1"
-  aria-hidden="true"
->
-
-  <div class="modal-dialog modal-dialog-centered">
-
-    <div class="modal-content modern-modal">
-
-      <div class="modal-header border-0">
-
-        <h1 class="modal-title fs-5">
-          Add Sticker
-        </h1>
-
-        <button
-          type="button"
-          class="btn-close btn-close-white"
-          data-bs-dismiss="modal"
-        ></button>
-
-      </div>
-
-      <form
-        [formGroup]="addForm"
-        (ngSubmit)="addSticker()"
+      <div
+        class="nation-card"
+        *ngFor="
+          let nation of filteredNations;
+          trackBy: trackByNation
+        "
+        (mouseenter)="pauseCarousel()"
+        (mouseleave)="resumeCarousel()"
       >
 
-        <div class="modal-body">
+        <div class="card-glow"></div>
 
-          <!-- NAME -->
-
-          <div class="field">
-
-            <label>Name</label>
-
-            <input
-              type="text"
-              formControlName="name"
-            >
-
-          </div>
-
-          <!-- TYPE -->
-
-          <div class="field">
-
-            <label>Type</label>
-
-            <select
-              formControlName="type"
-              (change)="updateAddPlace()"
-            >
-
-              <option value="">
-                Select type
-              </option>
-
-              <option value="player">
-                player
-              </option>
-
-              <option value="logo">
-                logo
-              </option>
-
-              <option value="intro">
-                intro
-              </option>
-
-            </select>
-
-          </div>
-
-          <!-- NATIONALITY -->
-
-          @if (
-            !isIntro(
-              addForm.value.type ?? ''
-            )
-            ) {
-
-            <div class="field">
-
-              <label>Nationality</label>
-
-              <select
-                formControlName="nationality"
-                (change)="updateAddPlace()"
-              >
-
-                <option value="">
-                  Select country
-                </option>
-
-                @for (
-                  country of countries;
-                  track country.code
-                  ) {
-
-                  <option
-                    [value]="country.name"
-                  >
-                    {{ country.name }}
-                  </option>
-
-                }
-
-              </select>
-
-            </div>
-
-          }
-
-          <!-- NUMBER -->
-
-          @if (
-            isPlayer(
-              addForm.value.type ?? ''
-            )
-            ) {
-
-            <div class="field">
-
-              <label>
-                Number (1-12)
-              </label>
-
-              <input
-                type="number"
-                min="1"
-                max="12"
-                formControlName="number"
-                (input)="updateAddPlace()"
-              >
-
-            </div>
-
-          }
-
-          <!-- INTRO NUMBER -->
-
-          @if (
-            isIntro(
-              addForm.value.type ?? ''
-            )
-            ) {
-
-            <div class="field">
-
-              <label>
-                Number (0-8)
-              </label>
-
-              <input
-                type="number"
-                min="0"
-                max="8"
-                formControlName="number"
-                (input)="updateAddPlace()"
-              >
-
-            </div>
-
-          }
-
-          <!-- PLACE -->
-
-          <div class="field">
-
-            <label>Place</label>
-
-            <input
-              type="text"
-              formControlName="place"
-              readonly
-            >
-
-          </div>
-
+        <div class="nation-icon">
+          ⚽
         </div>
 
-        <div class="modal-footer border-0">
-
-          <button
-            type="submit"
-            class="save-btn"
-          >
-            Add Sticker
-          </button>
-
+        <div class="nation-name">
+          {{ nation }}
         </div>
 
-      </form>
+      </div>
 
     </div>
 
