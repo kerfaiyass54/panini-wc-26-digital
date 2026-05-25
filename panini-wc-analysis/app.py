@@ -1,6 +1,5 @@
 from kafka import KafkaConsumer
 
-from stats.nationality_stats import process_nationality_stats
 from stats.nations_stats import process_nations_stats
 from stats.groups_stats import process_groups_stats
 from stats.continent_stats import process_continent_stats
