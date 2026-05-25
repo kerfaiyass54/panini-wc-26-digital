@@ -8,6 +8,7 @@ import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
 import java.util.Map;
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -16,8 +17,8 @@ public class KafkaNationConsumerService
 
     private final ObjectMapper objectMapper;
 
-    // STORE LAST RECEIVED DATA
-    private final Map<String, Integer> stickersStats =
+    // STORE DATA BY EMAIL
+    private final Map<String, Map<String, Integer>> stickersStats =
             new ConcurrentHashMap<>();
 
     public KafkaNationConsumerService(
@@ -37,18 +38,28 @@ public class KafkaNationConsumerService
 
         try {
 
-            Map<String, Integer> data =
+            Map<String, Object> payload =
                     objectMapper.readValue(
                             message,
+                            new TypeReference<Map<String, Object>>() {}
+                    );
+
+            String email =
+                    payload.get("email").toString();
+
+            Map<String, Integer> data =
+                    objectMapper.convertValue(
+                            payload.get("data"),
                             new TypeReference<Map<String, Integer>>() {}
                     );
 
-            stickersStats.clear();
-
-            stickersStats.putAll(data);
+            stickersStats.put(email, data);
 
             System.out.println(
-                    "NEW DATA RECEIVED: " + stickersStats
+                    "NEW DATA RECEIVED FOR "
+                            + email
+                            + ": "
+                            + data
             );
 
         } catch (Exception e) {
@@ -81,19 +92,25 @@ public class KafkaNationConsumerService
         );
     }
 
-    // RETURN ALL DATA
-    public Map<String, Integer> getAllStats() {
+    // RETURN ALL DATA FOR EMAIL
+    public Map<String, Integer> getAllStats(
+            String email
+    ) {
 
-        return stickersStats;
+        return stickersStats.getOrDefault(
+                email,
+                new HashMap<>()
+        );
     }
 
     // RETURN ONE COUNTRY
     public Integer getCountryCount(
+            String email,
             String country
     ) {
 
-        return stickersStats.get(
-                country.toLowerCase()
-        );
+        return stickersStats
+                .getOrDefault(email, new HashMap<>())
+                .get(country.toLowerCase());
     }
 }

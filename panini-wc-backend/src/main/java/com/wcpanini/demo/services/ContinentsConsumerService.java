@@ -16,8 +16,8 @@ public class ContinentsConsumerService
 
     private final ObjectMapper objectMapper;
 
-    // STORE LAST MESSAGE
-    private Map<String, Integer> continentsData =
+    // STORE DATA BY EMAIL
+    private Map<String, Map<String, Integer>> continentsData =
             new HashMap<>();
 
     public ContinentsConsumerService(
@@ -37,17 +37,28 @@ public class ContinentsConsumerService
 
         try {
 
-            Map<String, Integer> data =
+            Map<String, Object> payload =
                     objectMapper.readValue(
                             message,
+                            new TypeReference<Map<String, Object>>() {}
+                    );
+
+            String email =
+                    payload.get("email").toString();
+
+            Map<String, Integer> data =
+                    objectMapper.convertValue(
+                            payload.get("data"),
                             new TypeReference<Map<String, Integer>>() {}
                     );
 
-            continentsData = data;
+            continentsData.put(email, data);
 
             System.out.println(
-                    "Continents consumed: "
-                            + continentsData
+                    "Continents consumed for "
+                            + email
+                            + ": "
+                            + data
             );
 
         } catch (Exception e) {
@@ -81,19 +92,25 @@ public class ContinentsConsumerService
         );
     }
 
-    // GET ALL
-    public Map<String, Integer> getContinentsData() {
+    // GET ALL DATA FOR EMAIL
+    public Map<String, Integer> getContinentsData(
+            String email
+    ) {
 
-        return continentsData;
+        return continentsData.getOrDefault(
+                email,
+                new HashMap<>()
+        );
     }
 
-    // GET SINGLE CONTINENT
+    // GET SINGLE CONTINENT FOR EMAIL
     public Integer getContinentCount(
+            String email,
             String continent
     ) {
 
-        return continentsData.get(
-                continent.toUpperCase()
-        );
+        return continentsData
+                .getOrDefault(email, new HashMap<>())
+                .get(continent.toUpperCase());
     }
 }

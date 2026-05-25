@@ -18,7 +18,8 @@ public class GroupsConsumerService
     private final ObjectMapper objectMapper =
             new ObjectMapper();
 
-    private Map<String, Integer> groups =
+    // STORE BY EMAIL
+    private Map<String, Map<String, Integer>> groups =
             new HashMap<>();
 
     @KafkaListener(
@@ -31,17 +32,26 @@ public class GroupsConsumerService
 
         try {
 
-            Map<String, Integer> data =
+            Map<String, Object> payload =
                     objectMapper.readValue(
                             message,
                             new TypeReference<>() {}
+                    );
+
+            String email =
+                    payload.get("email").toString();
+
+            Map<String, Integer> data =
+                    objectMapper.convertValue(
+                            payload.get("data"),
+                            new TypeReference<Map<String, Integer>>() {}
                     );
 
             System.out.println(
                     "GROUPS : " + data
             );
 
-            groups = data;
+            groups.put(email, data);
 
         } catch (Exception e) {
 
@@ -70,15 +80,24 @@ public class GroupsConsumerService
     }
 
     // RAW
-    public Map<String, Integer> getRaw() {
+    public Map<String, Integer> getRaw(
+            String email
+    ) {
 
-        return groups;
+        return groups.getOrDefault(
+                email,
+                new HashMap<>()
+        );
     }
 
     // CLEAN
-    public List<StatsDTO> getGroups() {
+    public List<StatsDTO> getGroups(
+            String email
+    ) {
 
-        return groups.entrySet()
+        return groups
+                .getOrDefault(email, new HashMap<>())
+                .entrySet()
                 .stream()
                 .map(entry ->
                         new StatsDTO(

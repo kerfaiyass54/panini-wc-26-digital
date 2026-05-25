@@ -26,11 +26,13 @@ public class ContinentsController {
 
     @GetMapping
     public ResponseEntity<Map<String, Integer>>
-    getAllContinents() {
+    getAllContinents(
+            @RequestParam String email
+    ) {
 
         return ResponseEntity.ok(
                 continentsConsumerService
-                        .getContinentsData()
+                        .getContinentsData(email)
         );
     }
 
@@ -39,12 +41,16 @@ public class ContinentsController {
     @GetMapping("/{continent}")
     public ResponseEntity<Integer>
     getContinentCount(
+
+            @RequestParam String email,
+
             @PathVariable String continent
     ) {
 
         Integer count =
                 continentsConsumerService
                         .getContinentCount(
+                                email,
                                 continent
                         );
 

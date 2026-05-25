@@ -7,6 +7,7 @@ import com.wcpanini.demo.repositories.DuplicateRepository;
 import com.wcpanini.demo.repositories.OwningRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,13 +19,16 @@ public class StickerService {
 
     private final OwningRepository owningRepository;
     private final DuplicateRepository duplicateRepository;
+    private final KafkaTemplate kafkaTemplate;
 
     public StickerService(
             OwningRepository owningRepository,
-            DuplicateRepository duplicateRepository
+            DuplicateRepository duplicateRepository,
+            KafkaTemplate kafkaTemplate
     ) {
         this.owningRepository = owningRepository;
         this.duplicateRepository = duplicateRepository;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     // add new sticker to owning
@@ -35,6 +39,10 @@ public class StickerService {
         }
 
         Owning owning = new Owning(email, code);
+        kafkaTemplate.send(
+                "stickers-refresh-topic",
+                "refresh for: " + email
+        );
 
         return owningRepository.save(owning);
     }

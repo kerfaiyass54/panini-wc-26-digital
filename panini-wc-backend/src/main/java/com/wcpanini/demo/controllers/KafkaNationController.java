@@ -22,19 +22,25 @@ public class KafkaNationController {
     // GET ALL COUNTRIES
 
     @GetMapping
-    public Map<String, Integer> getAll() {
+    public Map<String, Integer> getAll(
+            @RequestParam String email
+    ) {
 
-        return service.getAllStats();
+        return service.getAllStats(email);
     }
 
     // GET ONE COUNTRY
 
     @GetMapping("/{country}")
     public Integer getCountry(
+
+            @RequestParam String email,
+
             @PathVariable String country
     ) {
 
         return service.getCountryCount(
+                email,
                 country
         );
     }

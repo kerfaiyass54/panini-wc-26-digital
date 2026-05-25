@@ -18,16 +18,20 @@ public class GroupsController {
     // CLEAN RESPONSE
 
     @GetMapping
-    public List<StatsDTO> getGroups() {
+    public List<StatsDTO> getGroups(
+            @RequestParam String email
+    ) {
 
-        return service.getGroups();
+        return service.getGroups(email);
     }
 
     // RAW RESPONSE
 
     @GetMapping("/raw")
-    public Map<String, Integer> raw() {
+    public Map<String, Integer> raw(
+            @RequestParam String email
+    ) {
 
-        return service.getRaw();
+        return service.getRaw(email);
     }
 }
