@@ -5,6 +5,7 @@ import com.wcpanini.demo.entities.Owning;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
@@ -15,4 +16,34 @@ public interface OwningRepository extends JpaRepository<Owning, Long> {
     Optional<Owning> findByEmailAndCode(String email, String code);
 
     Page<Owning> findAllByEmail(String email, Pageable pageable);
+
+    long countByEmail(String email);
+
+    @Query("""
+        SELECT COUNT(DISTINCT s.nationality)
+        FROM Owning o
+        JOIN Sticker s ON s.place = o.code
+        WHERE o.email = :email
+        GROUP BY s.nationality
+        HAVING COUNT(s.id) >= 12
+    """)
+    long countFinishedCountries(String email);
+
+    @Query("""
+        SELECT COUNT(o.id)
+        FROM Owning o
+        JOIN Sticker s ON s.place = o.code
+        WHERE o.email = :email
+        AND LOWER(s.type) = 'logo'
+    """)
+    long countOwnedLogos(String email);
+
+    @Query("""
+        SELECT COUNT(o.id)
+        FROM Owning o
+        JOIN Sticker s ON s.place = o.code
+        WHERE o.email = :email
+        AND LOWER(s.type) = 'player'
+    """)
+    long countOwnedPlayers(String email);
 }
