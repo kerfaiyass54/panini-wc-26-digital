@@ -5,6 +5,7 @@ import com.wcpanini.demo.repositories.OwningRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,9 +30,9 @@ public class StatisticsService {
                 ).orElse(0L);
 
         long totalFinishedCountries =
-                Optional.ofNullable(
-                        owningRepository.countFinishedCountries(email)
-                ).orElse(0L);
+                Optional.of(
+                        owningRepository.finishedCountries(email).size()
+                ).orElse(0);
 
         long totalLogos =
                 Optional.ofNullable(
@@ -49,5 +50,9 @@ public class StatisticsService {
                 totalLogos,
                 totalPlayers
         );
+    }
+
+    public List<String> getFinishedCoutnries(String email){
+        return owningRepository.finishedCountries(email);
     }
 }

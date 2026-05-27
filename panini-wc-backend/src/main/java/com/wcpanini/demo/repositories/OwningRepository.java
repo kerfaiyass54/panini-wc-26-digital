@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface OwningRepository extends JpaRepository<Owning, Long> {
@@ -20,14 +21,14 @@ public interface OwningRepository extends JpaRepository<Owning, Long> {
     Long countByEmail(String email);
 
     @Query("""
-        SELECT COUNT(DISTINCT s.nationality)
-        FROM Owning o
-        JOIN Sticker s ON s.place = o.code
-        WHERE o.email = :email
-        GROUP BY s.nationality
-        HAVING COUNT(s.id) >= 12
-    """)
-    Long countFinishedCountries(String email);
+    SELECT s.nationality
+    FROM Owning o
+    JOIN Sticker s ON s.place = o.code
+    WHERE o.email = :email
+    GROUP BY s.nationality
+    HAVING COUNT(DISTINCT s.id) = 12
+""")
+    List<String> finishedCountries(String email);
 
     @Query("""
         SELECT COUNT(o.id)
