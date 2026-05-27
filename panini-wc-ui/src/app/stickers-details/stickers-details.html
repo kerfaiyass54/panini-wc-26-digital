@@ -227,7 +227,7 @@
 
           @for (
             row of filteredDuplicates;
-            track row.id
+            track $index
             ) {
 
             <tr>
@@ -237,11 +237,11 @@
               </td>
 
               <td>
-                {{ row.place }}
+                {{ row.code }}
               </td>
 
               <td>
-                {{ row.count }}
+                {{ row.number }}
               </td>
 
             </tr>

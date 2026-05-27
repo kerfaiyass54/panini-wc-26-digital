@@ -92,9 +92,9 @@ export class StickersDetails
 
   filteredOwned: Owning[] = [];
 
-  duplicateRows: Duplicate[] = [];
+  duplicateRows: any[] = [];
 
-  filteredDuplicates: Duplicate[] = [];
+  filteredDuplicates: any[] = [];
 
   // ─────────────────────────────────────────
   // PAGINATION

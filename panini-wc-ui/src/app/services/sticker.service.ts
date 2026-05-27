@@ -108,6 +108,15 @@ export class StickerService {
     );
   }
 
+  getFinished(
+    email: string
+  ): Observable<any> {
+
+    return this.http.get<any>(
+      `${this.API}/statistics/finished/${email}`
+    );
+  }
+
   // ─────────────────────────────────────────
 // COUNT STICKERS BY NATIONALITY
 // ─────────────────────────────────────────
