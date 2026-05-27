@@ -1,7 +1,10 @@
+// stickers-total.ts
+
 import {
   Component,
   OnInit,
-  inject, ChangeDetectorRef
+  inject,
+  ChangeDetectorRef
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
@@ -41,6 +44,8 @@ export class StickersTotal
     totalPlayers: 0
   };
 
+  finishedNations: any[] = [];
+
   // ─────────────────────────────────────────
 
   get email(): string {
@@ -64,6 +69,27 @@ export class StickersTotal
         next: (response) => {
 
           this.stats = response;
+          this.cdr.detectChanges();
+
+        },
+
+        error: (err) => {
+
+          console.error(err);
+        }
+      });
+
+    // ───────────────────────────────────────
+    // FINISHED NATIONS
+    // ───────────────────────────────────────
+
+    this.stickerService
+      .getFinished(this.email)
+      .subscribe({
+
+        next: (response) => {
+
+          this.finishedNations = response;
           this.cdr.detectChanges();
 
         },

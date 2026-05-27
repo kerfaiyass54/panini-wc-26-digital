@@ -8,7 +8,6 @@
 
   padding: 40px;
 
-
   font-family:
     'Inter',
     sans-serif;
@@ -120,10 +119,26 @@
 }
 
 // ─────────────────────────────────────────────
-// GRID
+// SECTION 1
 // ─────────────────────────────────────────────
 
-.stats-grid {
+.stats-section {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 30px;
+}
+
+.top-row {
+
+  display: flex;
+
+  justify-content: center;
+}
+
+.bottom-row {
 
   display: grid;
 
@@ -134,6 +149,13 @@
     );
 
   gap: 30px;
+}
+
+.featured-card {
+
+  width: 100%;
+
+  max-width: 520px;
 }
 
 // ─────────────────────────────────────────────
@@ -299,6 +321,132 @@
 }
 
 // ─────────────────────────────────────────────
+// FINISHED NATIONS SECTION
+// ─────────────────────────────────────────────
+
+.finished-section {
+
+  margin-top: 140px;
+
+  animation:
+    fadeUp 1s ease;
+}
+
+.section-title {
+
+  font-size: 2.4rem;
+
+  font-weight: 800;
+
+  margin-bottom: 40px;
+
+  color: white;
+
+  text-align: center;
+}
+
+.nations-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+        minmax(240px, 1fr)
+    );
+
+  gap: 28px;
+}
+
+.nation-card {
+
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 28px;
+
+  min-height: 180px;
+
+  background:
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,0.08),
+        rgba(255,255,255,0.03)
+    );
+
+  border:
+    1px solid rgba(255,255,255,0.08);
+
+  backdrop-filter: blur(18px);
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 18px;
+
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.nation-card:hover {
+
+  transform:
+    translateY(-10px);
+
+  box-shadow:
+    0 20px 45px rgba(0,0,0,0.4);
+}
+
+.nation-glow {
+
+  position: absolute;
+
+  width: 180px;
+
+  height: 180px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+        circle,
+        rgba(147,51,234,0.28),
+        transparent 70%
+    );
+
+  top: -60px;
+
+  right: -60px;
+}
+
+.nation-flag {
+
+  font-size: 3rem;
+
+  z-index: 2;
+}
+
+.nation-name {
+
+  font-size: 1.2rem;
+
+  font-weight: 700;
+
+  color: white;
+
+  z-index: 2;
+
+  text-align: center;
+}
+
+// ─────────────────────────────────────────────
 // ANIMATIONS
 // ─────────────────────────────────────────────
 
@@ -394,5 +542,10 @@
   .stat-value {
 
     font-size: 2.5rem;
+  }
+
+  .section-title {
+
+    font-size: 2rem;
   }
 }

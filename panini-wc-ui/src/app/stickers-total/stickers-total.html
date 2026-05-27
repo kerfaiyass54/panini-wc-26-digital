@@ -1,3 +1,5 @@
+<!-- stickers-total.html -->
+
 <div class="stats-page">
 
   <!-- BACKGROUND -->
@@ -17,77 +19,126 @@
 
   </section>
 
-  <!-- STATS GRID -->
-  <section class="stats-grid">
+  <!-- ===================================== -->
+  <!-- SECTION 1 -->
+  <!-- ===================================== -->
 
-    <div class="stat-card">
+  <section class="stats-section">
 
-      <div class="card-glow"></div>
+    <!-- ROW 1 -->
+    <div class="top-row">
 
-      <div class="stat-icon">
-        📦
-      </div>
+      <div class="stat-card featured-card">
 
-      <div class="stat-value">
-        {{ stats.totalOwnedStickers }}
-      </div>
+        <div class="card-glow"></div>
 
-      <div class="stat-label">
-        Total Stickers
-      </div>
+        <div class="stat-icon">
+          📦
+        </div>
 
-    </div>
+        <div class="stat-value">
+          {{ stats.totalOwnedStickers }}
+        </div>
 
-    <div class="stat-card">
+        <div class="stat-label">
+          Total Stickers
+        </div>
 
-      <div class="card-glow"></div>
-
-      <div class="stat-icon">
-        🌍
-      </div>
-
-      <div class="stat-value">
-        {{ stats.totalFinishedCountries }}
-      </div>
-
-      <div class="stat-label">
-        Finished Nations
       </div>
 
     </div>
 
-    <div class="stat-card">
+    <!-- ROW 2 -->
+    <div class="bottom-row">
 
-      <div class="card-glow"></div>
+      <div class="stat-card">
 
-      <div class="stat-icon">
-        🛡️
+        <div class="card-glow"></div>
+
+        <div class="stat-icon">
+          🌍
+        </div>
+
+        <div class="stat-value">
+          {{ stats.totalFinishedCountries }}
+        </div>
+
+        <div class="stat-label">
+          Finished Nations
+        </div>
+
       </div>
 
-      <div class="stat-value">
-        {{ stats.totalLogos }}
+      <div class="stat-card">
+
+        <div class="card-glow"></div>
+
+        <div class="stat-icon">
+          🛡️
+        </div>
+
+        <div class="stat-value">
+          {{ stats.totalLogos }}
+        </div>
+
+        <div class="stat-label">
+          Logos Collected
+        </div>
+
       </div>
 
-      <div class="stat-label">
-        Logos Collected
+      <div class="stat-card">
+
+        <div class="card-glow"></div>
+
+        <div class="stat-icon">
+          ⚽
+        </div>
+
+        <div class="stat-value">
+          {{ stats.totalPlayers }}
+        </div>
+
+        <div class="stat-label">
+          Players Collected
+        </div>
+
       </div>
 
     </div>
 
-    <div class="stat-card">
+  </section>
 
-      <div class="card-glow"></div>
+  <!-- ===================================== -->
+  <!-- SECTION 2 -->
+  <!-- ===================================== -->
 
-      <div class="stat-icon">
-        ⚽
-      </div>
+  <section
+    class="finished-section"
+    *ngIf="finishedNations.length > 0"
+  >
 
-      <div class="stat-value">
-        {{ stats.totalPlayers }}
-      </div>
+    <div class="section-title">
+      Finished Nations
+    </div>
 
-      <div class="stat-label">
-        Players Collected
+    <div class="nations-grid">
+
+      <div
+        class="nation-card"
+        *ngFor="let nation of finishedNations"
+      >
+
+        <div class="nation-glow"></div>
+
+        <div class="nation-flag">
+          🌍
+        </div>
+
+        <div class="nation-name">
+          {{ nation }}
+        </div>
+
       </div>
 
     </div>
