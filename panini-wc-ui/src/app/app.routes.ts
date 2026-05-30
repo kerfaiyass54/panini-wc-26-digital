@@ -32,6 +32,10 @@ export const routes: Routes = [
         path: 'account-details',
         loadComponent: () =>
           import('./account-details/account-details').then(m => m.AccountDetails),
+      },{
+        path: 'user-details/:email',
+        loadComponent: () =>
+          import('./user-details/user-details').then(m => m.UserDetails),
       },
       {
         path: '**',

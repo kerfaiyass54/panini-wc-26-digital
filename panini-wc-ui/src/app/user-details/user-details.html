@@ -1,0 +1,205 @@
+<div class="user-page">
+
+  <div class="hero-card">
+
+    <div class="hero-avatar">
+      {{ email.charAt(0).toUpperCase() }}
+    </div>
+
+    <div class="hero-content">
+
+      <span class="hero-label">
+        COLLECTOR PROFILE
+      </span>
+
+      <h1>
+        {{ email }}
+      </h1>
+
+      <p>
+        View this collector's sticker statistics and duplicates.
+      </p>
+
+    </div>
+
+  </div>
+
+  @if(!loading){
+
+    <!-- STATS -->
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          📖
+        </div>
+
+        <div>
+
+          <div class="stat-value">
+            {{ statistics?.totalOwnedStickers }}
+          </div>
+
+          <div class="stat-title">
+            Owned Stickers
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          ⚽
+        </div>
+
+        <div>
+
+          <div class="stat-value">
+            {{ statistics?.totalPlayers }}
+          </div>
+
+          <div class="stat-title">
+            Players
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          🛡️
+        </div>
+
+        <div>
+
+          <div class="stat-value">
+            {{ statistics?.totalLogos }}
+          </div>
+
+          <div class="stat-title">
+            Logos
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          🌍
+        </div>
+
+        <div>
+
+          <div class="stat-value">
+            {{ statistics?.totalFinishedCountries }}
+          </div>
+
+          <div class="stat-title">
+            Finished Countries
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- DUPLICATES -->
+
+    <div class="section-card">
+
+      <div class="section-header">
+
+        <h2>
+          📦 Duplicate Stickers
+        </h2>
+
+
+      </div>
+
+      @if(duplicates.length > 0){
+
+        <div class="duplicates-grid">
+
+          @for(
+            duplicate of duplicates;
+            track duplicate.id
+            ){
+
+            <div class="duplicate-card">
+
+              <div class="duplicate-top">
+
+                <div class="duplicate-code">
+
+                  {{ duplicate.code }}
+
+                </div>
+
+                <div class="duplicate-count">
+
+                  x{{ duplicate.number }}
+
+                </div>
+
+              </div>
+
+              <div class="duplicate-bottom">
+
+                Added:
+
+                {{ duplicate.createdAt | date:'mediumDate' }}
+
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+      } @else {
+
+        <div class="empty-state">
+
+          <div class="empty-icon">
+            📭
+          </div>
+
+          <h3>
+            No Duplicates
+          </h3>
+
+          <p>
+            This collector currently has no duplicate stickers.
+          </p>
+
+        </div>
+
+      }
+
+    </div>
+
+  } @else {
+
+    <div class="loading-container">
+
+      <div class="loader"></div>
+
+      <span>
+        Loading collector profile...
+      </span>
+
+    </div>
+
+  }
+
+</div>

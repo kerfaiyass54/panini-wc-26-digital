@@ -106,7 +106,7 @@
 
       @for(user of relations; track user){
 
-        <div class="user-card">
+        <div class="user-card" [routerLink]="'/user-details/' + user">
 
           <div class="circle">
             {{ user.charAt(0).toUpperCase() }}

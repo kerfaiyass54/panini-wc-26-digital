@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import Keycloak from 'keycloak-js';
 
 import { UserRelations } from '../services/user-relations';
+import { RouterLink } from '@angular/router';
 
 interface Invitation {
   id: number;
@@ -22,7 +23,7 @@ interface Invitation {
 @Component({
   selector: 'app-account-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './account-details.html',
   styleUrl: './account-details.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

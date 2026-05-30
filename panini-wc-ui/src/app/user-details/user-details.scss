@@ -1,0 +1,251 @@
+.user-page {
+  max-width: 1500px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 35px auto;
+}
+
+.hero-card {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+
+  padding: 35px;
+
+  border-radius: 30px;
+
+  background:
+    linear-gradient(
+        135deg,
+        rgba(0,229,255,.08),
+        rgba(108,99,255,.08)
+    );
+
+  border:
+    1px solid rgba(0,229,255,.2);
+
+  animation:
+    fadeUp .8s ease;
+}
+
+.hero-avatar {
+  width: 110px;
+  height: 110px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+
+  font-size: 2.5rem;
+  font-weight: 700;
+
+  background:
+    linear-gradient(
+        135deg,
+        #00e5ff,
+        #6c63ff
+    );
+
+  box-shadow:
+    0 0 40px rgba(0,229,255,.4);
+}
+
+.hero-label {
+  color: #00e5ff;
+  letter-spacing: 2px;
+}
+
+.hero-card h1 {
+  color: white;
+  margin: 8px 0;
+}
+
+.hero-card p {
+  color: rgba(255,255,255,.7);
+}
+
+.stats-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+
+  gap: 20px;
+}
+
+.stat-card {
+  padding: 25px;
+
+  border-radius: 24px;
+
+  background:
+    rgba(5,35,80,.85);
+
+  transition: .3s;
+}
+
+.stat-card:hover {
+  transform:
+    translateY(-8px);
+}
+
+.stat-value {
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.stat-title {
+  color: rgba(255,255,255,.7);
+}
+
+.completion {
+  border:
+    1px solid rgba(0,229,255,.25);
+}
+
+.section-card {
+  padding: 28px;
+
+  border-radius: 24px;
+
+  background:
+    rgba(5,35,80,.85);
+}
+
+.section-card h2 {
+  color: white;
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  height: 18px;
+
+  border-radius: 999px;
+
+  overflow: hidden;
+
+  background:
+    rgba(255,255,255,.08);
+}
+
+.progress-fill {
+  height: 100%;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+        90deg,
+        #00e5ff,
+        #6c63ff
+    );
+}
+
+.progress-text {
+  display: block;
+
+  margin-top: 12px;
+
+  color: white;
+}
+
+.duplicates-grid,
+.finished-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fill,minmax(180px,1fr));
+
+  gap: 16px;
+
+  color: white;
+  max-height: 300px;
+  overflow: auto;
+}
+
+.duplicate-card,
+.team-card {
+  padding: 20px;
+
+  border-radius: 18px;
+
+  background:
+    rgba(255,255,255,.05);
+
+  text-align: center;
+
+  transition: .3s;
+}
+
+.duplicate-card:hover,
+.team-card:hover {
+  transform:
+    translateY(-6px);
+}
+
+.place {
+  color: white;
+  font-weight: 700;
+}
+
+.count {
+  margin-top: 8px;
+
+  color: #00e5ff;
+
+  font-size: 1.2rem;
+}
+
+.empty-state {
+  color: rgba(255,255,255,.65);
+  text-align: center;
+  padding: 30px;
+}
+
+.loader {
+  color: white;
+  text-align: center;
+  padding: 80px;
+}
+
+.discover-section {
+
+  opacity: 0;
+
+  transform:
+    translateY(120px)
+    scale(.95);
+
+  transition:
+    opacity .9s ease,
+    transform .9s ease;
+}
+
+.discover-section.visible {
+
+  opacity: 1;
+
+  transform:
+    translateY(0)
+    scale(1);
+}
+
+@keyframes fadeUp {
+
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
