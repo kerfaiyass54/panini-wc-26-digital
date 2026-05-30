@@ -1,1 +1,288 @@
-<p>account-details works!</p>
+<div class="account-page">
+
+  <!-- HERO -->
+
+  <section class="hero-card">
+
+    <div class="hero-avatar">
+      {{ email.charAt(0).toUpperCase() }}
+    </div>
+
+    <div class="hero-content">
+
+      <span class="hero-tag">
+        PANINI NETWORK
+      </span>
+
+      <h1>
+        Account Center
+      </h1>
+
+      <p>
+        {{ email }}
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- STATS -->
+
+  <section class="stats-grid">
+
+    <article class="stat-card">
+
+      <span class="emoji">🤝</span>
+
+      <div>
+
+        <h2>{{ relations.length }}</h2>
+
+        <span>Connections</span>
+
+      </div>
+
+    </article>
+
+    <article class="stat-card">
+
+      <span class="emoji">📥</span>
+
+      <div>
+
+        <h2>{{ receivedInvitations.length }}</h2>
+
+        <span>Received</span>
+
+      </div>
+
+    </article>
+
+    <article class="stat-card">
+
+      <span class="emoji">📤</span>
+
+      <div>
+
+        <h2>{{ sentInvitations.length }}</h2>
+
+        <span>Sent</span>
+
+      </div>
+
+    </article>
+
+    <article class="stat-card">
+
+      <span class="emoji">🌎</span>
+
+      <div>
+
+        <h2>{{ availableUsers.length }}</h2>
+
+        <span>Available Users</span>
+
+      </div>
+
+    </article>
+
+  </section>
+
+  <!-- CONNECTIONS -->
+
+  <section class="glass-card">
+
+    <div class="section-title">
+
+      <h2>Connected Users</h2>
+
+      <span>
+        {{ relations.length }} users
+      </span>
+
+    </div>
+
+    <div class="user-grid">
+
+      @for(user of relations; track user){
+
+        <div class="user-card">
+
+          <div class="circle">
+            {{ user.charAt(0).toUpperCase() }}
+          </div>
+
+          <div class="user-details">
+
+            <div class="user-email">
+              {{ user }}
+            </div>
+
+            <div class="badge success">
+              Connected
+            </div>
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  </section>
+
+  <!-- RECEIVED -->
+
+  <section class="glass-card">
+
+    <div class="section-title">
+
+      <h2>Received Invitations</h2>
+
+      <span>
+        {{ receivedInvitations.length }}
+      </span>
+
+    </div>
+
+    @for(invitation of receivedInvitations; track invitation.id){
+
+      <div class="invite-row">
+
+        <div class="circle">
+          {{ invitation.sender.charAt(0).toUpperCase() }}
+        </div>
+
+        <div class="invite-info">
+
+          <div class="user-email">
+            {{ invitation.sender }}
+          </div>
+
+        </div>
+
+        <button
+          class="accept"
+          (click)="acceptInvitation(invitation)">
+
+          Accept
+
+        </button>
+
+        <button
+          class="refuse"
+          (click)="refuseInvitation(invitation)">
+
+          Refuse
+
+        </button>
+
+      </div>
+
+    }
+
+  </section>
+
+  <!-- SENT -->
+
+  <section class="glass-card">
+
+    <div class="section-title">
+
+      <h2>Pending Invitations</h2>
+
+      <span>
+        {{ sentInvitations.length }}
+      </span>
+
+    </div>
+
+    @for(invitation of sentInvitations; track invitation.id){
+
+      <div class="invite-row">
+
+        <div class="circle">
+          {{ invitation.receiver.charAt(0).toUpperCase() }}
+        </div>
+
+        <div class="invite-info">
+
+          <div class="user-email">
+            {{ invitation.receiver }}
+          </div>
+
+          <div class="badge pending">
+            Pending
+          </div>
+
+        </div>
+
+      </div>
+
+    }
+
+  </section>
+
+  <!-- DISCOVER -->
+
+  <section class="glass-card">
+
+    <div class="section-title">
+
+      <h2>People You May Know</h2>
+
+      <span>
+        Connect with collectors
+      </span>
+
+    </div>
+
+    <div class="discover-grid">
+
+      @for(user of availableUsers; track user){
+
+        <div class="discover-card">
+
+          <div class="circle large">
+            {{ user.charAt(0).toUpperCase() }}
+          </div>
+
+          <div class="discover-content">
+
+            <div class="user-email">
+              {{ user }}
+            </div>
+
+            <div class="discover-text">
+              Available for connection
+            </div>
+
+          </div>
+
+          <button
+            class="connect-btn"
+            [disabled]="sendingTo === user"
+            (click)="sendInvitation(user)">
+
+            @if(sendingTo === user){
+
+              Sending...
+
+            } @else {
+
+              Connect
+
+            }
+
+          </button>
+
+        </div>
+
+      }
+
+    </div>
+
+  </section>
+
+</div>
