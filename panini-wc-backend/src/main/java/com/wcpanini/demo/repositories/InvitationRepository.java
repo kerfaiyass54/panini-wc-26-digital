@@ -18,4 +18,14 @@ public interface InvitationRepository
     List<Invitation> findByReceiver(String receiver);
 
     List<Invitation> findByStatus(Status status);
+
+    List<Invitation> findByReceiverAndStatus(
+            String receiver,
+            Status status
+    );
+
+    List<Invitation> findBySenderAndStatus(
+            String sender,
+            Status status
+    );
 }
