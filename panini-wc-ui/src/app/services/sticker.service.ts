@@ -251,8 +251,11 @@ export class StickerService {
     );
   }
 
-  // ─────────────────────────────────────────
-// COUNT OWNED STICKERS BY NATIONALITY
-// ─────────────────────────────────────────
+  addDate(item: any): Observable<any> {
+
+    return this.http.post<any>(
+      `${this.API}/items`, item
+    );
+  }
 
 }

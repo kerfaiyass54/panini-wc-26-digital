@@ -116,6 +116,39 @@ export class NationStickers
       });
   }
 
+  // nation-stickers.ts
+
+  sendAddedObjectWithDate(
+    place: string,
+    name: string
+  ): void {
+
+    const item = {
+
+      code: place,
+
+      name: name,
+
+      createdAt:
+        new Date().toISOString()
+    };
+
+    this.stickerService
+      .addDate(item)
+      .subscribe({
+
+        next: (response1) => {
+
+          console.log(response1);
+        },
+
+        error: (err) => {
+
+          console.error(err);
+        }
+      });
+  }
+
   // ─────────────────────────────────────────
   // CHECK OWNED
   // ─────────────────────────────────────────
@@ -205,6 +238,11 @@ export class NationStickers
 
         next: () => {
 
+          const result = this.stickers.find(
+            x => x.place === place
+          );
+          this.sendAddedObjectWithDate(place,result.name);
+
           this.ownedStickers
             .add(place);
 
@@ -257,6 +295,11 @@ export class NationStickers
 
           this.processing
             .delete(place);
+          const result = this.stickers.find(
+            x => x.place === place
+          );
+          this.sendAddedObjectWithDate(place,result.name);
+
 
           this.cdr.detectChanges();
         },

@@ -28,6 +28,10 @@ export const routes: Routes = [
         path: 'nation-stickers/:nationality',
         loadComponent: () =>
           import('./nation-stickers/nation-stickers').then(m => m.NationStickers),
+      },{
+        path: 'account-details',
+        loadComponent: () =>
+          import('./account-details/account-details').then(m => m.AccountDetails),
       },
       {
         path: '**',

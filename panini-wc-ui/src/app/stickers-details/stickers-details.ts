@@ -22,7 +22,6 @@ import Keycloak from 'keycloak-js';
 
 import {
   StickerService,
-  Owning,
   Duplicate,
   PageResponse,
 } from '../services/sticker.service';
@@ -88,9 +87,9 @@ export class StickersDetails
   // TABLE DATA
   // ─────────────────────────────────────────
 
-  ownedRows: Owning[] = [];
+  ownedRows: any[] = [];
 
-  filteredOwned: Owning[] = [];
+  filteredOwned: any[] = [];
 
   duplicateRows: any[] = [];
 
@@ -327,7 +326,7 @@ export class StickersDetails
 
         next: (
           response:
-          PageResponse<Owning>
+          PageResponse<any>
         ) => {
 
           this.ownedRows =

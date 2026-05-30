@@ -125,9 +125,9 @@
         <thead>
 
         <tr>
-          <th>ID</th>
+          <th>Name</th>
           <th>Sticker</th>
-          <th>Email</th>
+          <th>Nationality</th>
         </tr>
 
         </thead>
@@ -136,21 +136,21 @@
 
           @for (
             row of filteredOwned;
-            track row.id
+            track row.place
             ) {
 
             <tr>
 
               <td>
-                #{{ row.id }}
+                #{{ row.name }}
               </td>
 
               <td>
-                {{ row.code }}
+                {{ row.place }}
               </td>
 
               <td>
-                {{ row.email }}
+                {{ row.naitonality }}
               </td>
 
             </tr>
