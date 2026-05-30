@@ -39,3 +39,17 @@ CREATE TABLE duplicates (
                             CONSTRAINT unique_email_code_number UNIQUE (email, code, number)
 );
 
+CREATE TABLE invitations (
+                             id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                             sender VARCHAR(255) NOT NULL,
+                             receiver VARCHAR(255) NOT NULL,
+                             status VARCHAR(20) NOT NULL,
+                             CONSTRAINT uk_invitation UNIQUE(sender, receiver)
+);
+
+CREATE TABLE relations (
+                           id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                           user_one VARCHAR(255) NOT NULL,
+                           user_two VARCHAR(255) NOT NULL,
+                           CONSTRAINT uk_relation UNIQUE(user_one, user_two)
+);

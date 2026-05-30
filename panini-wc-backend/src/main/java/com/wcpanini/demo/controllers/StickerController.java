@@ -4,6 +4,7 @@ package com.wcpanini.demo.controllers;
 import com.wcpanini.demo.dtos.AddStickerRequest;
 import com.wcpanini.demo.dtos.CheckStickerRequest;
 import com.wcpanini.demo.dtos.DuplicateRequest;
+import com.wcpanini.demo.dtos.StickerSimpleResponse;
 import com.wcpanini.demo.entities.Duplicate;
 import com.wcpanini.demo.entities.Owning;
 import com.wcpanini.demo.services.StickerService;
@@ -107,7 +108,7 @@ public class StickerController {
     }
 
     @GetMapping("/ownings/{email}")
-    public ResponseEntity<Page<Owning>> getOwnings(
+    public ResponseEntity<Page<StickerSimpleResponse>> getOwnings(
             @PathVariable String email,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
@@ -115,7 +116,7 @@ public class StickerController {
 
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<Owning> ownings = stickerService.getOwnings(
+        Page<StickerSimpleResponse> ownings = stickerService.getOwnings(
                 email,
                 pageable
         );

@@ -51,4 +51,6 @@ public interface StickerRepository extends JpaRepository<Sticker, Long> {
             String email
     );
 
+    Sticker findStickerByPlace(String place);
+
 }

@@ -1,10 +1,13 @@
 // StickerService.java
 package com.wcpanini.demo.services;
 
+import com.wcpanini.demo.dtos.StickerSimpleResponse;
 import com.wcpanini.demo.entities.Duplicate;
 import com.wcpanini.demo.entities.Owning;
+import com.wcpanini.demo.entities.Sticker;
 import com.wcpanini.demo.repositories.DuplicateRepository;
 import com.wcpanini.demo.repositories.OwningRepository;
+import com.wcpanini.demo.repositories.StickerRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -20,15 +23,18 @@ public class StickerService {
     private final OwningRepository owningRepository;
     private final DuplicateRepository duplicateRepository;
     private final KafkaTemplate kafkaTemplate;
+    private final StickerRepository stickerRepository;
 
     public StickerService(
             OwningRepository owningRepository,
             DuplicateRepository duplicateRepository,
-            KafkaTemplate kafkaTemplate
+            KafkaTemplate kafkaTemplate,
+            StickerRepository stickerRepository
     ) {
         this.owningRepository = owningRepository;
         this.duplicateRepository = duplicateRepository;
         this.kafkaTemplate = kafkaTemplate;
+        this.stickerRepository = stickerRepository;
     }
 
     // add new sticker to owning
@@ -86,12 +92,33 @@ public class StickerService {
 
         return duplicateRepository.save(duplicate);
     }
+    
+    public StickerSimpleResponse convertStickerToDTO(Sticker sticker) {
+        StickerSimpleResponse stickerDTO = new StickerSimpleResponse();
+        stickerDTO.setName(sticker.getName());
+        stickerDTO.setPlace(sticker.getPlace());
+        stickerDTO.setNationality(sticker.getNationality());
+        return stickerDTO;
+        
+    }
+    
+    public StickerSimpleResponse getStickerInfo(String code){
+        return convertStickerToDTO(stickerRepository.findStickerByPlace(code));
+    }
 
-    public Page<Owning> getOwnings(
+    public Page<StickerSimpleResponse> getOwnings(
             String email,
             Pageable pageable
     ) {
-        return owningRepository.findAllByEmail(email, pageable);
+        return owningRepository.findAllByEmail(email, pageable)
+                .map(owning -> {
+                    StickerSimpleResponse sticker = getStickerInfo(owning.getCode());
+                    return new StickerSimpleResponse(
+                            sticker.getName(),
+                            sticker.getNationality(),
+                            sticker.getPlace()
+                    );
+                });
     }
 
     public Page<Duplicate> getDuplicates(
