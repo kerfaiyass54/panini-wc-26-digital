@@ -36,6 +36,10 @@ export const routes: Routes = [
         path: 'user-details/:email',
         loadComponent: () =>
           import('./user-details/user-details').then(m => m.UserDetails),
+      },{
+        path: 'duplicates/:email',
+        loadComponent: () =>
+          import('./duplicates-management/duplicates-management').then(m => m.DuplicatesManagement),
       },
       {
         path: '**',
