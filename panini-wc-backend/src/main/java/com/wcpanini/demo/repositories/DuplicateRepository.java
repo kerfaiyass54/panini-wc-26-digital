@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface DuplicateRepository extends JpaRepository<Duplicate, Long> {
@@ -15,4 +16,8 @@ public interface DuplicateRepository extends JpaRepository<Duplicate, Long> {
     Page<Duplicate> findAllByEmail(String email, Pageable pageable);
 
     void deleteByEmailAndCode(String email, String code);
+
+    List<Duplicate> findAllByEmailOrderByCreatedAtDesc(
+            String email
+    );
 }
