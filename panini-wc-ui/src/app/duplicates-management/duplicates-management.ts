@@ -1,5 +1,17 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  inject,
+  ChangeDetectorRef,
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
+
+import Keycloak from 'keycloak-js';
+
+import {
+  DuplicateService,
+} from '../services/duplicate.service';
 
 @Component({
   selector: 'app-duplicates-management',
@@ -8,57 +20,228 @@ import { CommonModule } from '@angular/common';
   templateUrl: './duplicates-management.html',
   styleUrl: './duplicates-management.scss',
 })
-export class DuplicatesManagement {
+export class DuplicatesManagement
+  implements OnInit {
 
-  duplicates = [
-    {
-      id: 1,
-      code: 'FR',
-      number: 4,
-      createdAt: '2026-05-28T21:15:00'
-    },
-    {
-      id: 2,
-      code: 'BR',
-      number: 2,
-      createdAt: '2026-05-27T18:30:00'
-    },
-    {
-      id: 3,
-      code: 'AR',
-      number: 7,
-      createdAt: '2026-05-26T12:10:00'
-    },
-    {
-      id: 4,
-      code: 'PT',
-      number: 3,
-      createdAt: '2026-05-25T09:45:00'
-    }
-  ];
+  // ─────────────────────────────────────────
+  // INJECTIONS
+  // ─────────────────────────────────────────
+
+  private readonly duplicateService =
+    inject(DuplicateService);
+
+  private readonly keycloak =
+    inject(Keycloak);
+
+  private readonly cdr =
+    inject(ChangeDetectorRef);
+
+  // ─────────────────────────────────────────
+  // DATA
+  // ─────────────────────────────────────────
+
+  duplicates: any[] = [];
+
+  loading = false;
+
+  processing =
+    new Set<string>();
+
+  // ─────────────────────────────────────────
+  // EMAIL
+  // ─────────────────────────────────────────
+
+  get email(): string {
+
+    return (
+      this.keycloak
+        .tokenParsed?.[
+        'email'
+        ] as string
+    ) ?? '';
+  }
+
+  // ─────────────────────────────────────────
+  // INIT
+  // ─────────────────────────────────────────
+
+  ngOnInit(): void {
+
+    this.loadDuplicates();
+  }
+
+  // ─────────────────────────────────────────
+  // LOAD DUPLICATES
+  // ─────────────────────────────────────────
+
+  loadDuplicates(): void {
+
+    this.loading = true;
+
+    this.duplicateService
+      .getDuplicates(
+        this.email
+      )
+      .subscribe({
+
+        next: (response) => {
+
+          this.duplicates =
+            response;
+
+          this.loading = false;
+
+          this.cdr.detectChanges();
+        },
+
+        error: (err) => {
+
+          console.error(err);
+
+          this.loading = false;
+
+          this.cdr.detectChanges();
+        }
+      });
+  }
+
+  // ─────────────────────────────────────────
+  // PROCESSING
+  // ─────────────────────────────────────────
+
+  isProcessing(
+    code: string
+  ): boolean {
+
+    return this.processing
+      .has(code);
+  }
+
+  // ─────────────────────────────────────────
+  // REDUCE
+  // ─────────────────────────────────────────
 
   reduce(
     duplicate: any
   ): void {
 
-    if (duplicate.number > 1) {
+    if (
+      this.isProcessing(
+        duplicate.code
+      )
+    ) {
 
-      duplicate.number--;
+      return;
     }
 
-    if (duplicate.number <= 1) {
+    this.processing
+      .add(duplicate.code);
 
-      this.remove(duplicate);
-    }
+    this.duplicateService
+      .reduceDuplicate({
+
+        email: this.email,
+
+        place: duplicate.code
+      })
+      .subscribe({
+
+        next: () => {
+
+          if (
+            duplicate.number > 2
+          ) {
+
+            duplicate.number--;
+          } else {
+
+            this.duplicates =
+              this.duplicates.filter(
+                d =>
+                  d.id !==
+                  duplicate.id
+              );
+          }
+
+          this.processing
+            .delete(
+              duplicate.code
+            );
+
+          this.cdr.detectChanges();
+        },
+
+        error: (err) => {
+
+          console.error(err);
+
+          this.processing
+            .delete(
+              duplicate.code
+            );
+
+          this.cdr.detectChanges();
+        }
+      });
   }
+
+  // ─────────────────────────────────────────
+  // REMOVE
+  // ─────────────────────────────────────────
 
   remove(
     duplicate: any
   ): void {
 
-    this.duplicates =
-      this.duplicates.filter(
-        d => d.id !== duplicate.id
-      );
+    if (
+      this.isProcessing(
+        duplicate.code
+      )
+    ) {
+
+      return;
+    }
+
+    this.processing
+      .add(duplicate.code);
+
+    this.duplicateService
+      .deleteDuplicate({
+
+        email: this.email,
+
+        place: duplicate.code
+      })
+      .subscribe({
+
+        next: () => {
+
+          this.duplicates =
+            this.duplicates.filter(
+              d =>
+                d.id !==
+                duplicate.id
+            );
+
+          this.processing
+            .delete(
+              duplicate.code
+            );
+
+          this.cdr.detectChanges();
+        },
+
+        error: (err) => {
+
+          console.error(err);
+
+          this.processing
+            .delete(
+              duplicate.code
+            );
+
+          this.cdr.detectChanges();
+        }
+      });
   }
 }
