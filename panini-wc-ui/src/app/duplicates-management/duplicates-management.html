@@ -1,1 +1,76 @@
-<p>duplicates-management works!</p>
+<div class="page">
+
+  <h1>Duplicates Management</h1>
+
+  <div class="duplicates-container">
+
+    @for (
+      duplicate of duplicates;
+      track duplicate.id
+      ) {
+
+      <div class="duplicate-card">
+
+        <div class="card-left">
+
+          <div class="code">
+            {{ duplicate.code }}
+          </div>
+
+          <div class="meta">
+
+            <span class="count">
+              {{ duplicate.number }} copies
+            </span>
+
+            <span class="date">
+              {{ duplicate.createdAt | date:'medium' }}
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="actions">
+
+          @if (
+            duplicate.number > 2
+            ) {
+
+            <button
+              class="reduce-btn"
+              (click)="reduce(duplicate)"
+            >
+              −1
+            </button>
+
+          }
+
+          <button
+            class="delete-btn"
+            (click)="remove(duplicate)"
+          >
+            Remove
+          </button>
+
+        </div>
+
+      </div>
+
+    }
+
+    @if (
+      duplicates.length === 0
+      ) {
+
+      <div class="empty-state">
+
+        No duplicate stickers found
+
+      </div>
+
+    }
+
+  </div>
+
+</div>
