@@ -20,4 +20,6 @@ public interface DuplicateRepository extends JpaRepository<Duplicate, Long> {
     List<Duplicate> findAllByEmailOrderByCreatedAtDesc(
             String email
     );
+
+    List<Duplicate> findDuplicatesByEmail(String email);
 }

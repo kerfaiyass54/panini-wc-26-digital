@@ -1,6 +1,7 @@
 // StickerService.java
 package com.wcpanini.demo.services;
 
+import com.wcpanini.demo.dtos.DuplicateResponse;
 import com.wcpanini.demo.dtos.StickerSimpleResponse;
 import com.wcpanini.demo.entities.Duplicate;
 import com.wcpanini.demo.entities.Owning;
@@ -14,6 +15,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -131,4 +134,27 @@ public class StickerService {
     public void removeDuplicate(String email, String place) {
         duplicateRepository.deleteByEmailAndCode(email, place);
     }
+
+    public List<DuplicateResponse> getNotHaveDuplicates(String user1, String user2){
+        List<DuplicateResponse> duplicates = duplicateRepository.findDuplicatesByEmail(user1).stream().map(this::toResponse).toList();
+        List<DuplicateResponse> stickers = new ArrayList<>();
+        for (DuplicateResponse duplicate : duplicates) {
+            if(!this.hasSticker(user2,duplicate.code())){
+                stickers.add(duplicate);
+            }
+        }
+        return stickers;
+    }
+
+    public DuplicateResponse toResponse(Duplicate duplicate) {
+        return new DuplicateResponse(
+                duplicate.getId(),
+                duplicate.getCode(),
+                duplicate.getNumber(),
+                duplicate.getCreatedAt() != null
+                        ? duplicate.getCreatedAt().toString()
+                        : null
+        );
+    }
+
 }

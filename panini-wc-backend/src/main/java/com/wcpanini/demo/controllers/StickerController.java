@@ -1,10 +1,7 @@
 // StickerController.java
 package com.wcpanini.demo.controllers;
 
-import com.wcpanini.demo.dtos.AddStickerRequest;
-import com.wcpanini.demo.dtos.CheckStickerRequest;
-import com.wcpanini.demo.dtos.DuplicateRequest;
-import com.wcpanini.demo.dtos.StickerSimpleResponse;
+import com.wcpanini.demo.dtos.*;
 import com.wcpanini.demo.entities.Duplicate;
 import com.wcpanini.demo.entities.Owning;
 import com.wcpanini.demo.services.StickerService;
@@ -14,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/stickers")
@@ -160,5 +159,16 @@ public class StickerController {
                     .badRequest()
                     .body(e.getMessage());
         }
+    }
+
+
+    @GetMapping("/not-have-duplicates")
+    public ResponseEntity<List<DuplicateResponse>> getNotHaveDuplicates(
+            @RequestParam String user1,
+            @RequestParam String user2
+    ) {
+        return ResponseEntity.ok(
+                stickerService.getNotHaveDuplicates(user1, user2)
+        );
     }
 }
