@@ -1,1 +1,159 @@
-<p>swap-recommend works!</p>
+<div class="page">
+
+  <div class="hero-card">
+
+    <div class="hero-badge">
+      🤝 AI Swap Engine
+    </div>
+
+    <h1>
+      Smart Recommendations
+    </h1>
+
+    <p>
+
+      Generate the best swaps between
+
+      <strong>{{ email }}</strong>
+
+      and
+
+      <strong>{{ targetEmail }}</strong>
+
+    </p>
+
+    <button
+      class="generate-btn"
+      (click)="generateRecommendations()">
+
+      Generate Recommendations
+
+    </button>
+
+  </div>
+
+  @if(loading){
+
+    <div class="loading">
+
+      <div class="spinner"></div>
+
+      <span>
+        Calculating best swaps...
+      </span>
+
+    </div>
+
+  }
+
+  @if(recommendation){
+
+    <div class="summary-card">
+
+      <div>
+        <h2>
+          Total Score
+        </h2>
+
+        <span>
+          {{ recommendation.total_score }}
+        </span>
+      </div>
+
+      <div>
+        <h2>
+          Fairness
+        </h2>
+
+        <span>
+          {{ recommendation.fairness_score }}%
+        </span>
+      </div>
+
+    </div>
+
+    <div class="actions">
+
+      <button
+        class="json-btn"
+        (click)="downloadJson()">
+
+        Download JSON
+
+      </button>
+
+      <button
+        class="csv-btn"
+        (click)="downloadCsv()">
+
+        Download CSV
+
+      </button>
+
+    </div>
+
+    <div class="swaps-grid">
+
+      @for(
+        swap of recommendation.swaps;
+        track swap.score
+        ){
+
+        <div class="swap-card">
+
+          <div class="swap-score">
+
+            {{ swap.score }}
+          </div>
+
+          <div class="swap-details">
+
+            <div>
+
+              <strong>
+                You Give
+              </strong>
+
+              <p>
+                {{ swap.user1_gives.name }}
+              </p>
+
+              <small>
+                {{ swap.user1_gives.code }}
+              </small>
+
+            </div>
+
+            <div>
+
+              <strong>
+                You Receive
+              </strong>
+
+              <p>
+                {{ swap.user2_gives.name }}
+              </p>
+
+              <small>
+                {{ swap.user2_gives.code }}
+              </small>
+
+            </div>
+
+          </div>
+
+          <div class="fairness">
+
+            Fairness:
+            {{ swap.fairness }}%
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+</div>
