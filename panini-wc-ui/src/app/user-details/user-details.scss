@@ -7,6 +7,53 @@
   margin: 35px auto;
 }
 
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.recommend-btn {
+
+  border: none;
+  cursor: pointer;
+
+  padding: 12px 22px;
+
+  border-radius: 14px;
+
+  font-weight: 700;
+  font-size: .95rem;
+
+  color: white;
+
+  background:
+    linear-gradient(
+        135deg,
+        #00e5ff,
+        #6c63ff
+    );
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.recommend-btn:hover {
+
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 10px 30px rgba(0,229,255,.35);
+}
+
+.recommend-btn:active {
+  transform: translateY(0);
+}
+
 .hero-card {
   display: flex;
   align-items: center;

@@ -44,6 +44,10 @@ export const routes: Routes = [
         path: 'duplicates-compare/:email',
         loadComponent: () =>
           import('./duplicates-compare/duplicates-compare').then(m => m.DuplicatesCompare),
+      },{
+        path: 'swap-recommend/:email',
+        loadComponent: () =>
+          import('./swap-recommend/swap-recommend').then(m => m.SwapRecommend),
       },
       {
         path: '**',

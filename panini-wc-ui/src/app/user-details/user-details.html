@@ -116,14 +116,21 @@
 
     <div class="section-card">
 
-      <div class="section-header">
+    <div class="section-header">
 
-        <h2 [routerLink]="'/duplicates-compare/' + email">
-          📦 Duplicate Stickers - Click here to compare
-        </h2>
+      <h2 [routerLink]="'/duplicates-compare/' + email">
+        📦 Duplicate Stickers - Click here to compare
+      </h2>
 
+      <button
+        class="recommend-btn"
+        [routerLink]="['/swap-recommend', email]">
 
-      </div>
+        🤝 Find Best Swaps
+
+      </button>
+
+    </div>
 
       @if(duplicates.length > 0){
 
