@@ -37,9 +37,13 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./user-details/user-details').then(m => m.UserDetails),
       },{
-        path: 'duplicates/:email',
+        path: 'duplicates',
         loadComponent: () =>
           import('./duplicates-management/duplicates-management').then(m => m.DuplicatesManagement),
+      },{
+        path: 'duplicates-compare/:email',
+        loadComponent: () =>
+          import('./duplicates-compare/duplicates-compare').then(m => m.DuplicatesCompare),
       },
       {
         path: '**',

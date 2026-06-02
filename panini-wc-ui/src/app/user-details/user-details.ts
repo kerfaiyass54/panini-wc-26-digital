@@ -8,7 +8,7 @@ import {
 
 import { CommonModule } from '@angular/common';
 
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 
 
@@ -21,7 +21,8 @@ import {StickerService } from '../services/sticker.service';
   selector: 'app-user-details',
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    RouterLink
   ],
   templateUrl: './user-details.html',
   styleUrl: './user-details.scss',

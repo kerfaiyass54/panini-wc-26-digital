@@ -251,6 +251,18 @@ export class StickerService {
     );
   }
 
+  getNotHaveDuplicates(user1: string, user2: string): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this.API}/stickers/not-have-duplicates`,
+      {
+        params: {
+          user1,
+          user2
+        }
+      }
+    );
+  }
+
   addDate(item: any): Observable<any> {
 
     return this.http.post<any>(

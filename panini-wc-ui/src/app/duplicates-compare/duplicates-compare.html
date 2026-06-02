@@ -1,0 +1,88 @@
+<div class="compare-page">
+
+  <div class="hero">
+    <h1>Duplicates Exchange</h1>
+
+    <p>
+      Compare duplicates between collectors and discover
+      possible sticker trades.
+    </p>
+  </div>
+
+  @if (loading) {
+
+    <div class="loading-container">
+      <div class="loader"></div>
+    </div>
+
+  } @else {
+
+    <div class="columns">
+
+      <section class="panel glass">
+        <div class="panel-header">
+          <h2>🎁 You Can Give</h2>
+          <span>{{ myMissingForThem.length }}</span>
+        </div>
+
+        <div class="cards-container">
+
+          @for(item of myMissingForThem; track item.id) {
+
+            <div class="sticker-card">
+              <div class="code">
+                {{ item.code }}
+              </div>
+
+              <div class="meta">
+                Duplicate Available
+              </div>
+            </div>
+
+          } @empty {
+
+            <div class="empty">
+              No matching duplicates found
+            </div>
+
+          }
+
+        </div>
+      </section>
+
+      <section class="panel glass">
+        <div class="panel-header">
+          <h2>🤝 You Need</h2>
+          <span>{{ theirMissingForMe.length }}</span>
+        </div>
+
+        <div class="cards-container">
+
+          @for(item of theirMissingForMe; track item.id) {
+
+            <div class="sticker-card">
+              <div class="code">
+                {{ item.code }}
+              </div>
+
+              <div class="meta">
+                Available From Partner
+              </div>
+            </div>
+
+          } @empty {
+
+            <div class="empty">
+              No matching duplicates found
+            </div>
+
+          }
+
+        </div>
+      </section>
+
+    </div>
+
+  }
+
+</div>
