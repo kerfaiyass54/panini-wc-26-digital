@@ -34,6 +34,9 @@ class TradePackageService:
 
         for trade in candidates:
 
+            if trade["fairness"] < 90:
+                continue
+
             give = trade["user1_gives"]["code"]
             receive = trade["user2_gives"]["code"]
 
@@ -43,12 +46,21 @@ class TradePackageService:
             if receive in used_user2:
                 continue
 
-            chosen.append(trade)
+            chosen.append(
+                trade
+            )
 
-            used_user1.add(give)
-            used_user2.add(receive)
+            used_user1.add(
+                give
+            )
 
-            total_score += trade["score"]
+            used_user2.add(
+                receive
+            )
+
+            total_score += (
+                trade["score"]
+            )
 
             if len(chosen) >= max_swaps:
                 break
@@ -56,22 +68,27 @@ class TradePackageService:
         fairness = 0
 
         if chosen:
-
             fairness = (
-                sum(
-                    t["fairness"]
-                    for t in chosen
-                )
-                /
-                len(chosen)
+                    sum(
+                        t["fairness"]
+                        for t in chosen
+                    )
+                    /
+                    len(chosen)
             )
 
         return {
             "total_score":
-                round(total_score, 2),
+                round(
+                    total_score,
+                    2
+                ),
 
             "fairness_score":
-                round(fairness, 2),
+                round(
+                    fairness,
+                    2
+                ),
 
             "swaps":
                 chosen

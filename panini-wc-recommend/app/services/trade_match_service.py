@@ -45,8 +45,7 @@ class TradeMatchService:
         for give_code in user1_candidates:
 
             give_rating = (
-                PlayerValueService
-                .get_value(
+                PlayerValueService.get_value(
                     give_code
                 )
             )
@@ -60,8 +59,7 @@ class TradeMatchService:
             )
 
             give_sticker = (
-                StickerRepository
-                .find_by_code(
+                StickerRepository.find_by_code(
                     self.db,
                     give_code
                 )
@@ -70,8 +68,7 @@ class TradeMatchService:
             for receive_code in user2_candidates:
 
                 receive_rating = (
-                    PlayerValueService
-                    .get_value(
+                    PlayerValueService.get_value(
                         receive_code
                     )
                 )
@@ -85,25 +82,30 @@ class TradeMatchService:
                 )
 
                 receive_sticker = (
-                    StickerRepository
-                    .find_by_code(
+                    StickerRepository.find_by_code(
                         self.db,
                         receive_code
                     )
                 )
 
-                fairness = (
-                    100 -
-                    abs(
-                        give_rating -
-                        receive_rating
-                    )
+                rating_diff = abs(
+                    give_rating -
+                    receive_rating
                 )
 
+                fairness = max(
+                    0,
+                    100 - rating_diff * 5
+                )
+
+                # reject unfair swaps
+                if fairness < 85:
+                    continue
+
                 trade_value = (
-                    give_score +
-                    receive_score +
-                    fairness * 5
+                        give_score +
+                        receive_score +
+                        fairness * 20
                 )
 
                 trades.append(
@@ -136,8 +138,11 @@ class TradeMatchService:
                 )
 
         trades.sort(
-            key=lambda x: x["score"],
+            key=lambda x: (
+                x["score"],
+                x["fairness"]
+            ),
             reverse=True
         )
 
-        return trades[:25]
+        return trades[:50]
