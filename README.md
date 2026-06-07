@@ -64,7 +64,7 @@ A **full-stack digital collection platform** for the **2026 FIFA World Cup**, co
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-repo/panini-wc-26-digital.git
+   git clone https://github.com/kerfaiyass54/panini-wc-26-digital.git
    cd panini-wc-26-digital
    ```
 
