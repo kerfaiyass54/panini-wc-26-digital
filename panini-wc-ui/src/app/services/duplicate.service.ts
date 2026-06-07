@@ -24,7 +24,7 @@ export class DuplicateService {
     inject(HttpClient);
 
   private readonly API =
-    'http://localhost:9090';
+    'http://localhost:9090/api';
 
   getDuplicates(
     email: string
