@@ -48,6 +48,10 @@ export const routes: Routes = [
         path: 'swap-recommend/:email',
         loadComponent: () =>
           import('./swap-recommend/swap-recommend').then(m => m.SwapRecommend),
+      },{
+        path: 'swap-recommendation-public',
+        loadComponent: () =>
+          import('./swap-public-recommend/swap-public-recommend').then(m => m.SwapPublicRecommend),
       },
       {
         path: '**',

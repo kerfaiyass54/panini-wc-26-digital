@@ -49,6 +49,94 @@ h1 {
   gap: 36px;
 }
 
+.page-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 28px;
+
+  gap: 20px;
+
+  flex-wrap: wrap;
+}
+
+.recommendation-btn {
+
+  border: none;
+
+  cursor: pointer;
+
+  padding: 14px 24px;
+
+  border-radius: 16px;
+
+  color: white;
+
+  font-size: .95rem;
+
+  font-weight: 800;
+
+  letter-spacing: .5px;
+
+  background:
+    linear-gradient(
+        135deg,
+        #06b6d4,
+        #3b82f6,
+        #8b5cf6
+    );
+
+  box-shadow:
+    0 15px 35px rgba(59,130,246,.35);
+
+  transition:
+    all .3s ease;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+.recommendation-btn::before {
+
+  content: '';
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.25),
+        transparent
+    );
+
+  transform:
+    translateX(-100%);
+}
+
+.recommendation-btn:hover {
+
+  transform:
+    translateY(-3px)
+    scale(1.03);
+
+  box-shadow:
+    0 20px 45px rgba(99,102,241,.45);
+}
+
+.recommendation-btn:hover::before {
+
+  animation:
+    shine 1.2s ease;
+}
+
 .duplicate-card {
 
   position: relative;

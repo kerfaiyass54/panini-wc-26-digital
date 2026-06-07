@@ -12,11 +12,12 @@ import Keycloak from 'keycloak-js';
 import {
   DuplicateService,
 } from '../services/duplicate.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-duplicates-management',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './duplicates-management.html',
   styleUrl: './duplicates-management.scss',
 })
