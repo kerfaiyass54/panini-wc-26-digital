@@ -8,6 +8,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from  services.recommendation_service import (
     RecommendationService
 )
+
+from services.trade_request_service import (
+    TradeRequestService
+)
 app = FastAPI(
     title="Sticker Recommendation Engine"
 )
@@ -38,6 +42,29 @@ def recommendations(
         return service.recommend(
             user1,
             user2
+        )
+
+    finally:
+
+        db.close()
+
+@app.get(
+    "/trade-request"
+)
+def trade_request(
+        email: str
+):
+
+    db = SessionLocal()
+
+    try:
+
+        service = TradeRequestService(
+            db
+        )
+
+        return service.generate(
+            email
         )
 
     finally:

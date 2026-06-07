@@ -1,4 +1,4 @@
-from  sqlalchemy.orm import Session
+from sqlalchemy.orm import Session
 
 from models.sticker import Sticker
 
@@ -34,4 +34,31 @@ class StickerRepository:
             Sticker
         ).filter(
             Sticker.nationality == nationality
+        ).all()
+
+    # NEW
+
+    @staticmethod
+    def find_by_codes(
+            db: Session,
+            codes: list[str]
+    ):
+
+        return db.query(
+            Sticker
+        ).filter(
+            Sticker.place.in_(codes)
+        ).all()
+
+    @staticmethod
+    def find_players_by_nationality(
+            db: Session,
+            nationality: str
+    ):
+
+        return db.query(
+            Sticker
+        ).filter(
+            Sticker.nationality == nationality,
+            Sticker.type == "PLAYER"
         ).all()
