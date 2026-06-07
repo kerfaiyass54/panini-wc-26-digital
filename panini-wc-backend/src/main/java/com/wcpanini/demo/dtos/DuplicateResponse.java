@@ -4,6 +4,7 @@ public record DuplicateResponse(
         Long id,
         String code,
         Integer number,
-        String createdAt
+        String createdAt,
+        String name
 ) {
 }

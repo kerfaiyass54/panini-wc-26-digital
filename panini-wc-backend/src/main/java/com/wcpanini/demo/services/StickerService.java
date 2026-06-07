@@ -135,24 +135,37 @@ public class StickerService {
         duplicateRepository.deleteByEmailAndCode(email, place);
     }
 
-    public List<DuplicateResponse> getNotHaveDuplicates(String user1, String user2){
-        List<DuplicateResponse> duplicates = duplicateRepository.findDuplicatesByEmail(user1).stream().map(this::toResponse).toList();
-        List<DuplicateResponse> stickers = new ArrayList<>();
-        for (DuplicateResponse duplicate : duplicates) {
-            if(!this.hasSticker(user2,duplicate.code())){
-                stickers.add(duplicate);
-            }
-        }
-        return stickers;
+    public List<DuplicateResponse> getNotHaveDuplicates(
+            String user1,
+            String user2
+    ) {
+
+        return duplicateRepository
+                .findDuplicatesByEmail(user1)
+                .stream()
+                .map(this::toResponse)
+                .filter(d -> !hasSticker(user2, d.code()))
+                .toList();
     }
 
-    public DuplicateResponse toResponse(Duplicate duplicate) {
+    public DuplicateResponse toResponse(
+            Duplicate duplicate
+    ) {
+
+        Sticker sticker =
+                stickerRepository.findStickerByPlace(
+                        duplicate.getCode()
+                );
+
         return new DuplicateResponse(
                 duplicate.getId(),
                 duplicate.getCode(),
                 duplicate.getNumber(),
                 duplicate.getCreatedAt() != null
                         ? duplicate.getCreatedAt().toString()
+                        : null,
+                sticker != null
+                        ? sticker.getName()
                         : null
         );
     }

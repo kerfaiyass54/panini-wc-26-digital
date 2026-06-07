@@ -31,7 +31,8 @@ public class CorsConfig {
                 "POST",
                 "PUT",
                 "DELETE",
-                "OPTIONS"
+                "OPTIONS",
+                "PATCH"
         ));
 
         config.setExposedHeaders(List.of(

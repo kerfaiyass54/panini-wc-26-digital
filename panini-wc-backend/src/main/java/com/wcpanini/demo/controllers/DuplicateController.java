@@ -11,14 +11,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/duplicates")
+@RequestMapping("/api/duplicates")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class DuplicateController {
 
     private final DuplicateService duplicateService;
 
     @GetMapping("/{email}")
-    public ResponseEntity<List<Duplicate>>
+    public ResponseEntity<List<DuplicateResponse>>
     getDuplicates(
             @PathVariable
             String email
