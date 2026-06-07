@@ -3,6 +3,36 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RecommendationResponse } from '../constants/recommendation.model';
 
+export interface TradePlayer {
+
+  code: string;
+
+  name: string;
+
+  nationality: string;
+
+  rating: number;
+
+  score: number;
+}
+
+export interface TradeResponse {
+
+  give: {
+
+    players: TradePlayer[];
+
+    countries: string[];
+  };
+
+  want: {
+
+    players: TradePlayer[];
+
+    countries: string[];
+  };
+}
+
 
 
 @Injectable({
@@ -14,6 +44,9 @@ export class RecommendationService {
 
   private readonly apiUrl =
     'http://localhost:8000/recommendations';
+
+  private readonly api =
+    'http://localhost:8000/trade-request';
 
   getRecommendations(
     user1: string,
@@ -29,4 +62,20 @@ export class RecommendationService {
       { params }
     );
   }
+
+  generate(
+    email: string
+  ): Observable<TradeResponse> {
+
+    const params =
+      new HttpParams()
+        .set('email', email);
+
+    return this.http.get<TradeResponse>(
+      this.api,
+      { params }
+    );
+  }
+
+
 }

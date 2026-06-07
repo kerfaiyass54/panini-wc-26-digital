@@ -1,1 +1,188 @@
-<p>swap-public-recommend works!</p>
+<div class="page">
+
+  <div class="hero">
+
+    <h1>
+      Public Trade Recommendation
+    </h1>
+
+    <p>
+      Intelligent trade request based on your duplicates and album completion.
+    </p>
+
+    <button
+      class="generate-btn"
+      (click)="generate()"
+    >
+      Generate Recommendation
+    </button>
+
+  </div>
+
+  @if(loading){
+
+    <div class="loader-wrapper">
+
+      <div class="loader"></div>
+
+      <span>
+        Analyzing your collection...
+      </span>
+
+    </div>
+
+  }
+
+  @if(result){
+
+    <div class="grid">
+
+      <!-- GIVE -->
+
+      <div class="panel give">
+
+        <div class="panel-header">
+
+          <h2>
+            📦 You Give
+          </h2>
+
+        </div>
+
+        <table>
+
+          <thead>
+
+          <tr>
+
+            <th>Code</th>
+
+            <th>Name</th>
+
+            <th>Rating</th>
+
+            <th>Score</th>
+
+          </tr>
+
+          </thead>
+
+          <tbody>
+
+            @for(
+              player of result.give.players;
+              track player.code
+              ){
+
+              <tr>
+
+                <td>{{ player.code }}</td>
+
+                <td>{{ player.name }}</td>
+
+                <td>{{ player.rating }}</td>
+
+                <td>{{ player.score }}</td>
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+        <div class="countries">
+
+          @for(
+            country of result.give.countries;
+            track country
+            ){
+
+            <span>
+              {{ country }}
+            </span>
+
+          }
+
+        </div>
+
+      </div>
+
+      <!-- WANT -->
+
+      <div class="panel want">
+
+        <div class="panel-header">
+
+          <h2>
+            🎯 You Receive
+          </h2>
+
+        </div>
+
+        <table>
+
+          <thead>
+
+          <tr>
+
+            <th>Code</th>
+
+            <th>Name</th>
+
+            <th>Rating</th>
+
+            <th>Score</th>
+
+          </tr>
+
+          </thead>
+
+          <tbody>
+
+            @for(
+              player of result.want.players;
+              track player.code
+              ){
+
+              <tr>
+
+                <td>{{ player.code }}</td>
+
+                <td>{{ player.name }}</td>
+
+                <td>{{ player.rating }}</td>
+
+                <td>{{ player.score }}</td>
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+        <div class="countries">
+
+          @for(
+            country of result.want.countries;
+            track country
+            ){
+
+            <span>
+              {{ country }}
+            </span>
+
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>
