@@ -56,7 +56,7 @@ class TradeRequestService:
         }
 
         #
-        # GIVE PLAYERS
+        # PLAYERS TO GIVE
         #
 
         give_players = []
@@ -123,7 +123,29 @@ class TradeRequestService:
         ]
 
         #
-        # WANT PLAYERS
+        # COMPUTE AVERAGE GIVE RATING
+        #
+
+        avg_give_rating = 75
+
+        if top_give_players:
+
+            avg_give_rating = (
+
+                sum(
+                    p["rating"]
+                    for p in top_give_players
+                )
+
+                /
+
+                len(
+                    top_give_players
+                )
+            )
+
+        #
+        # PLAYERS TO RECEIVE
         #
 
         all_stickers = (
@@ -138,10 +160,37 @@ class TradeRequestService:
 
         for sticker in all_stickers:
 
+            #
+            # already owned
+            #
+
             if sticker.place in owned_codes:
                 continue
 
-            score = (
+            rating = (
+                PlayerValueService.get_value(
+                    sticker.place
+                )
+            )
+
+            #
+            # keep trade balanced
+            #
+
+            rating_gap = abs(
+                rating -
+                avg_give_rating
+            )
+
+            #
+            # too weak or too strong
+            #
+
+            if rating_gap > 5:
+                continue
+
+            completion_score = (
+
                 self.candidate_service
                 .score_sticker(
                     email,
@@ -149,10 +198,15 @@ class TradeRequestService:
                 )
             )
 
-            rating = (
-                PlayerValueService.get_value(
-                    sticker.place
-                )
+            balance_bonus = (
+                100 -
+                rating_gap * 15
+            )
+
+            final_score = (
+                completion_score
+                +
+                balance_bonus
             )
 
             want_players.append(
@@ -161,13 +215,16 @@ class TradeRequestService:
                     "name": sticker.name,
                     "nationality": sticker.nationality,
                     "rating": rating,
-                    "score": score
+                    "score": round(
+                        final_score,
+                        2
+                    )
                 }
             )
 
             want_countries[
                 sticker.nationality
-            ] += score
+            ] += final_score
 
         want_players.sort(
             key=lambda x: x["score"],
