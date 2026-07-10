@@ -6,9 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class MatchResultMessage {
 
     private Long matchId;
@@ -16,4 +13,6 @@ public class MatchResultMessage {
     private Integer goalsHome;
 
     private Integer goalsAway;
+
+    private List<GoalScorerDto> scorers;
 }

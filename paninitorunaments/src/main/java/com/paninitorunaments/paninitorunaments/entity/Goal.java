@@ -21,4 +21,8 @@ public class Goal {
     @ManyToOne
     @JoinColumn(name = "player_id")
     private Player player;
+
+    @ManyToOne
+    @JoinColumn(name = "match_id")
+    private Match match;
 }
