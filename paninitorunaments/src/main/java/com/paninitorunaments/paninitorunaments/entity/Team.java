@@ -24,6 +24,8 @@ public class Team {
 
     private LocalDateTime dateCreate;
 
+    private String email;
+
     @ManyToMany
     @JoinTable(
             name = "team_players",
