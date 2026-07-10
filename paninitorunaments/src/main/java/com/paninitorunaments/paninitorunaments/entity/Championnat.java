@@ -35,4 +35,8 @@ public class Championnat {
             inverseJoinColumns = @JoinColumn(name = "match_id")
     )
     private List<Match> matches = new ArrayList<>();
+
+    @OneToMany(mappedBy = "championnat",
+            cascade = CascadeType.ALL)
+    private List<Standing> standings = new ArrayList<>();
 }

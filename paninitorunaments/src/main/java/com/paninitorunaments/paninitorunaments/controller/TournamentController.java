@@ -5,6 +5,7 @@ package com.paninitorunaments.paninitorunaments.controller;
 import com.paninitorunaments.paninitorunaments.dto.AddTeamsRequest;
 import com.paninitorunaments.paninitorunaments.dto.CreateTournamentRequest;
 import com.paninitorunaments.paninitorunaments.entity.Championnat;
+import com.paninitorunaments.paninitorunaments.entity.Standing;
 import com.paninitorunaments.paninitorunaments.service.TournamentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,12 +26,12 @@ public class TournamentController {
             @RequestBody CreateTournamentRequest request
     ) {
 
-        Championnat tournoi =
-                tournamentService.createTournament(request.getTournament());
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(tournoi);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(
+                        tournamentService.createTournament(
+                                request.getTournament()
+                        )
+                );
     }
 
     @PostMapping("/{id}/teams")
@@ -39,10 +40,22 @@ public class TournamentController {
             @RequestBody AddTeamsRequest request
     ) {
 
-        Championnat tournoi =
-                tournamentService.addTeams(id, request.getTeamIds());
+        return ResponseEntity.ok(
+                tournamentService.addTeams(
+                        id,
+                        request.getTeamIds()
+                )
+        );
+    }
 
-        return ResponseEntity.ok(tournoi);
+    @PostMapping("/{id}/generate-fixtures")
+    public ResponseEntity<Championnat> generateFixtures(
+            @PathVariable Long id
+    ) {
+
+        return ResponseEntity.ok(
+                tournamentService.generateFixtures(id)
+        );
     }
 
     @GetMapping("/{id}")
@@ -60,6 +73,26 @@ public class TournamentController {
 
         return ResponseEntity.ok(
                 tournamentService.getAll()
+        );
+    }
+
+    @PostMapping("/{id}/initialize-standings")
+    public ResponseEntity<Championnat> initializeStandings(
+            @PathVariable Long id
+    ) {
+
+        return ResponseEntity.ok(
+                tournamentService.initializeStandings(id)
+        );
+    }
+
+    @GetMapping("/{id}/standings")
+    public ResponseEntity<List<Standing>> getStandings(
+            @PathVariable Long id
+    ) {
+
+        return ResponseEntity.ok(
+                tournamentService.getStandings(id)
         );
     }
 }

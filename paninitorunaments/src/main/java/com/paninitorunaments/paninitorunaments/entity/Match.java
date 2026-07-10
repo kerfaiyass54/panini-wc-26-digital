@@ -19,6 +19,8 @@ public class Match {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Boolean played = false;
+
     @ManyToOne
     @JoinColumn(name = "team1_id")
     private Team team1;
