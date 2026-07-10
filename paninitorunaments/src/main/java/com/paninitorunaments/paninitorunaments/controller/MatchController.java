@@ -1,11 +1,15 @@
 package com.paninitorunaments.paninitorunaments.controller;
 
 import com.paninitorunaments.paninitorunaments.dto.MatchResultRequest;
+import com.paninitorunaments.paninitorunaments.dto.TopScorerResponse;
+import com.paninitorunaments.paninitorunaments.entity.Goal;
 import com.paninitorunaments.paninitorunaments.entity.Match;
 import com.paninitorunaments.paninitorunaments.service.MatchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/matches")
@@ -21,10 +25,7 @@ public class MatchController {
     ) {
 
         return ResponseEntity.ok(
-                matchService.saveResult(
-                        id,
-                        request
-                )
+                matchService.saveResult(id, request)
         );
     }
 
@@ -36,5 +37,33 @@ public class MatchController {
         matchService.startMatch(id);
 
         return ResponseEntity.accepted().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Match> getMatch(
+            @PathVariable Long id
+    ) {
+
+        return ResponseEntity.ok(
+                matchService.getMatch(id)
+        );
+    }
+
+    @GetMapping("/{id}/goals")
+    public ResponseEntity<List<Goal>> getGoals(
+            @PathVariable Long id
+    ) {
+
+        return ResponseEntity.ok(
+                matchService.getMatchGoals(id)
+        );
+    }
+
+    @GetMapping("/top-scorers")
+    public ResponseEntity<List<TopScorerResponse>> getTopScorers() {
+
+        return ResponseEntity.ok(
+                matchService.getTopScorers()
+        );
     }
 }

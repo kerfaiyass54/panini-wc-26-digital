@@ -29,6 +29,18 @@ public class TournamentServiceImpl implements TournamentService {
     private final StandingRepository standingRepository;
 
     @Override
+    public List<Match> getTournamentMatches(Long tournamentId) {
+
+        Championnat championnat =
+                championnatRepository.findById(tournamentId)
+                        .orElseThrow(
+                                () -> new TournamentNotFoundException(tournamentId)
+                        );
+
+        return championnat.getMatches();
+    }
+
+    @Override
     @Transactional
     public Championnat initializeStandings(Long tournamentId) {
 

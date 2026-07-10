@@ -2,18 +2,24 @@ package com.paninitorunaments.paninitorunaments.service.impl;
 
 import com.paninitorunaments.paninitorunaments.dto.MatchRequest;
 import com.paninitorunaments.paninitorunaments.dto.MatchResultRequest;
+import com.paninitorunaments.paninitorunaments.dto.TopScorerResponse;
 import com.paninitorunaments.paninitorunaments.entity.Championnat;
+import com.paninitorunaments.paninitorunaments.entity.Goal;
 import com.paninitorunaments.paninitorunaments.entity.Match;
 import com.paninitorunaments.paninitorunaments.entity.Standing;
 import com.paninitorunaments.paninitorunaments.exception.MatchNotFoundException;
+import com.paninitorunaments.paninitorunaments.exception.TournamentNotFoundException;
 import com.paninitorunaments.paninitorunaments.kafka.MatchProducer;
 import com.paninitorunaments.paninitorunaments.repository.ChampionnatRepository;
+import com.paninitorunaments.paninitorunaments.repository.GoalRepository;
 import com.paninitorunaments.paninitorunaments.repository.MatchRepository;
 import com.paninitorunaments.paninitorunaments.repository.StandingRepository;
 import com.paninitorunaments.paninitorunaments.service.MatchService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +30,50 @@ public class MatchServiceImpl
     private final StandingRepository standingRepository;
     private final ChampionnatRepository championnatRepository;
     private final MatchProducer matchProducer;
+    private final GoalRepository goalRepository;
+
+    @Override
+    public List<Match> getTournamentMatches(Long tournamentId) {
+
+        Championnat championnat =
+                championnatRepository.findById(tournamentId)
+                        .orElseThrow(
+                                () -> new TournamentNotFoundException(tournamentId)
+                        );
+
+        return championnat.getMatches();
+    }
+
+    @Override
+    public Match getMatch(Long matchId) {
+
+        return matchRepository.findById(matchId)
+                .orElseThrow(
+                        () -> new MatchNotFoundException(matchId)
+                );
+    }
+
+    @Override
+    public List<Goal> getMatchGoals(Long matchId) {
+
+        return goalRepository.findByMatchId(matchId);
+    }
+
+    @Override
+    public List<TopScorerResponse> getTopScorers() {
+
+        return goalRepository.getTopScorers()
+                .stream()
+                .map(result ->
+                        TopScorerResponse.builder()
+                                .player((String) result[0])
+                                .goals((Long) result[1])
+                                .build()
+                )
+                .toList();
+    }
+
+
 
     @Override
     public void startMatch(Long matchId) {

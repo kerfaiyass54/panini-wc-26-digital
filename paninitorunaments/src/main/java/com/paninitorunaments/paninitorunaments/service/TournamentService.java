@@ -1,6 +1,7 @@
 package com.paninitorunaments.paninitorunaments.service;
 
 import com.paninitorunaments.paninitorunaments.entity.Championnat;
+import com.paninitorunaments.paninitorunaments.entity.Match;
 import com.paninitorunaments.paninitorunaments.entity.Standing;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface TournamentService {
     Championnat initializeStandings(Long tournamentId);
 
     List<Standing> getStandings(Long tournamentId);
+
+    List<Match> getTournamentMatches(Long tournamentId);
 }

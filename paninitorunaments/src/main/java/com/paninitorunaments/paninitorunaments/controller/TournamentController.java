@@ -5,7 +5,9 @@ package com.paninitorunaments.paninitorunaments.controller;
 import com.paninitorunaments.paninitorunaments.dto.AddTeamsRequest;
 import com.paninitorunaments.paninitorunaments.dto.CreateTournamentRequest;
 import com.paninitorunaments.paninitorunaments.entity.Championnat;
+import com.paninitorunaments.paninitorunaments.entity.Match;
 import com.paninitorunaments.paninitorunaments.entity.Standing;
+import com.paninitorunaments.paninitorunaments.service.MatchService;
 import com.paninitorunaments.paninitorunaments.service.TournamentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,18 @@ import java.util.List;
 public class TournamentController {
 
     private final TournamentService tournamentService;
+
+    private final MatchService matchService;
+
+    @GetMapping("/{id}/matches")
+    public ResponseEntity<List<Match>> getTournamentMatches(
+            @PathVariable Long id
+    ) {
+
+        return ResponseEntity.ok(
+                matchService.getTournamentMatches(id)
+        );
+    }
 
     @PostMapping
     public ResponseEntity<Championnat> createTournament(
