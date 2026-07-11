@@ -23,4 +23,6 @@ public interface MatchService {
     List<Goal> getMatchGoals(Long matchId);
 
     List<TopScorerResponse> getTopScorers();
+
+
 }

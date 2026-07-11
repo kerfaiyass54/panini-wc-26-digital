@@ -74,17 +74,10 @@ public class MatchResultConsumer {
 
             for (GoalScorerDto scorer : message.getScorers()) {
 
-                Player player =
-                        playerRepository
-                                .findByName(
-                                        scorer.getPlayerName()
-                                )
-                                .orElseThrow(() ->
-                                        new RuntimeException(
-                                                "Player not found: "
-                                                        + scorer.getPlayerName()
-                                        )
-                                );
+                        Player player =
+                        playerRepository.findById(
+                                scorer.getPlayerId()
+                        ).orElseThrow();
 
                 Goal goal =
                         Goal.builder()

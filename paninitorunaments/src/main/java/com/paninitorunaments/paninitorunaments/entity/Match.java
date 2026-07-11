@@ -21,6 +21,9 @@ public class Match {
 
     private Boolean played = false;
 
+    @Column(name = "journey")
+    private Integer journey;
+
     @ManyToOne
     @JoinColumn(name = "team1_id")
     private Team team1;

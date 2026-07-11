@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class GoalScorerDto {
 
-    private String playerName;
+    private Long playerId;
 
     private Integer minute;
 }

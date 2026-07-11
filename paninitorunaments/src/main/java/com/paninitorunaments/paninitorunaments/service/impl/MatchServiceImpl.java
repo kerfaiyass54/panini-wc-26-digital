@@ -1,12 +1,7 @@
 package com.paninitorunaments.paninitorunaments.service.impl;
 
-import com.paninitorunaments.paninitorunaments.dto.MatchRequest;
-import com.paninitorunaments.paninitorunaments.dto.MatchResultRequest;
-import com.paninitorunaments.paninitorunaments.dto.TopScorerResponse;
-import com.paninitorunaments.paninitorunaments.entity.Championnat;
-import com.paninitorunaments.paninitorunaments.entity.Goal;
-import com.paninitorunaments.paninitorunaments.entity.Match;
-import com.paninitorunaments.paninitorunaments.entity.Standing;
+import com.paninitorunaments.paninitorunaments.dto.*;
+import com.paninitorunaments.paninitorunaments.entity.*;
 import com.paninitorunaments.paninitorunaments.exception.MatchNotFoundException;
 import com.paninitorunaments.paninitorunaments.exception.TournamentNotFoundException;
 import com.paninitorunaments.paninitorunaments.kafka.MatchProducer;
@@ -73,6 +68,26 @@ public class MatchServiceImpl
                 .toList();
     }
 
+    private TeamDto mapTeam(Team team) {
+
+        return TeamDto.builder()
+                .name(team.getName())
+                .players(
+                        team.getPlayers()
+                                .stream()
+                                .map(player ->
+                                        PlayerDto.builder()
+                                                .id(player.getId())
+                                                .name(player.getName())
+                                                .ability(player.getAbility())
+                                                .position(player.getPosition())
+                                                .build()
+                                )
+                                .toList()
+                )
+                .build();
+    }
+
 
 
     @Override
@@ -84,17 +99,25 @@ public class MatchServiceImpl
                                 () -> new MatchNotFoundException(matchId)
                         );
 
-        Championnat championnat =
-                championnatRepository
-                        .findByMatchesContains(match)
-                        .orElseThrow();
+        if (Boolean.TRUE.equals(match.getPlayed())) {
+            throw new IllegalStateException(
+                    "Match already played"
+            );
+        }
 
         MatchRequest request =
                 MatchRequest.builder()
                         .matchId(match.getId())
-                        .tournamentId(championnat.getId())
-                        .homeTeam(match.getTeam1().getName())
-                        .awayTeam(match.getTeam2().getName())
+                        .homeTeam(
+                                mapTeam(
+                                        match.getTeam1()
+                                )
+                        )
+                        .awayTeam(
+                                mapTeam(
+                                        match.getTeam2()
+                                )
+                        )
                         .build();
 
         matchProducer.sendMatch(request);

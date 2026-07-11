@@ -9,11 +9,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MatchRequest {
+public class TeamDto {
 
-    private Long matchId;
+    private String name;
 
-    private TeamDto homeTeam;
-
-    private TeamDto awayTeam;
+    private List<PlayerDto> players;
 }

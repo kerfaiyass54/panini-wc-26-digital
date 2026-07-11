@@ -2,18 +2,18 @@ package com.paninitorunaments.paninitorunaments.dto;
 
 import lombok.*;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MatchRequest {
+public class PlayerDto {
 
-    private Long matchId;
+    private Long id;
 
-    private TeamDto homeTeam;
+    private String name;
 
-    private TeamDto awayTeam;
+    private Integer ability;
+
+    private String position;
 }

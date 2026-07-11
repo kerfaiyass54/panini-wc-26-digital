@@ -19,4 +19,6 @@ public interface StandingRepository
             Championnat championnat,
             Team team
     );
+
+    List<Standing> findByChampionnatId(Long championnatId);
 }

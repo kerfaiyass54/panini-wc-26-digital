@@ -19,4 +19,15 @@ ORDER BY COUNT(g) DESC
 
     List<Goal> findByMatchId(Long matchId);
 
+    @Query("""
+SELECT g.player.name, COUNT(g)
+FROM Goal g
+WHERE g.match.id IN :matchIds
+GROUP BY g.player.name
+ORDER BY COUNT(g) DESC
+""")
+    List<Object[]> getTournamentTopScorers(
+            List<Long> matchIds
+    );
+
 }

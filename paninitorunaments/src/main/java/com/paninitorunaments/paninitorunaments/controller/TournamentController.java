@@ -2,8 +2,7 @@ package com.paninitorunaments.paninitorunaments.controller;
 
 
 
-import com.paninitorunaments.paninitorunaments.dto.AddTeamsRequest;
-import com.paninitorunaments.paninitorunaments.dto.CreateTournamentRequest;
+import com.paninitorunaments.paninitorunaments.dto.*;
 import com.paninitorunaments.paninitorunaments.entity.Championnat;
 import com.paninitorunaments.paninitorunaments.entity.Match;
 import com.paninitorunaments.paninitorunaments.entity.Standing;
@@ -24,6 +23,114 @@ public class TournamentController {
     private final TournamentService tournamentService;
 
     private final MatchService matchService;
+
+    @GetMapping("/{id}/next-journey")
+    public ResponseEntity<NextJourneyResponse> getNextJourney(
+            @PathVariable Long id
+    ) {
+
+        return ResponseEntity.ok(
+                new NextJourneyResponse(
+                        tournamentService.getNextJourney(id)
+                )
+        );
+    }
+
+    @PostMapping("/{id}/journey/{journey}/play")
+    public ResponseEntity<Void> playJourney(
+            @PathVariable Long id,
+            @PathVariable Integer journey
+    ) {
+
+        tournamentService.playJourney(
+                id,
+                journey
+        );
+
+        return ResponseEntity.accepted()
+                .build();
+    }
+
+    @GetMapping("/{id}/journey/{journey}")
+    public ResponseEntity<List<Match>> getJourneyMatches(
+            @PathVariable Long id,
+            @PathVariable Integer journey
+    ) {
+
+        Championnat championnat =
+                tournamentService.getTournament(id);
+
+        List<Match> matches =
+                championnat.getMatches()
+                        .stream()
+                        .filter(
+                                match ->
+                                        match.getJourney()
+                                                .equals(journey)
+                        )
+                        .toList();
+
+        return ResponseEntity.ok(matches);
+    }
+
+    @GetMapping("/{id}/status")
+    public ResponseEntity<TournamentStatusResponse>
+    getStatus(
+            @PathVariable Long id
+    ) {
+
+        return ResponseEntity.ok(
+                tournamentService.getStatus(id)
+        );
+    }
+
+    @GetMapping("/{id}/statistics")
+    public ResponseEntity<TournamentStatisticsResponse>
+    getStatistics(
+            @PathVariable Long id
+    ) {
+
+        return ResponseEntity.ok(
+                tournamentService.getStatistics(id)
+        );
+    }
+
+    @GetMapping("/{id}/journeys")
+    public ResponseEntity<List<JourneyDto>>
+    getJourneys(
+            @PathVariable Long id
+    ) {
+
+        return ResponseEntity.ok(
+                tournamentService.getJourneys(id)
+        );
+    }
+
+
+
+
+    @GetMapping("/{id}/top-scorers")
+    public ResponseEntity<List<TopScorerResponse>>
+    getTopScorers(
+            @PathVariable Long id
+    ) {
+
+        return ResponseEntity.ok(
+                tournamentService
+                        .getTournamentTopScorers(id)
+        );
+    }
+
+    @GetMapping("/{id}/results")
+    public ResponseEntity<List<MatchResultDto>>
+    getResults(
+            @PathVariable Long id
+    ) {
+
+        return ResponseEntity.ok(
+                tournamentService.getResults(id)
+        );
+    }
 
     @GetMapping("/{id}/matches")
     public ResponseEntity<List<Match>> getTournamentMatches(
