@@ -20,6 +20,9 @@ public interface OwningRepository extends JpaRepository<Owning, Long> {
 
     Long countByEmail(String email);
 
+    List<Owning> findByEmail(String email);
+
+
     @Query("""
     SELECT s.nationality
     FROM Owning o
