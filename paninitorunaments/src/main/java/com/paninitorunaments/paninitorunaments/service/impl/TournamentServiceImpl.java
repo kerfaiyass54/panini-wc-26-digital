@@ -11,6 +11,7 @@ import com.paninitorunaments.paninitorunaments.exception.TournamentNotFoundExcep
 import com.paninitorunaments.paninitorunaments.repository.*;
 import com.paninitorunaments.paninitorunaments.service.MatchService;
 import com.paninitorunaments.paninitorunaments.service.TournamentService;
+import com.paninitorunaments.paninitorunaments.service.UserStatisticsService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,16 @@ public class TournamentServiceImpl implements TournamentService {
     private final StandingRepository standingRepository;
     private final MatchService matchService;
     private final GoalRepository goalRepository;
+    private final UserStatisticsService userStatisticsService;
+
+    @Override
+    public List<Championnat> getByEmail(
+            String email
+    ) {
+
+        return championnatRepository
+                .findByEmail(email);
+    }
 
 
     @Override
@@ -542,11 +553,20 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public Championnat createTournament(String name) {
+    public Championnat createTournament(
+            String name,
+            String email
+    ) {
 
-        Championnat championnat = Championnat.builder()
-                .tournament(name)
-                .build();
+        Championnat championnat =
+                Championnat.builder()
+                        .tournament(name)
+                        .email(email)
+                        .winnerProcessed(false)
+                        .build();
+
+        userStatisticsService
+                .incrementTournamentPlayed(email);
 
         return championnatRepository.save(championnat);
     }
@@ -565,7 +585,73 @@ public class TournamentServiceImpl implements TournamentService {
         championnat.getTeams().clear();
         championnat.getTeams().addAll(teams);
 
+        Championnat saved =
+                championnatRepository.save(championnat);
+
+        championnat.getTeams().clear();
+        championnat.getTeams().addAll(teams);
+
         return championnatRepository.save(championnat);
+
+    }
+
+    @Transactional
+    @Override
+    public void processTournamentWinner(
+            Long tournamentId
+    ) {
+
+        Championnat championnat =
+                championnatRepository
+                        .findById(tournamentId)
+                        .orElseThrow(
+                                () -> new TournamentNotFoundException(
+                                        tournamentId
+                                )
+                        );
+
+        boolean finished =
+                championnat.getMatches()
+                        .stream()
+                        .allMatch(
+                                match ->
+                                        Boolean.TRUE.equals(
+                                                match.getPlayed()
+                                        )
+                        );
+
+        if (!finished) {
+            return;
+        }
+
+        if (Boolean.TRUE.equals(
+                championnat.getWinnerProcessed()
+        )) {
+            return;
+        }
+
+        Standing championStanding =
+                standingRepository
+                        .findByChampionnatIdOrderByPointsDescGoalDifferenceDescGoalsForDesc(
+                                championnat.getId()
+                        )
+                        .stream()
+                        .findFirst()
+                        .orElseThrow();
+
+        String winnerEmail =
+                championStanding
+                        .getTeam()
+                        .getEmail();
+
+        userStatisticsService
+                .incrementTournamentWon(
+                        championnat.getEmail()
+                );
+
+        championnat.setWinnerProcessed(true);
+
+        championnatRepository.save(championnat);
     }
 
     @Override

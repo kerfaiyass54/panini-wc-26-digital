@@ -26,6 +26,7 @@ public class Team {
 
     private String email;
 
+
     @ManyToMany
     @JoinTable(
             name = "team_players",

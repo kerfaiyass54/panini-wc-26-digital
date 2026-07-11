@@ -16,4 +16,8 @@ public interface ChampionnatRepository extends JpaRepository<Championnat, Long> 
             Long championnatId
     );
 
+    List<Championnat> findByEmail(
+            String email
+    );
+
 }

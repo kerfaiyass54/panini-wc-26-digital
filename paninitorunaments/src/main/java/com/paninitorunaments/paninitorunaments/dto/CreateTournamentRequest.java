@@ -6,4 +6,6 @@ import lombok.Data;
 public class CreateTournamentRequest {
 
     private String tournament;
+    private String email;
+
 }

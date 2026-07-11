@@ -1,6 +1,7 @@
 package com.paninitorunaments.paninitorunaments.service;
 
 import com.paninitorunaments.paninitorunaments.dto.MatchResultRequest;
+import com.paninitorunaments.paninitorunaments.dto.PlayerStatisticsDto;
 import com.paninitorunaments.paninitorunaments.dto.TopScorerResponse;
 import com.paninitorunaments.paninitorunaments.entity.Goal;
 import com.paninitorunaments.paninitorunaments.entity.Match;
@@ -24,5 +25,5 @@ public interface MatchService {
 
     List<TopScorerResponse> getTopScorers();
 
-
+    List<PlayerStatisticsDto> getPlayerStatistics();
 }

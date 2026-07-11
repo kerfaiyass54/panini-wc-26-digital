@@ -9,8 +9,10 @@ import java.util.List;
 
 public interface TournamentService {
 
-    Championnat createTournament(String name);
-
+    Championnat createTournament(
+            String name,
+            String email
+    );
     Championnat addTeams(Long tournamentId, List<Long> teamIds);
 
     Championnat generateFixtures(Long tournamentId);
@@ -22,6 +24,14 @@ public interface TournamentService {
     Championnat initializeStandings(Long tournamentId);
 
     List<Standing> getStandings(Long tournamentId);
+
+    public void processTournamentWinner(
+            Long tournamentId
+    );
+
+    List<Championnat> getByEmail(
+            String email
+    );
 
     List<Match> getTournamentMatches(Long tournamentId);
 

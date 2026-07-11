@@ -36,6 +36,12 @@ public class Championnat {
     )
     private List<Match> matches = new ArrayList<>();
 
+    @Builder.Default
+    private Boolean winnerProcessed = false;
+
+
+    private String email;
+
     @OneToMany(mappedBy = "championnat",
             cascade = CascadeType.ALL)
     private List<Standing> standings = new ArrayList<>();

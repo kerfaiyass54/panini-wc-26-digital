@@ -10,6 +10,8 @@ import com.paninitorunaments.paninitorunaments.repository.GoalRepository;
 import com.paninitorunaments.paninitorunaments.repository.MatchRepository;
 import com.paninitorunaments.paninitorunaments.repository.StandingRepository;
 import com.paninitorunaments.paninitorunaments.service.MatchService;
+import com.paninitorunaments.paninitorunaments.service.TournamentService;
+import com.paninitorunaments.paninitorunaments.service.UserStatisticsService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ public class MatchServiceImpl
     private final ChampionnatRepository championnatRepository;
     private final MatchProducer matchProducer;
     private final GoalRepository goalRepository;
+    private final UserStatisticsService userStatisticsService;
+    private final TournamentService tournamentService;
 
     @Override
     public List<Match> getTournamentMatches(Long tournamentId) {
@@ -37,6 +41,27 @@ public class MatchServiceImpl
                         );
 
         return championnat.getMatches();
+    }
+
+    @Override
+    public List<PlayerStatisticsDto>
+    getPlayerStatistics() {
+
+        return goalRepository
+                .getPlayerStatistics()
+                .stream()
+                .map(row ->
+                        PlayerStatisticsDto
+                                .builder()
+                                .player(
+                                        (String) row[0]
+                                )
+                                .goals(
+                                        (Long) row[1]
+                                )
+                                .build()
+                )
+                .toList();
     }
 
     @Override
@@ -87,8 +112,6 @@ public class MatchServiceImpl
                 )
                 .build();
     }
-
-
 
     @Override
     public void startMatch(Long matchId) {
@@ -146,6 +169,46 @@ public class MatchServiceImpl
 
         matchRepository.save(match);
 
+        String homeEmail =
+                match.getTeam1().getEmail();
+
+        String awayEmail =
+                match.getTeam2().getEmail();
+
+        userStatisticsService.incrementMatchPlayed(
+                homeEmail
+        );
+
+        userStatisticsService.incrementMatchPlayed(
+                awayEmail
+        );
+
+        userStatisticsService.addGoals(
+                homeEmail,
+                request.getGoalsHome()
+        );
+
+        userStatisticsService.addGoals(
+                awayEmail,
+                request.getGoalsAway()
+        );
+
+        if (request.getGoalsHome()
+                > request.getGoalsAway()) {
+
+            userStatisticsService.incrementMatchWon(
+                    homeEmail
+            );
+        }
+
+        if (request.getGoalsAway()
+                > request.getGoalsHome()) {
+
+            userStatisticsService.incrementMatchWon(
+                    awayEmail
+            );
+        }
+
         Championnat championnat =
                 championnatRepository
                         .findByMatchesContains(match)
@@ -176,6 +239,10 @@ public class MatchServiceImpl
 
         standingRepository.save(homeStanding);
         standingRepository.save(awayStanding);
+
+        tournamentService.processTournamentWinner(
+                championnat.getId()
+        );
 
         return match;
     }

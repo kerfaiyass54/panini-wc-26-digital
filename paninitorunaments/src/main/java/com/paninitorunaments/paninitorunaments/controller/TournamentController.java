@@ -150,9 +150,21 @@ public class TournamentController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(
                         tournamentService.createTournament(
-                                request.getTournament()
+                                request.getTournament(),
+                                request.getEmail()
                         )
                 );
+    }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<List<Championnat>>
+    getByEmail(
+            @PathVariable String email
+    ) {
+
+        return ResponseEntity.ok(
+                tournamentService.getByEmail(email)
+        );
     }
 
     @PostMapping("/{id}/teams")

@@ -30,4 +30,14 @@ ORDER BY COUNT(g) DESC
             List<Long> matchIds
     );
 
+    @Query("""
+SELECT
+g.player.name,
+COUNT(g)
+FROM Goal g
+GROUP BY g.player.name
+ORDER BY COUNT(g) DESC
+""")
+    List<Object[]> getPlayerStatistics();
+
 }
