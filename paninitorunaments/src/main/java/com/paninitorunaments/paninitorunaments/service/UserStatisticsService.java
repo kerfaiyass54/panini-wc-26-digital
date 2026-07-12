@@ -2,6 +2,8 @@ package com.paninitorunaments.paninitorunaments.service;
 
 import com.paninitorunaments.paninitorunaments.entity.UserStatistics;
 
+import java.util.List;
+
 public interface UserStatisticsService {
 
     UserStatistics getByEmail(
@@ -23,6 +25,8 @@ public interface UserStatisticsService {
     void incrementMatchWon(
             String email
     );
+
+    List<UserStatistics> getLeaderboard();
 
     void addGoals(
             String email,

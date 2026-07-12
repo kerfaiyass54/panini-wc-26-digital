@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/statistics")
 @RequiredArgsConstructor
@@ -24,6 +26,15 @@ public class UserStatisticsController {
 
         return ResponseEntity.ok(
                 service.getByEmail(email)
+        );
+    }
+
+    @GetMapping("/leaderboard")
+    public ResponseEntity<List<UserStatistics>>
+    getLeaderboard() {
+
+        return ResponseEntity.ok(
+                service.getLeaderboard()
         );
     }
 }

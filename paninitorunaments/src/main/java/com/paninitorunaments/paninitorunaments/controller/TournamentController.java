@@ -156,6 +156,8 @@ public class TournamentController {
                 );
     }
 
+
+
     @GetMapping("/email/{email}")
     public ResponseEntity<List<Championnat>>
     getByEmail(

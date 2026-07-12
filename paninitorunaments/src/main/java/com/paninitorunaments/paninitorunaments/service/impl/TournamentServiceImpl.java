@@ -595,64 +595,7 @@ public class TournamentServiceImpl implements TournamentService {
 
     }
 
-    @Transactional
-    @Override
-    public void processTournamentWinner(
-            Long tournamentId
-    ) {
 
-        Championnat championnat =
-                championnatRepository
-                        .findById(tournamentId)
-                        .orElseThrow(
-                                () -> new TournamentNotFoundException(
-                                        tournamentId
-                                )
-                        );
-
-        boolean finished =
-                championnat.getMatches()
-                        .stream()
-                        .allMatch(
-                                match ->
-                                        Boolean.TRUE.equals(
-                                                match.getPlayed()
-                                        )
-                        );
-
-        if (!finished) {
-            return;
-        }
-
-        if (Boolean.TRUE.equals(
-                championnat.getWinnerProcessed()
-        )) {
-            return;
-        }
-
-        Standing championStanding =
-                standingRepository
-                        .findByChampionnatIdOrderByPointsDescGoalDifferenceDescGoalsForDesc(
-                                championnat.getId()
-                        )
-                        .stream()
-                        .findFirst()
-                        .orElseThrow();
-
-        String winnerEmail =
-                championStanding
-                        .getTeam()
-                        .getEmail();
-
-        userStatisticsService
-                .incrementTournamentWon(
-                        championnat.getEmail()
-                );
-
-        championnat.setWinnerProcessed(true);
-
-        championnatRepository.save(championnat);
-    }
 
     @Override
     @Transactional

@@ -12,9 +12,6 @@ public interface ChampionnatRepository extends JpaRepository<Championnat, Long> 
 
     Optional<Championnat> findByMatchesContains(Match match);
 
-    List<Standing> findByChampionnatIdOrderByPointsDescGoalDifferenceDescGoalsForDesc(
-            Long championnatId
-    );
 
     List<Championnat> findByEmail(
             String email

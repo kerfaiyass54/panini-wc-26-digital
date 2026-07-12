@@ -10,7 +10,7 @@ import com.paninitorunaments.paninitorunaments.repository.GoalRepository;
 import com.paninitorunaments.paninitorunaments.repository.MatchRepository;
 import com.paninitorunaments.paninitorunaments.repository.StandingRepository;
 import com.paninitorunaments.paninitorunaments.service.MatchService;
-import com.paninitorunaments.paninitorunaments.service.TournamentService;
+import com.paninitorunaments.paninitorunaments.service.TournamentWinnerService;
 import com.paninitorunaments.paninitorunaments.service.UserStatisticsService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class MatchServiceImpl
     private final MatchProducer matchProducer;
     private final GoalRepository goalRepository;
     private final UserStatisticsService userStatisticsService;
-    private final TournamentService tournamentService;
+    private final TournamentWinnerService tournamentWinnerService;
 
     @Override
     public List<Match> getTournamentMatches(Long tournamentId) {
@@ -240,7 +240,7 @@ public class MatchServiceImpl
         standingRepository.save(homeStanding);
         standingRepository.save(awayStanding);
 
-        tournamentService.processTournamentWinner(
+        tournamentWinnerService.processTournamentWinner(
                 championnat.getId()
         );
 

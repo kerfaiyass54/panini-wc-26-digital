@@ -25,9 +25,7 @@ public interface TournamentService {
 
     List<Standing> getStandings(Long tournamentId);
 
-    public void processTournamentWinner(
-            Long tournamentId
-    );
+
 
     List<Championnat> getByEmail(
             String email

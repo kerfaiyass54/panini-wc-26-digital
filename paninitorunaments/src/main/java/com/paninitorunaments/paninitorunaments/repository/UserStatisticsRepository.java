@@ -4,6 +4,7 @@ package com.paninitorunaments.paninitorunaments.repository;
 import com.paninitorunaments.paninitorunaments.entity.UserStatistics;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserStatisticsRepository
@@ -12,4 +13,7 @@ public interface UserStatisticsRepository
     Optional<UserStatistics> findByEmail(
             String email
     );
+
+    List<UserStatistics>
+    findAllByOrderByTournamentsWonDesc();
 }

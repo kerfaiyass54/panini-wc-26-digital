@@ -6,6 +6,8 @@ import com.paninitorunaments.paninitorunaments.service.UserStatisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserStatisticsServiceImpl
@@ -98,6 +100,14 @@ public class UserStatisticsServiceImpl
         );
 
         repository.save(stats);
+    }
+
+    @Override
+    public List<UserStatistics>
+    getLeaderboard() {
+
+        return repository
+                .findAllByOrderByTournamentsWonDesc();
     }
 
     @Override
