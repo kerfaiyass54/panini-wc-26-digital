@@ -1,0 +1,114 @@
+<div class="scorers-page">
+
+  <div class="hero">
+
+    <h1>
+      🥇 Golden Boot Race
+    </h1>
+
+    <p>
+      Tournament Top Scorers
+    </p>
+
+  </div>
+
+  @if(scorers.length > 0){
+
+    <div class="podium">
+
+      @if(scorers.length > 1){
+
+        <div class="podium-card silver">
+
+          <div class="rank">
+            🥈
+          </div>
+
+          <h3>
+            {{ scorers[1].player }}
+          </h3>
+
+          <span>
+            {{ scorers[1].goals }}
+            Goals
+          </span>
+
+        </div>
+
+      }
+
+      <div class="podium-card gold">
+
+        <div class="rank">
+          🥇
+        </div>
+
+        <h3>
+          {{ scorers[0].player }}
+        </h3>
+
+        <span>
+          {{ scorers[0].goals }}
+          Goals
+        </span>
+
+      </div>
+
+      @if(scorers.length > 2){
+
+        <div class="podium-card bronze">
+
+          <div class="rank">
+            🥉
+          </div>
+
+          <h3>
+            {{ scorers[2].player }}
+          </h3>
+
+          <span>
+            {{ scorers[2].goals }}
+            Goals
+          </span>
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+  <div class="ranking-list">
+
+    @for(
+      scorer of scorers;
+      track scorer.player;
+      let i = $index
+      ){
+
+      <div class="ranking-row">
+
+        <div class="position">
+          #{{ i + 1 }}
+        </div>
+
+        <div class="player">
+
+          <h3>
+            {{ scorer.player }}
+          </h3>
+
+        </div>
+
+        <div class="goals">
+          ⚽ {{ scorer.goals }}
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
+</div>

@@ -1,0 +1,149 @@
+.hall-page {
+  min-height: 100vh;
+  padding: 2rem;
+  background:
+    linear-gradient(
+        135deg,
+        #020617,
+        #0f172a,
+        #111827
+    );
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  color: white;
+}
+
+.hero p {
+  color: #94a3b8;
+}
+
+/* PODIUM */
+
+.podium {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.podium-card {
+  width: 260px;
+
+  padding: 2rem;
+
+  text-align: center;
+
+  border-radius: 24px;
+
+  backdrop-filter: blur(20px);
+
+  color: white;
+
+  transition: .3s;
+}
+
+.podium-card:hover {
+  transform:
+    translateY(-10px);
+}
+
+.gold {
+  background:
+    linear-gradient(
+        135deg,
+        rgba(251,191,36,.25),
+        rgba(251,191,36,.05)
+    );
+
+  transform:
+    scale(1.1);
+}
+
+.silver {
+  background:
+    linear-gradient(
+        135deg,
+        rgba(203,213,225,.25),
+        rgba(203,213,225,.05)
+    );
+}
+
+.bronze {
+  background:
+    linear-gradient(
+        135deg,
+        rgba(180,83,9,.25),
+        rgba(180,83,9,.05)
+    );
+}
+
+.rank {
+  font-size: 4rem;
+}
+
+/* LIST */
+
+.ranking-list {
+  max-width: 1200px;
+  margin: auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ranking-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 1.5rem;
+
+  border-radius: 20px;
+
+  background:
+    rgba(255,255,255,.05);
+
+  backdrop-filter: blur(20px);
+
+  color: white;
+
+  transition: .3s;
+}
+
+.ranking-row:hover {
+  transform:
+    translateX(8px);
+}
+
+.position {
+  font-size: 1.4rem;
+  font-weight: 800;
+  width: 80px;
+}
+
+.info h3 {
+  margin: 0;
+}
+
+.info span {
+  color: #94a3b8;
+}
+
+.wins {
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.loading {
+  text-align: center;
+  color: white;
+}

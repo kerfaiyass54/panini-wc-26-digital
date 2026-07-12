@@ -1,0 +1,156 @@
+<div class="page">
+
+  <div class="hero">
+
+    <div>
+      <h1>⚽ My Teams</h1>
+      <p>
+        Build, manage and dominate tournaments
+      </p>
+    </div>
+
+    <div class="actions">
+
+      <button
+        class="generate-btn"
+        (click)="goToAutoGeneration()"
+      >
+        ⚡ Generate Team
+      </button>
+
+      <button
+        class="manual-btn"
+        (click)="goToManualCreation()"
+      >
+        👥 Manual Team
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="stats-banner">
+
+    <div class="stat-card">
+      <span class="number">
+        {{ teams.length }}
+      </span>
+
+      <span class="label">
+        Teams Created
+      </span>
+    </div>
+
+    <div class="stat-card">
+      <span class="number">
+        {{
+          teams.length
+            ? teams.length * 17
+            : 0
+        }}
+      </span>
+
+      <span class="label">
+        Players Managed
+      </span>
+    </div>
+
+  </div>
+
+  <div class="teams-section">
+
+    <div class="section-header">
+
+      <h2>
+        Your Teams
+      </h2>
+
+      <span class="badge">
+        {{ teams.length }}
+      </span>
+
+    </div>
+
+    <div class="teams-container">
+
+      @if(loading){
+
+        <div class="empty-state">
+
+          <div class="loader"></div>
+
+          <p>
+            Loading teams...
+          </p>
+
+        </div>
+
+      } @else {
+
+        @if(teams.length === 0){
+
+          <div class="empty-state">
+
+            <div class="empty-icon">
+              ⚽
+            </div>
+
+            <h3>
+              No Teams Yet
+            </h3>
+
+            <p>
+              Generate your first dream team.
+            </p>
+
+          </div>
+
+        } @else {
+
+          @for(team of teams; track team.team_id){
+
+            <div class="team-card">
+
+              <div class="glow"></div>
+
+              <div class="team-info">
+
+                <div class="team-avatar">
+                  🏆
+                </div>
+
+                <div>
+
+                  <h3>
+                    {{ team.team_name }}
+                  </h3>
+
+                  <p>
+                    {{ team.players.length }}
+                    Players
+                  </p>
+
+                </div>
+
+              </div>
+
+              <button
+                class="delete-btn"
+                (click)="deleteTeam(team.team_id)"
+              >
+                Delete
+              </button>
+
+            </div>
+
+          }
+
+        }
+
+      }
+
+    </div>
+
+  </div>
+
+</div>

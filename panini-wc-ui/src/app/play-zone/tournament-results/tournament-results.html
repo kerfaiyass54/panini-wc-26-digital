@@ -1,0 +1,88 @@
+<div class="results-page">
+
+  <div class="hero">
+
+    <h1>
+      📜 Tournament History
+    </h1>
+
+    <p>
+      Every match played
+    </p>
+
+  </div>
+
+  @if(loading){
+
+    <div class="loading">
+
+      Loading Results...
+
+    </div>
+
+  } @else {
+
+    @for(
+      group of groupedResults;
+      track group.journey
+      ){
+
+      <div class="journey-section">
+
+        <div class="journey-header">
+
+          Journey
+          {{ group.journey }}
+
+        </div>
+
+        <div class="matches">
+
+          @for(
+            match of group.matches;
+            track match.id
+            ){
+
+            <div class="match-card">
+
+              <div class="team">
+
+                {{ match.homeTeam }}
+
+              </div>
+
+              <div class="score">
+
+                <span>
+                  {{ match.goalsHome }}
+                </span>
+
+                <strong>
+                  -
+                </strong>
+
+                <span>
+                  {{ match.goalsAway }}
+                </span>
+
+              </div>
+
+              <div class="team">
+
+                {{ match.awayTeam }}
+
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+    }
+
+  }
+
+</div>

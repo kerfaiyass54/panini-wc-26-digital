@@ -1,0 +1,68 @@
+<div class="results-page">
+
+  <div class="hero">
+
+    <h1>
+      ⚽ Journey {{ journey }}
+    </h1>
+
+    <p>
+      Match Results
+    </p>
+
+  </div>
+
+  @if(loading){
+
+    <div class="loading">
+      Loading...
+    </div>
+
+  } @else {
+
+    <div class="matches-container">
+
+      @for(
+        match of matches;
+        track match.id
+        ){
+
+        <div class="match-card">
+
+          <div class="team">
+
+            {{ match.team1.name }}
+
+          </div>
+
+          <div class="score">
+
+            <span>
+              {{ match.goalsHome }}
+            </span>
+
+            <strong>
+              -
+            </strong>
+
+            <span>
+              {{ match.goalsAway }}
+            </span>
+
+          </div>
+
+          <div class="team">
+
+            {{ match.team2.name }}
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+</div>

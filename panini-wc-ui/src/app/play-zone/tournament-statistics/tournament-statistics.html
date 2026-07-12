@@ -1,0 +1,151 @@
+<div class="statistics-page">
+
+  <div class="hero">
+
+    <h1>
+      📊 Tournament Statistics
+    </h1>
+
+    <p>
+      Competition analytics
+    </p>
+
+  </div>
+
+  @if(loading){
+
+    <div class="loading">
+      Loading statistics...
+    </div>
+
+  } @else {
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+        <span>⚽</span>
+        <h2>
+          {{
+            statistics.totalGoals
+          }}
+        </h2>
+        <p>Total Goals</p>
+      </div>
+
+      <div class="stat-card">
+        <span>🎯</span>
+        <h2>
+          {{
+            statistics.averageGoalsPerMatch
+              | number:'1.1-2'
+          }}
+        </h2>
+        <p>Goals / Match</p>
+      </div>
+
+      <div class="stat-card">
+        <span>🏟️</span>
+        <h2>
+          {{
+            statistics.playedMatches
+          }}
+        </h2>
+        <p>Matches Played</p>
+      </div>
+
+      <div class="stat-card">
+        <span>📅</span>
+        <h2>
+          {{
+            statistics.totalMatches
+          }}
+        </h2>
+        <p>Total Matches</p>
+      </div>
+
+    </div>
+
+    <div class="details-grid">
+
+      <div class="info-card">
+
+        <h3>
+          🥇 Top Scorer
+        </h3>
+
+        <h2>
+          {{
+            statistics.topScorer
+          }}
+        </h2>
+
+        <p>
+          {{
+            statistics.topScorerGoals
+          }}
+          Goals
+        </p>
+
+      </div>
+
+      <div class="info-card">
+
+        <h3>
+          🚀 Best Attack
+        </h3>
+
+        <h2>
+          {{
+            statistics.bestAttack
+          }}
+        </h2>
+
+        <p>
+          {{
+            statistics.bestAttackGoals
+          }}
+          Goals Scored
+        </p>
+
+      </div>
+
+      <div class="info-card">
+
+        <h3>
+          🛡️ Best Defense
+        </h3>
+
+        <h2>
+          {{
+            statistics.bestDefense
+          }}
+        </h2>
+
+        <p>
+          {{
+            statistics.bestDefenseGoalsConceded
+          }}
+          Goals Conceded
+        </p>
+
+      </div>
+
+      <div class="info-card">
+
+        <h3>
+          🔥 Highest Scoring Match
+        </h3>
+
+        <h2>
+          {{
+            statistics.highestScoringMatch
+          }}
+        </h2>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

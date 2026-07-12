@@ -1,0 +1,528 @@
+.status-page {
+  min-height: 100vh;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+
+  background:
+    radial-gradient(circle at top left,
+      rgba(59, 130, 246, 0.15),
+      transparent 30%),
+    radial-gradient(circle at bottom right,
+      rgba(168, 85, 247, 0.15),
+      transparent 30%),
+    linear-gradient(
+        135deg,
+        #0f172a,
+        #111827,
+        #1e1b4b
+    );
+
+  animation: pageFade 0.8s ease;
+}
+
+.status-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+
+  background-image:
+    linear-gradient(
+        rgba(255,255,255,.03) 1px,
+        transparent 1px
+    ),
+    linear-gradient(
+        90deg,
+        rgba(255,255,255,.03) 1px,
+        transparent 1px
+    );
+
+  background-size: 45px 45px;
+
+  pointer-events: none;
+}
+
+/* HERO */
+
+.hero {
+  text-align: center;
+  margin-bottom: 3rem;
+
+  animation: slideDown .8s ease;
+}
+
+.hero h1 {
+  margin: 0;
+
+  font-size: 3rem;
+  font-weight: 900;
+
+  background:
+    linear-gradient(
+        135deg,
+        #60a5fa,
+        #8b5cf6
+    );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  margin-top: .8rem;
+
+  color: #94a3b8;
+
+  font-size: 1rem;
+}
+
+/* LOADING */
+
+.loading {
+  text-align: center;
+
+  color: white;
+
+  font-size: 1.2rem;
+
+  padding: 3rem;
+
+  animation: pulse 1.5s infinite;
+}
+
+/* STATUS GRID */
+
+.status-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+        minmax(250px, 1fr)
+    );
+
+  gap: 1.5rem;
+
+  margin-bottom: 2rem;
+}
+
+.status-card {
+  position: relative;
+  overflow: hidden;
+
+  padding: 2rem;
+
+  background:
+    rgba(255,255,255,.05);
+
+  backdrop-filter: blur(18px);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  border-radius: 24px;
+
+  text-align: center;
+
+  transition: .4s ease;
+
+  animation:
+    cardAppear .8s ease;
+}
+
+.status-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+        135deg,
+        rgba(96,165,250,.12),
+        rgba(139,92,246,.08)
+    );
+
+  opacity: 0;
+
+  transition: .4s ease;
+}
+
+.status-card:hover::before {
+  opacity: 1;
+}
+
+.status-card:hover {
+  transform:
+    translateY(-10px)
+    scale(1.03);
+
+  border-color:
+    rgba(96,165,250,.25);
+
+  box-shadow:
+    0 20px 40px rgba(0,0,0,.35);
+}
+
+.status-card span {
+  display: block;
+
+  font-size: 3rem;
+
+  margin-bottom: 1rem;
+
+  animation:
+    float 3s ease-in-out infinite;
+}
+
+.status-card h2 {
+  margin: 0;
+
+  color: white;
+
+  font-size: 2.2rem;
+  font-weight: 900;
+}
+
+.status-card p {
+  margin-top: .7rem;
+
+  color: #94a3b8;
+}
+
+/* PROGRESS */
+
+.progress-card {
+  padding: 2rem;
+
+  margin-bottom: 2rem;
+
+  background:
+    rgba(255,255,255,.05);
+
+  backdrop-filter: blur(20px);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  border-radius: 28px;
+
+  animation:
+    slideUp .8s ease;
+}
+
+.progress-card h3 {
+  margin-top: 0;
+
+  color: white;
+
+  font-size: 1.3rem;
+}
+
+.progress-bar {
+  height: 18px;
+
+  margin: 1.5rem 0;
+
+  background:
+    rgba(255,255,255,.08);
+
+  border-radius: 999px;
+
+  overflow: hidden;
+
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+        90deg,
+        #3b82f6,
+        #8b5cf6,
+        #ec4899
+    );
+
+  background-size: 200% 200%;
+
+  animation:
+    gradientMove 4s ease infinite;
+
+  box-shadow:
+    0 0 25px rgba(96,165,250,.5);
+}
+
+.progress-card strong {
+  color: #60a5fa;
+
+  font-size: 1.5rem;
+}
+
+/* CHAMPION */
+
+.champion-card {
+  position: relative;
+  overflow: hidden;
+
+  text-align: center;
+
+  padding: 4rem 2rem;
+
+  border-radius: 32px;
+
+  background:
+    linear-gradient(
+        135deg,
+        rgba(251,191,36,.15),
+        rgba(245,158,11,.08)
+    );
+
+  border:
+    1px solid rgba(251,191,36,.25);
+
+  box-shadow:
+    0 0 50px rgba(251,191,36,.15);
+
+  animation:
+    championAppear 1s ease;
+}
+
+.champion-card::before {
+  content: '';
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(
+        circle,
+        rgba(251,191,36,.15),
+        transparent 70%
+    );
+
+  animation:
+    glowPulse 4s infinite;
+}
+
+.crown {
+  font-size: 5rem;
+
+  margin-bottom: 1rem;
+
+  animation:
+    float 3s ease infinite;
+}
+
+.champion-card h2 {
+  color: #fbbf24;
+
+  margin-bottom: 1rem;
+}
+
+.champion-card h1 {
+  color: white;
+
+  margin: 0;
+
+  font-size: 3rem;
+  font-weight: 900;
+
+  text-shadow:
+    0 0 30px rgba(251,191,36,.5);
+}
+
+/* RUNNING */
+
+.running-card {
+  text-align: center;
+
+  padding: 3rem;
+
+  border-radius: 28px;
+
+  background:
+    rgba(255,255,255,.05);
+
+  backdrop-filter: blur(20px);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  animation:
+    slideUp .8s ease;
+}
+
+.running-card h2 {
+  color: #22c55e;
+
+  margin-top: 0;
+}
+
+.running-card p {
+  color: #cbd5e1;
+
+  font-size: 1.1rem;
+}
+
+/* ANIMATIONS */
+
+@keyframes pageFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform:
+      translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform:
+      translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform:
+      translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform:
+      translateY(0);
+  }
+}
+
+@keyframes cardAppear {
+  from {
+    opacity: 0;
+    transform:
+      translateY(30px)
+      scale(.95);
+  }
+  to {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+@keyframes float {
+
+  0% {
+    transform:
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      translateY(-10px);
+  }
+
+  100% {
+    transform:
+      translateY(0);
+  }
+
+}
+
+@keyframes glowPulse {
+
+  0% {
+    opacity: .3;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: .3;
+  }
+
+}
+
+@keyframes gradientMove {
+
+  0% {
+    background-position:
+      0% 50%;
+  }
+
+  50% {
+    background-position:
+      100% 50%;
+  }
+
+  100% {
+    background-position:
+      0% 50%;
+  }
+
+}
+
+@keyframes championAppear {
+
+  from {
+    opacity: 0;
+    transform:
+      scale(.85);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      scale(1);
+  }
+
+}
+
+@keyframes pulse {
+
+  0% {
+    opacity: .5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: .5;
+  }
+
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+
+  .status-page {
+    padding: 1rem;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .champion-card h1 {
+    font-size: 2rem;
+  }
+
+  .status-card h2 {
+    font-size: 1.8rem;
+  }
+
+}

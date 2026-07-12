@@ -1,0 +1,139 @@
+<div class="standings-page">
+
+  <div class="hero">
+
+    <h1>
+      🏆 Tournament Standings
+    </h1>
+
+    <p>
+      Live ranking table
+    </p>
+
+  </div>
+
+  @if(loading){
+
+    <div class="loading">
+      Loading standings...
+    </div>
+
+  } @else {
+
+    <div class="table-container">
+
+      <table>
+
+        <thead>
+
+        <tr>
+
+          <th>#</th>
+
+          <th>Team</th>
+
+          <th>P</th>
+
+          <th>W</th>
+
+          <th>D</th>
+
+          <th>L</th>
+
+          <th>GF</th>
+
+          <th>GA</th>
+
+          <th>GD</th>
+
+          <th>PTS</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+          @for(
+            standing of standings;
+            track standing.id;
+            let i = $index
+            ){
+
+            <tr
+              [class]="
+                getRankClass(i)
+              "
+            >
+
+              <td>
+                {{ i + 1 }}
+              </td>
+
+              <td>
+                {{
+                  standing.team.name
+                }}
+              </td>
+
+              <td>
+                {{
+                  standing.played
+                }}
+              </td>
+
+              <td>
+                {{
+                  standing.won
+                }}
+              </td>
+
+              <td>
+                {{
+                  standing.drawn
+                }}
+              </td>
+
+              <td>
+                {{
+                  standing.lost
+                }}
+              </td>
+
+              <td>
+                {{
+                  standing.goalsFor
+                }}
+              </td>
+
+              <td>
+                {{
+                  standing.goalsAgainst
+                }}
+              </td>
+
+              <td>
+                {{
+                  standing.goalDifference
+                }}
+              </td>
+
+              <td class="points">
+                {{
+                  standing.points
+                }}
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  }
+
+</div>

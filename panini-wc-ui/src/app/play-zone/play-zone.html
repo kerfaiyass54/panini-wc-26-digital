@@ -1,0 +1,98 @@
+<div class="play-zone">
+
+
+  <div class="quick-actions">
+
+    <div
+      class="action-card"
+      (click)="createTournament()"
+    >
+      <div class="icon">🏆</div>
+      <h3>Create Tournament</h3>
+      <p>
+        Start a new competition
+      </p>
+    </div>
+
+    <div
+      class="action-card"
+      (click)="createTeam()"
+    >
+      <div class="icon">👥</div>
+      <h3>Create Team</h3>
+      <p>
+        Generate or build a team
+      </p>
+    </div>
+
+  </div>
+
+  <div class="section">
+
+    <div class="section-header">
+      <h2>My Teams</h2>
+      <span>
+        {{ teams.length }}
+      </span>
+    </div>
+
+    <div class="cards-grid">
+
+      @for(team of teams; track team.team_id){
+
+        <div class="card team-card">
+
+          <h3>
+            {{ team.team_name }}
+          </h3>
+
+          <p>
+            Players:
+            {{ team.players.length }}
+          </p>
+
+        </div>
+
+      }
+
+    </div>
+
+  </div>
+
+  <div class="section">
+
+    <div class="section-header">
+      <h2>My Tournaments</h2>
+      <span>
+        {{ tournaments.length }}
+      </span>
+    </div>
+
+    <div class="cards-grid">
+
+      @for(tournament of tournaments; track tournament.id){
+
+        <div
+          class="card tournament-card"
+          (click)="
+          openTournament(
+            tournament
+          )
+        "
+        >
+          <h3>
+            {{ tournament.tournament }}
+          </h3>
+
+          <p>
+            Click to open
+          </p>
+        </div>
+
+      }
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,350 @@
+<div class="dashboard-page">
+
+  @if(loading){
+
+    <div class="loading-state">
+      <div class="loader"></div>
+      <p>Loading Tournament...</p>
+    </div>
+
+  } @else {
+
+    <!-- HERO -->
+
+    <div class="hero-card">
+
+      <div class="hero-content">
+
+        <div>
+
+          <h1>
+            🏆 {{ tournamentName }}
+          </h1>
+
+          <p>
+            Tournament Dashboard
+          </p>
+
+        </div>
+
+        <div
+          class="status-badge"
+          [class.finished]="finished"
+        >
+          {{ finished ? 'Finished' : 'In Progress' }}
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- STATS -->
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+        <span>⚽ Played Matches</span>
+        <h2>
+          {{ playedMatches }}
+        </h2>
+      </div>
+
+      <div class="stat-card">
+        <span>⏳ Remaining</span>
+        <h2>
+          {{ remainingMatches }}
+        </h2>
+      </div>
+
+      <div class="stat-card">
+        <span>📅 Journey</span>
+        <h2>
+          {{ currentJourney }}
+        </h2>
+      </div>
+
+      <div class="stat-card">
+        <span>👑 Champion</span>
+        <h2>
+          {{ champion }}
+        </h2>
+      </div>
+
+    </div>
+
+    <!-- ACTION -->
+
+    <div class="action-section">
+
+      <button
+        class="play-btn"
+        [disabled]="finished"
+        (click)="playNextJourney()"
+      >
+        ▶ Play Journey
+        @if(nextJourney){
+          <span>
+            {{ nextJourney }}
+          </span>
+        }
+      </button>
+
+    </div>
+
+    <!-- TOURNAMENT STATISTICS -->
+
+    <div class="statistics-grid">
+
+      <div class="info-card">
+
+        <h3>
+          📊 Tournament Statistics
+        </h3>
+
+        <div class="info-row">
+          <span>Total Goals</span>
+          <strong>
+            {{ statistics?.totalGoals }}
+          </strong>
+        </div>
+
+        <div class="info-row">
+          <span>Average Goals</span>
+          <strong>
+            {{ statistics?.averageGoalsPerMatch | number:'1.1-2' }}
+          </strong>
+        </div>
+
+        <div class="info-row">
+          <span>Top Scorer</span>
+          <strong>
+            {{ statistics?.topScorer }}
+          </strong>
+        </div>
+
+        <div class="info-row">
+          <span>Goals</span>
+          <strong>
+            {{ statistics?.topScorerGoals }}
+          </strong>
+        </div>
+
+      </div>
+
+      <div class="info-card">
+
+        <h3>
+          🔥 Highlights
+        </h3>
+
+        <div class="info-row">
+          <span>Best Attack</span>
+          <strong>
+            {{ statistics?.bestAttack }}
+          </strong>
+        </div>
+
+        <div class="info-row">
+          <span>Goals Scored</span>
+          <strong>
+            {{ statistics?.bestAttackGoals }}
+          </strong>
+        </div>
+
+        <div class="info-row">
+          <span>Best Defense</span>
+          <strong>
+            {{ statistics?.bestDefense }}
+          </strong>
+        </div>
+
+        <div class="info-row">
+          <span>Goals Conceded</span>
+          <strong>
+            {{ statistics?.bestDefenseGoalsConceded }}
+          </strong>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- TABLES -->
+
+    <div class="tables-grid">
+
+      <!-- STANDINGS -->
+
+      <div class="table-card">
+
+        <div class="card-header">
+          <h3>
+            🏅 Standings
+          </h3>
+        </div>
+
+        <table>
+
+          <thead>
+
+          <tr>
+            <th>#</th>
+            <th>Team</th>
+            <th>Pts</th>
+            <th>GD</th>
+          </tr>
+
+          </thead>
+
+          <tbody>
+
+            @for(
+              standing of standings;
+              track standing.id;
+              let i = $index
+              ){
+
+              <tr>
+
+                <td>
+                  {{ i + 1 }}
+                </td>
+
+                <td>
+                  {{ standing.team.name }}
+                </td>
+
+                <td>
+                  {{ standing.points }}
+                </td>
+
+                <td>
+                  {{ standing.goalDifference }}
+                </td>
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <!-- TOP SCORERS -->
+
+      <div class="table-card">
+
+        <div class="card-header">
+          <h3>
+            ⚽ Top Scorers
+          </h3>
+        </div>
+
+        <div class="scorers-list">
+
+          @for(
+            scorer of topScorers;
+            track scorer.player
+            ){
+
+            <div class="scorer-card">
+
+              <span>
+                {{ scorer.player }}
+              </span>
+
+              <strong>
+                {{ scorer.goals }}
+              </strong>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- RESULTS -->
+
+    <div class="results-card">
+
+      <div class="card-header">
+        <h3>
+          📋 Match Results
+        </h3>
+      </div>
+
+      <div class="results-list">
+
+        @for(
+          result of results;
+          track result.id
+          ){
+
+          <div class="result-item">
+
+            <span>
+              {{ result.homeTeam }}
+            </span>
+
+            <strong>
+              {{ result.goalsHome }}
+              -
+              {{ result.goalsAway }}
+            </strong>
+
+            <span>
+              {{ result.awayTeam }}
+            </span>
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+    <!-- JOURNEYS -->
+
+    <div class="journeys-section">
+
+      <h2>
+        📅 Journeys
+      </h2>
+
+      <div class="journeys-grid">
+
+        @for(
+          journey of journeys;
+          track journey.journey
+          ){
+
+          <div class="journey-card">
+
+            <h3>
+              Journey
+              {{ journey.journey }}
+            </h3>
+
+            <p>
+              Matches:
+              {{ journey.matchCount }}
+            </p>
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

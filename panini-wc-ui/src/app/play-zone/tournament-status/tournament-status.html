@@ -1,0 +1,155 @@
+<div class="status-page">
+
+  <div class="hero">
+
+    <h1>
+      🏆 Tournament Status
+    </h1>
+
+    <p>
+      Live competition overview
+    </p>
+
+  </div>
+
+  @if(loading){
+
+    <div class="loading">
+      Loading...
+    </div>
+
+  } @else {
+
+    <div class="status-grid">
+
+      <div class="status-card">
+
+        <span>⚽</span>
+
+        <h2>
+          {{ status.playedMatches }}
+        </h2>
+
+        <p>
+          Matches Played
+        </p>
+
+      </div>
+
+      <div class="status-card">
+
+        <span>📅</span>
+
+        <h2>
+          {{ status.remainingMatches }}
+        </h2>
+
+        <p>
+          Remaining Matches
+        </p>
+
+      </div>
+
+      <div class="status-card">
+
+        <span>🚀</span>
+
+        <h2>
+          {{ status.currentJourney }}
+        </h2>
+
+        <p>
+          Current Journey
+        </p>
+
+      </div>
+
+      <div class="status-card">
+
+        <span>🏟️</span>
+
+        <h2>
+          {{ status.totalMatches }}
+        </h2>
+
+        <p>
+          Total Matches
+        </p>
+
+      </div>
+
+    </div>
+
+    <div class="progress-card">
+
+      <h3>
+        Tournament Progress
+      </h3>
+
+      <div class="progress-bar">
+
+        <div
+          class="progress-fill"
+          [style.width.%]="
+            (status.playedMatches
+            / status.totalMatches)
+            * 100
+          "
+        ></div>
+
+      </div>
+
+      <strong>
+
+        {{
+          (
+            status.playedMatches
+            /
+            status.totalMatches
+          ) * 100
+            | number:'1.0-0'
+        }}%
+
+      </strong>
+
+    </div>
+
+    @if(status.finished){
+
+      <div class="champion-card">
+
+        <div class="crown">
+          👑
+        </div>
+
+        <h2>
+          Champion
+        </h2>
+
+        <h1>
+          {{ status.champion }}
+        </h1>
+
+      </div>
+
+    } @else {
+
+      <div class="running-card">
+
+        <h2>
+          Tournament Running
+        </h2>
+
+        <p>
+          Journey
+          {{ status.currentJourney }}
+          is currently active.
+        </p>
+
+      </div>
+
+    }
+
+  }
+
+</div>

@@ -1,0 +1,107 @@
+<div class="matches-page">
+
+  <div class="hero">
+
+    <h1>
+      ⚽ Tournament Matches
+    </h1>
+
+    <p>
+      Browse matches by journey
+    </p>
+
+  </div>
+
+  <div class="journeys-bar">
+
+    @for(
+      journey of journeys;
+      track journey.journey
+      ){
+
+      <button
+        class="journey-btn"
+        [class.active]="
+          selectedJourney ===
+          journey.journey
+        "
+        (click)="
+          openJourney(
+            journey.journey
+          )
+        "
+      >
+
+        Journey
+        {{ journey.journey }}
+
+      </button>
+
+    }
+
+  </div>
+
+  <div class="matches-grid">
+
+    @for(
+      match of matches;
+      track match.id
+      ){
+
+      <div class="match-card">
+
+        <div class="team">
+
+          <h3>
+            {{
+              match.team1.name
+            }}
+          </h3>
+
+        </div>
+
+        <div class="score">
+
+          @if(match.played){
+
+            <strong>
+
+              {{
+                match.goalsHome
+              }}
+
+              -
+
+              {{
+                match.goalsAway
+              }}
+
+            </strong>
+
+          } @else {
+
+            <span>
+              VS
+            </span>
+
+          }
+
+        </div>
+
+        <div class="team">
+
+          <h3>
+            {{
+              match.team2.name
+            }}
+          </h3>
+
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
+</div>

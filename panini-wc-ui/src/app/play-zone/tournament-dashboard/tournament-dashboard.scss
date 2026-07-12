@@ -1,0 +1,204 @@
+.dashboard-page {
+  min-height: 100vh;
+  padding: 2rem;
+
+  background:
+    linear-gradient(
+        135deg,
+        #020617,
+        #0f172a,
+        #111827
+    );
+}
+
+.hero {
+  text-align: center;
+
+  margin-bottom: 3rem;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 900;
+
+  margin-bottom: .5rem;
+
+  color: white;
+}
+
+.hero p {
+  color: #94a3b8;
+}
+
+/* OVERVIEW */
+
+.overview {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+        minmax(220px,1fr)
+    );
+
+  gap: 1.5rem;
+
+  margin-bottom: 3rem;
+}
+
+.overview-card {
+  padding: 2rem;
+
+  border-radius: 24px;
+
+  text-align: center;
+
+  background:
+    rgba(255,255,255,.05);
+
+  backdrop-filter: blur(20px);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  transition: .3s;
+}
+
+.overview-card:hover {
+  transform:
+    translateY(-8px);
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,.4);
+}
+
+.overview-card span {
+  font-size: 2.5rem;
+}
+
+.overview-card h2 {
+  color: white;
+}
+
+.overview-card p {
+  color: #94a3b8;
+}
+
+/* MODULES */
+
+.modules-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+        minmax(250px,1fr)
+    );
+
+  gap: 2rem;
+}
+
+.module-card {
+  padding: 2rem;
+
+  border-radius: 30px;
+
+  cursor: pointer;
+
+  text-align: center;
+
+  color: white;
+
+  font-size: 3rem;
+
+  backdrop-filter: blur(20px);
+
+  transition: .35s ease;
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  animation:
+    appear .7s ease;
+}
+
+.module-card h3 {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+.module-card:hover {
+  transform:
+    translateY(-10px)
+    scale(1.03);
+}
+
+.standings {
+  background:
+    linear-gradient(
+        135deg,
+        rgba(59,130,246,.15),
+        rgba(59,130,246,.05)
+    );
+}
+
+.play {
+  background:
+    linear-gradient(
+        135deg,
+        rgba(34,197,94,.15),
+        rgba(34,197,94,.05)
+    );
+}
+
+.results {
+  background:
+    linear-gradient(
+        135deg,
+        rgba(249,115,22,.15),
+        rgba(249,115,22,.05)
+    );
+}
+
+.statistics {
+  background:
+    linear-gradient(
+        135deg,
+        rgba(168,85,247,.15),
+        rgba(168,85,247,.05)
+    );
+}
+
+.scorers {
+  background:
+    linear-gradient(
+        135deg,
+        rgba(234,179,8,.15),
+        rgba(234,179,8,.05)
+    );
+}
+
+.status {
+  background:
+    linear-gradient(
+        135deg,
+        rgba(236,72,153,.15),
+        rgba(236,72,153,.05)
+    );
+}
+
+@keyframes appear {
+
+  from {
+    opacity: 0;
+    transform:
+      translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0);
+  }
+
+}

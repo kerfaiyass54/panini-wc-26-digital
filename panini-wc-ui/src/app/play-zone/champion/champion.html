@@ -1,0 +1,118 @@
+<div class="champion-page">
+
+  @if(loading){
+
+    <div class="loading">
+
+      Loading Champion...
+
+    </div>
+
+  } @else {
+
+    <div class="hero">
+
+      <div class="trophy">
+        🏆
+      </div>
+
+      <h1>
+        Champion
+      </h1>
+
+      <h2>
+        {{ status.champion }}
+      </h2>
+
+      <p>
+        Tournament Winner
+      </p>
+
+    </div>
+
+    <div class="awards-grid">
+
+      <div class="award-card">
+
+        <div class="icon">
+          🥇
+        </div>
+
+        <h3>
+          Top Scorer
+        </h3>
+
+        <strong>
+          {{ statistics.topScorer }}
+        </strong>
+
+        <p>
+          {{ statistics.topScorerGoals }}
+          Goals
+        </p>
+
+      </div>
+
+      <div class="award-card">
+
+        <div class="icon">
+          🚀
+        </div>
+
+        <h3>
+          Best Attack
+        </h3>
+
+        <strong>
+          {{ statistics.bestAttack }}
+        </strong>
+
+        <p>
+          {{ statistics.bestAttackGoals }}
+          Goals
+        </p>
+
+      </div>
+
+      <div class="award-card">
+
+        <div class="icon">
+          🛡️
+        </div>
+
+        <h3>
+          Best Defense
+        </h3>
+
+        <strong>
+          {{ statistics.bestDefense }}
+        </strong>
+
+        <p>
+          {{ statistics.bestDefenseGoalsConceded }}
+          Conceded
+        </p>
+
+      </div>
+
+      <div class="award-card">
+
+        <div class="icon">
+          ⚽
+        </div>
+
+        <h3>
+          Total Goals
+        </h3>
+
+        <strong>
+          {{ statistics.totalGoals }}
+        </strong>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

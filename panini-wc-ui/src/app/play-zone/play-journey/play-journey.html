@@ -1,0 +1,72 @@
+<div class="journey-page">
+
+  <div class="hero">
+
+    <h1>
+      🎮 Play Journey
+    </h1>
+
+    <p>
+      Simulate the next round
+    </p>
+
+  </div>
+
+  @if(loading){
+
+    <div class="loading">
+      Loading...
+    </div>
+
+  } @else {
+
+    @if(nextJourney){
+
+      <div class="journey-card">
+
+        <div class="number">
+          {{ nextJourney }}
+        </div>
+
+        <h2>
+          Next Journey
+        </h2>
+
+        <p>
+          Ready to simulate
+        </p>
+
+        <button
+          (click)="playJourney()"
+          [disabled]="playing"
+        >
+          @if(!playing){
+            ▶ Play Journey
+          }
+
+          @if(playing){
+            ⏳ Simulating...
+          }
+        </button>
+
+      </div>
+
+    } @else {
+
+      <div class="finished-card">
+
+        <div class="trophy">
+          🏆
+        </div>
+
+        <h2>
+          Tournament Finished
+        </h2>
+
+      </div>
+
+    }
+
+  }
+
+</div>

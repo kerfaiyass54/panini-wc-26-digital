@@ -50,6 +50,10 @@ export class NavBar {
     {
       label: 'Sticker Stats',
       path: '/stickers-stats'
+    },
+    {
+      label: 'Play zone',
+      path: '/play-zone'
     }
   ];
 

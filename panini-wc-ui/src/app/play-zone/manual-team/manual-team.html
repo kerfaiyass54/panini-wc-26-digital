@@ -1,0 +1,205 @@
+<div class="manual-team-page">
+
+  <div class="page-header">
+    <h1>Build Your Team</h1>
+    <p>
+      Select exactly 17 players:
+      2 Goalkeepers • 5 Defenders • 5 Midfielders • 5 Forwards
+    </p>
+  </div>
+
+  <div class="top-bar">
+
+    <div class="team-name-box">
+      <label>Team Name</label>
+
+      <input
+        type="text"
+        [(ngModel)]="teamName"
+        placeholder="Enter team name..."
+      />
+    </div>
+
+    <button
+      class="save-btn"
+      (click)="saveTeam()"
+      [disabled]="!canSave()"
+    >
+      Save Team
+    </button>
+
+  </div>
+
+  <div class="position-summary">
+
+    <div
+      class="counter"
+      [class.valid]="goalkeepersCount === 2"
+    >
+      <span>🥅 Goalkeepers</span>
+      <strong>
+        {{ goalkeepersCount }}/2
+      </strong>
+    </div>
+
+    <div
+      class="counter"
+      [class.valid]="defendersCount === 5"
+    >
+      <span>🛡️ Defenders</span>
+      <strong>
+        {{ defendersCount }}/5
+      </strong>
+    </div>
+
+    <div
+      class="counter"
+      [class.valid]="midfieldersCount === 5"
+    >
+      <span>⚙️ Midfielders</span>
+      <strong>
+        {{ midfieldersCount }}/5
+      </strong>
+    </div>
+
+    <div
+      class="counter"
+      [class.valid]="forwardsCount === 5"
+    >
+      <span>🎯 Forwards</span>
+      <strong>
+        {{ forwardsCount }}/5
+      </strong>
+    </div>
+
+    <div
+      class="counter total"
+      [class.valid]="selectedPlayers.length === 17"
+    >
+      <span>👥 Squad</span>
+      <strong>
+        {{ selectedPlayers.length }}/17
+      </strong>
+    </div>
+
+  </div>
+
+  <div class="content-layout">
+
+    <!-- AVAILABLE PLAYERS -->
+
+    <div class="panel">
+
+      <div class="panel-header">
+        <h2>Owned Players</h2>
+
+        <span>
+          {{ availablePlayers.length }}
+        </span>
+      </div>
+
+      <div class="players-list">
+
+        @for(player of availablePlayers; track player.id){
+
+          <div
+            class="player-card"
+            (click)="addPlayer(player)"
+          >
+
+            <div class="player-info">
+
+              <h4>
+                {{ player.name }}
+              </h4>
+
+              <p>
+                {{ player.position }}
+              </p>
+
+            </div>
+
+            <div class="player-stats">
+
+              <span>
+                ⭐ {{ player.ability }}
+              </span>
+
+            </div>
+
+          </div>
+
+        }
+
+        @if(availablePlayers.length === 0){
+
+          <div class="empty-state">
+            No players available
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+    <!-- SELECTED TEAM -->
+
+    <div class="panel">
+
+      <div class="panel-header">
+        <h2>Selected Squad</h2>
+
+        <span>
+          {{ selectedPlayers.length }}/17
+        </span>
+      </div>
+
+      <div class="players-list">
+
+        @for(player of selectedPlayers; track player.id){
+
+          <div
+            class="player-card selected"
+            (click)="removePlayer(player)"
+          >
+
+            <div class="player-info">
+
+              <h4>
+                {{ player.name }}
+              </h4>
+
+              <p>
+                {{ player.position }}
+              </p>
+
+            </div>
+
+            <div class="player-stats">
+
+              <span>
+                ⭐ {{ player.ability }}
+              </span>
+
+            </div>
+
+          </div>
+
+        }
+
+        @if(selectedPlayers.length === 0){
+
+          <div class="empty-state">
+            Click players on the left to build your squad
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

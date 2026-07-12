@@ -1,0 +1,82 @@
+<div class="page">
+
+  <div class="header">
+
+    <h1>
+      Create Tournament
+    </h1>
+
+    <p>
+      Select your teams and start a competition
+    </p>
+
+  </div>
+
+  <div class="name-box">
+
+    <label>
+      Tournament Name
+    </label>
+
+    <input
+      type="text"
+      [(ngModel)]="tournamentName"
+      placeholder="World Cup"
+    />
+
+  </div>
+
+  <div class="summary">
+
+    Selected Teams:
+
+    <strong>
+      {{ selectedTeams.length }}
+    </strong>
+
+  </div>
+
+  <div class="teams-grid">
+
+    @for(team of teams; track team.team_id){
+
+      <div
+        class="team-card"
+        [class.selected]="
+          isSelected(team)
+        "
+        (click)="
+          toggleTeam(team)
+        "
+      >
+
+        <h3>
+          {{ team.team_name }}
+        </h3>
+
+        <p>
+          Players:
+          {{ team.players.length }}
+        </p>
+
+      </div>
+
+    }
+
+  </div>
+
+  <button
+    class="create-btn"
+    [disabled]="
+      !canCreate()
+    "
+    (click)="
+      createTournament()
+    "
+  >
+
+    Create Tournament
+
+  </button>
+
+</div>

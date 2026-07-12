@@ -1,0 +1,504 @@
+.scorers-page {
+  min-height: 100vh;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+        circle at top left,
+        rgba(59, 130, 246, 0.15),
+        transparent 30%
+    ),
+    radial-gradient(
+        circle at bottom right,
+        rgba(168, 85, 247, 0.15),
+        transparent 30%
+    ),
+    linear-gradient(
+        135deg,
+        #0f172a,
+        #111827,
+        #1e1b4b
+    );
+
+  animation: fadeIn 0.8s ease;
+}
+
+.scorers-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+
+  background-image:
+    linear-gradient(
+        rgba(255,255,255,.03) 1px,
+        transparent 1px
+    ),
+    linear-gradient(
+        90deg,
+        rgba(255,255,255,.03) 1px,
+        transparent 1px
+    );
+
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+/* HERO */
+
+.hero {
+  text-align: center;
+  margin-bottom: 3rem;
+
+  animation: slideDown .8s ease;
+}
+
+.hero h1 {
+  margin: 0;
+
+  font-size: 3rem;
+  font-weight: 900;
+
+  background:
+    linear-gradient(
+        135deg,
+        #fbbf24,
+        #f59e0b
+    );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  margin-top: .8rem;
+
+  color: #94a3b8;
+
+  font-size: 1rem;
+}
+
+/* PODIUM */
+
+.podium {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 2rem;
+
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.podium-card {
+  position: relative;
+  overflow: hidden;
+
+  width: 280px;
+
+  backdrop-filter: blur(24px);
+
+  border-radius: 28px;
+
+  text-align: center;
+
+  padding: 2rem;
+
+  transition: .4s ease;
+
+  animation:
+    podiumAppear .8s ease;
+}
+
+.podium-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+
+  opacity: 0;
+
+  transition: .4s ease;
+}
+
+.podium-card:hover::before {
+  opacity: 1;
+}
+
+.podium-card:hover {
+  transform:
+    translateY(-15px)
+    scale(1.04);
+
+  box-shadow:
+    0 30px 60px rgba(0,0,0,.4);
+}
+
+.rank {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation:
+    float 3s ease-in-out infinite;
+}
+
+.podium-card h3 {
+  margin: 0;
+
+  color: white;
+
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.podium-card span {
+  display: inline-block;
+  margin-top: 1rem;
+
+  color: white;
+
+  font-weight: 700;
+
+  padding: .5rem 1rem;
+
+  border-radius: 999px;
+}
+
+/* GOLD */
+
+.gold {
+  background:
+    rgba(251,191,36,.12);
+
+  border:
+    1px solid rgba(251,191,36,.35);
+
+  min-height: 320px;
+}
+
+.gold::before {
+  background:
+    linear-gradient(
+        135deg,
+        rgba(251,191,36,.2),
+        rgba(245,158,11,.15)
+    );
+}
+
+.gold span {
+  background:
+    rgba(251,191,36,.2);
+
+  color: #fbbf24;
+}
+
+.gold:hover {
+  box-shadow:
+    0 0 40px rgba(251,191,36,.3);
+}
+
+/* SILVER */
+
+.silver {
+  background:
+    rgba(203,213,225,.10);
+
+  border:
+    1px solid rgba(203,213,225,.25);
+
+  min-height: 270px;
+}
+
+.silver::before {
+  background:
+    linear-gradient(
+        135deg,
+        rgba(203,213,225,.15),
+        rgba(148,163,184,.1)
+    );
+}
+
+.silver span {
+  background:
+    rgba(203,213,225,.15);
+
+  color: #cbd5e1;
+}
+
+/* BRONZE */
+
+.bronze {
+  background:
+    rgba(251,146,60,.12);
+
+  border:
+    1px solid rgba(251,146,60,.25);
+
+  min-height: 240px;
+}
+
+.bronze::before {
+  background:
+    linear-gradient(
+        135deg,
+        rgba(251,146,60,.15),
+        rgba(194,65,12,.1)
+    );
+}
+
+.bronze span {
+  background:
+    rgba(251,146,60,.15);
+
+  color: #fb923c;
+}
+
+/* RANKING LIST */
+
+.ranking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  max-width: 1200px;
+  margin: auto;
+}
+
+.ranking-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+
+  padding: 1.2rem 1.5rem;
+
+  background:
+    rgba(255,255,255,.05);
+
+  backdrop-filter: blur(18px);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  border-radius: 20px;
+
+  transition: .35s ease;
+
+  animation:
+    slideUp .7s ease;
+}
+
+.ranking-row:hover {
+  transform:
+    translateX(12px);
+
+  border-color:
+    rgba(96,165,250,.25);
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,.35);
+}
+
+.position {
+  width: 70px;
+  min-width: 70px;
+
+  text-align: center;
+
+  font-size: 1.3rem;
+  font-weight: 900;
+
+  color: #60a5fa;
+}
+
+.player {
+  flex: 1;
+}
+
+.player h3 {
+  margin: 0;
+
+  color: white;
+
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.goals {
+  padding: .7rem 1.2rem;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+        135deg,
+        #3b82f6,
+        #8b5cf6
+    );
+
+  color: white;
+
+  font-weight: 800;
+
+  box-shadow:
+    0 10px 25px rgba(59,130,246,.25);
+}
+
+/* TOP 3 SPECIAL ROWS */
+
+.ranking-row:nth-child(1) {
+  border-left:
+    5px solid #fbbf24;
+}
+
+.ranking-row:nth-child(2) {
+  border-left:
+    5px solid #cbd5e1;
+}
+
+.ranking-row:nth-child(3) {
+  border-left:
+    5px solid #fb923c;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background:
+    rgba(255,255,255,.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background:
+    linear-gradient(
+        #3b82f6,
+        #8b5cf6
+    );
+
+  border-radius: 999px;
+}
+
+/* ANIMATIONS */
+
+@keyframes fadeIn {
+
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+
+}
+
+@keyframes slideDown {
+
+  from {
+    opacity: 0;
+    transform:
+      translateY(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0);
+  }
+
+}
+
+@keyframes slideUp {
+
+  from {
+    opacity: 0;
+    transform:
+      translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0);
+  }
+
+}
+
+@keyframes podiumAppear {
+
+  from {
+    opacity: 0;
+    transform:
+      translateY(40px)
+      scale(.9);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+}
+
+@keyframes float {
+
+  0% {
+    transform:
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      translateY(-10px);
+  }
+
+  100% {
+    transform:
+      translateY(0);
+  }
+
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 992px) {
+
+  .podium {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .gold,
+  .silver,
+  .bronze {
+    min-height: auto;
+    width: 100%;
+    max-width: 500px;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .scorers-page {
+    padding: 1rem;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .ranking-row {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .position {
+    width: auto;
+  }
+
+}

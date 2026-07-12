@@ -1,0 +1,151 @@
+<div class="hall-page">
+
+  <div class="hero">
+
+    <h1>
+      🏅 Hall Of Fame
+    </h1>
+
+    <p>
+      Greatest Tournament Managers
+    </p>
+
+  </div>
+
+  @if(loading){
+
+    <div class="loading">
+      Loading...
+    </div>
+
+  } @else {
+
+    @if(leaderboard.length > 0){
+
+      <div class="podium">
+
+        <div
+          class="podium-card silver"
+        >
+
+          <div class="rank">
+            🥈
+          </div>
+
+          <h3>
+            {{
+              leaderboard[1]?.email
+            }}
+          </h3>
+
+          <span>
+            {{
+              leaderboard[1]
+                ?.tournamentsWon
+            }}
+            Wins
+          </span>
+
+        </div>
+
+        <div
+          class="podium-card gold"
+        >
+
+          <div class="rank">
+            🥇
+          </div>
+
+          <h3>
+            {{
+              leaderboard[0]?.email
+            }}
+          </h3>
+
+          <span>
+            {{
+              leaderboard[0]
+                ?.tournamentsWon
+            }}
+            Wins
+          </span>
+
+        </div>
+
+        <div
+          class="podium-card bronze"
+        >
+
+          <div class="rank">
+            🥉
+          </div>
+
+          <h3>
+            {{
+              leaderboard[2]?.email
+            }}
+          </h3>
+
+          <span>
+            {{
+              leaderboard[2]
+                ?.tournamentsWon
+            }}
+            Wins
+          </span>
+
+        </div>
+
+      </div>
+
+    }
+
+    <div class="ranking-list">
+
+      @for(
+        user of leaderboard;
+        track user.email;
+        let i = $index
+        ){
+
+        <div
+          class="ranking-row"
+        >
+
+          <div class="position">
+            #{{ i + 1 }}
+          </div>
+
+          <div class="info">
+
+            <h3>
+              {{ user.email }}
+            </h3>
+
+            <span>
+              Win Rate:
+              {{
+                getWinRate(user)
+              }}%
+            </span>
+
+          </div>
+
+          <div class="wins">
+
+            🏆
+            {{
+              user.tournamentsWon
+            }}
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+</div>

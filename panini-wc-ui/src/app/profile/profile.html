@@ -1,0 +1,206 @@
+<div class="profile-page">
+
+  @if(loading){
+
+    <div class="loading">
+
+      Loading profile...
+
+    </div>
+
+  } @else {
+
+    <div class="hero-card">
+
+      <div class="avatar">
+
+        {{
+          username
+            ?.charAt(0)
+            ?.toUpperCase()
+        }}
+
+      </div>
+
+      <h1>
+        {{ username }}
+      </h1>
+
+      <p>
+        {{ email }}
+      </p>
+
+    </div>
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+
+        <span>🏆</span>
+
+        <h2>
+          {{
+            statistics
+              .tournamentsPlayed
+          }}
+        </h2>
+
+        <p>
+          Tournaments Played
+        </p>
+
+      </div>
+
+      <div class="stat-card">
+
+        <span>🥇</span>
+
+        <h2>
+          {{
+            statistics
+              .tournamentsWon
+          }}
+        </h2>
+
+        <p>
+          Tournaments Won
+        </p>
+
+      </div>
+
+      <div class="stat-card">
+
+        <span>⚽</span>
+
+        <h2>
+          {{
+            statistics
+              .goalsScored
+          }}
+        </h2>
+
+        <p>
+          Goals Scored
+        </p>
+
+      </div>
+
+      <div class="stat-card">
+
+        <span>🎮</span>
+
+        <h2>
+          {{
+            statistics
+              .matchesPlayed
+          }}
+        </h2>
+
+        <p>
+          Matches Played
+        </p>
+
+      </div>
+
+      <div class="stat-card">
+
+        <span>✅</span>
+
+        <h2>
+          {{
+            statistics
+              .matchesWon
+          }}
+        </h2>
+
+        <p>
+          Matches Won
+        </p>
+
+      </div>
+
+      <div class="stat-card win">
+
+        <span>📈</span>
+
+        <h2>
+          {{ winRate }}%
+        </h2>
+
+        <p>
+          Win Rate
+        </p>
+
+      </div>
+
+    </div>
+
+    <div class="achievements">
+
+      <h2>
+        Achievements
+      </h2>
+
+      <div
+        class="achievement-grid"
+      >
+
+        @if(
+          statistics
+            .tournamentsPlayed > 0
+          ){
+
+          <div
+            class="badge"
+          >
+            🏅 First Tournament
+          </div>
+
+        }
+
+        @if(
+          statistics
+            .tournamentsWon >= 5
+          ){
+
+          <div
+            class="badge"
+          >
+            🥈 5 Tournament Wins
+          </div>
+
+        }
+
+        @if(
+          statistics
+            .tournamentsWon >= 10
+          ){
+
+          <div
+            class="badge"
+          >
+            🥇 Elite Manager
+          </div>
+
+        }
+
+        @if(
+          statistics
+            .goalsScored >= 100
+          ){
+
+          <div
+            class="badge"
+          >
+            ⚽ 100 Goals Club
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

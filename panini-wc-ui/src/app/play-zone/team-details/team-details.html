@@ -1,0 +1,146 @@
+<div class="team-page">
+
+  @if(loading){
+
+    <div class="loading">
+
+      Loading Team...
+
+    </div>
+
+  } @else {
+
+    <div class="hero">
+
+      <div class="logo">
+
+        ⚽
+
+      </div>
+
+      <h1>
+        {{ team.team_name }}
+      </h1>
+
+      <p>
+        Squad Overview
+      </p>
+
+    </div>
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+
+        <span>👥</span>
+
+        <h2>
+          {{ team.players.length }}
+        </h2>
+
+        <p>
+          Players
+        </p>
+
+      </div>
+
+      <div class="stat-card">
+
+        <span>⭐</span>
+
+        <h2>
+          {{ averageAbility }}
+        </h2>
+
+        <p>
+          Average Ability
+        </p>
+
+      </div>
+
+      <div class="stat-card">
+
+        <span>🥅</span>
+
+        <h2>
+          {{
+            getPlayersByPosition(
+              'GOALKEEPER'
+            ).length
+          }}
+        </h2>
+
+        <p>
+          Goalkeepers
+        </p>
+
+      </div>
+
+      <div class="stat-card">
+
+        <span>🎯</span>
+
+        <h2>
+          {{
+            getPlayersByPosition(
+              'FORWARD'
+            ).length
+          }}
+        </h2>
+
+        <p>
+          Forwards
+        </p>
+
+      </div>
+
+    </div>
+
+    <div class="players-section">
+
+      <h2>
+        Squad Players
+      </h2>
+
+      <div class="players-grid">
+
+        @for(
+          player of team.players;
+          track player.id
+          ){
+
+          <div
+            class="player-card"
+          >
+
+            <div
+              class="rating"
+            >
+              {{
+                player.ability
+              }}
+            </div>
+
+            <h3>
+              {{
+                player.name
+              }}
+            </h3>
+
+            <p>
+              {{
+                player.position
+              }}
+            </p>
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  }
+
+</div>
