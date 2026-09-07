@@ -4,12 +4,12 @@ from kafka import KafkaConsumer
 
 from app.elastic.elastic_client import (
     es,
-    INDEX_NAME
+    PLAYERS_INDEX
 )
 
 consumer = KafkaConsumer(
     "owned-players-response-topic",
-    bootstrap_servers="localhost:9092",
+    bootstrap_servers="localhost:29092",
     auto_offset_reset="earliest",
     enable_auto_commit=True,
     value_deserializer=lambda x:
@@ -35,7 +35,7 @@ def start_consumer():
         }
 
         es.index(
-            index=INDEX_NAME,
+            index=PLAYERS_INDEX,
             id=email,
             document=document
         )
