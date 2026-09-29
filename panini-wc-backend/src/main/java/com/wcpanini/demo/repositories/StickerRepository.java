@@ -53,4 +53,9 @@ public interface StickerRepository extends JpaRepository<Sticker, Long> {
 
     Sticker findStickerByPlace(String place);
 
+    List<Sticker> findByPlaceInAndTypeIgnoreCase(
+            List<String> places,
+            String type
+    );
+
 }
