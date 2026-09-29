@@ -1,4 +1,4 @@
-from models.sticker import Base
+from app.models.sticker import Base
 
 from  sqlalchemy import Column
 from  sqlalchemy import BigInteger

@@ -1,22 +1,22 @@
 from collections import defaultdict
 
-from repositories.duplicate_repository import (
+from app.repositories.duplicate_repository import (
     DuplicateRepository
 )
 
-from repositories.owning_repository import (
+from app.repositories.owning_repository import (
     OwningRepository
 )
 
-from repositories.sticker_repository import (
+from app.repositories.sticker_repository import (
     StickerRepository
 )
 
-from services.candidate_service import (
+from app.services.candidate_service import (
     CandidateService
 )
 
-from services.player_value_service import (
+from app.services.player_value_service import (
     PlayerValueService
 )
 

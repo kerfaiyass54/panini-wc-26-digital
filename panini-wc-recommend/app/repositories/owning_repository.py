@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from models.owning import Owning
+from app.models.owning import Owning
 
 
 class OwningRepository:
