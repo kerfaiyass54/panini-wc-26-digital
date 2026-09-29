@@ -35,7 +35,7 @@ export class TeamService {
     email: string
   ): Observable<any[]> {
     return this.http.get<any[]>(
-      `${this.api}/email/${email}`
+      `${this.api}/email/${encodeURIComponent(email)}`
     );
   }
 

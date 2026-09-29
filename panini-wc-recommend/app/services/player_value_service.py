@@ -1,4 +1,4 @@
-from data.player_tiers import PLAYER_TIERS
+from  app.data.player_tiers import PLAYER_TIERS
 
 
 class PlayerValueService:

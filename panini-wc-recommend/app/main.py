@@ -1,15 +1,15 @@
 from  fastapi import FastAPI
 
-from  database import SessionLocal
+from  app.database import SessionLocal
 
 from fastapi.middleware.cors import CORSMiddleware
 
 
-from  services.recommendation_service import (
+from  app.services.recommendation_service import (
     RecommendationService
 )
 
-from services.trade_request_service import (
+from app.services.trade_request_service import (
     TradeRequestService
 )
 app = FastAPI(

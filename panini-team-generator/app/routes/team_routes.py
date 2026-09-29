@@ -1,5 +1,8 @@
+import logging
+
 from fastapi import APIRouter
 from fastapi import HTTPException
+from elasticsearch import ApiError, ConnectionError as ElasticsearchConnectionError
 
 from app.elastic.elastic_client import (
     es,
@@ -17,6 +20,7 @@ from app.services.team_generator import (
     generate_team
 )
 
+logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
@@ -177,15 +181,21 @@ def get_user_teams(
         email: str
 ):
 
-    result = es.search(
-        index=TEAMS_INDEX,
-        query={
-            "term": {
-                "email.keyword": email
-            }
-        },
-        size=100
-    )
+    try:
+        result = es.search(
+            index=TEAMS_INDEX,
+            query={
+                "term": {
+                    "email.keyword": email
+                }
+            },
+            size=100
+        )
+    except (ApiError, ElasticsearchConnectionError) as exc:
+        raise HTTPException(
+            status_code=503,
+            detail="Team storage is unavailable"
+        ) from exc
 
     return [
         hit["_source"]

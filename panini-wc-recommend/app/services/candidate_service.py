@@ -1,10 +1,10 @@
-from repositories.sticker_repository import StickerRepository
+from app.repositories.sticker_repository import StickerRepository
 
-from services.nation_score_service import NationScoreService
-from services.player_value_service import PlayerValueService
+from app.services.nation_score_service import NationScoreService
+from app.services.player_value_service import PlayerValueService
 
-from repositories.owning_repository import OwningRepository
-from repositories.duplicate_repository import DuplicateRepository
+from app.repositories.owning_repository import OwningRepository
+from app.repositories.duplicate_repository import DuplicateRepository
 
 
 class CandidateService:

@@ -1,4 +1,4 @@
-from  services.trade_package_service import (
+from  app.services.trade_package_service import (
     TradePackageService
 )
 

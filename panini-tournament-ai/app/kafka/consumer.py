@@ -8,7 +8,7 @@ from app.kafka.producer import send_result
 
 consumer = KafkaConsumer(
     "match-request-topic",
-    bootstrap_servers="localhost:9092",
+    bootstrap_servers="localhost:29092",
     value_deserializer=lambda m:
         json.loads(m.decode("utf-8")),
     group_id="simulation-group"

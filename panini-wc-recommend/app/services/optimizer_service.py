@@ -1,8 +1,8 @@
-from services.candidate_service import CandidateService
+from app.services.candidate_service import CandidateService
 
-from repositories.sticker_repository import StickerRepository
+from app.repositories.sticker_repository import StickerRepository
 
-from services.player_value_service import (
+from app.services.player_value_service import (
     PlayerValueService
 )
 

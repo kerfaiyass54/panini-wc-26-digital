@@ -1,7 +1,7 @@
 from  sqlalchemy.orm import Session
 
-from repositories.sticker_repository import StickerRepository
-from repositories.owning_repository import OwningRepository
+from app.repositories.sticker_repository import StickerRepository
+from app.repositories.owning_repository import OwningRepository
 
 
 class NationScoreService:

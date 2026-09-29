@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from models.duplicate import Duplicate
+from app.models.duplicate import Duplicate
 
 
 class DuplicateRepository:

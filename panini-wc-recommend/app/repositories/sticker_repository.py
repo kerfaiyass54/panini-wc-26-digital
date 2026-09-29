@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from models.sticker import Sticker
+from app.models.sticker import Sticker
 
 
 class StickerRepository:
