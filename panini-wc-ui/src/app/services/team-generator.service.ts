@@ -11,11 +11,14 @@ export class TeamGeneratorService {
   private api =
     'http://localhost:8001';
 
+  private wcApi =
+    'http://localhost:9090/api/owned-players';
+
   getOwnedPlayers(
     email: string
-  ): Observable<any> {
-    return this.http.get<any>(
-      `${this.api}/players/${encodeURIComponent(email)}`
+  ): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this.wcApi}/${encodeURIComponent(email)}`
     );
   }
 
