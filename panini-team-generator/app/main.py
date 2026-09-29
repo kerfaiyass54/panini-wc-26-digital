@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from threading import Thread
 
+from app.elastic.elastic_client import ensure_indices
 from app.kafka.owned_players_consumer import start_consumer
 from app.routes.team_routes import router as team_router
 
@@ -18,6 +19,7 @@ app.add_middleware(
 
 @app.on_event("startup")
 def startup():
+    ensure_indices()
     Thread(target=start_consumer, daemon=True).start()
 
 

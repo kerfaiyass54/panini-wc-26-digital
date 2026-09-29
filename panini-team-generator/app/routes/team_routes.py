@@ -185,8 +185,12 @@ def get_user_teams(
         result = es.search(
             index=TEAMS_INDEX,
             query={
-                "term": {
-                    "email.keyword": email
+                "bool": {
+                    "should": [
+                        {"term": {"email.keyword": email}},
+                        {"term": {"email": email}},
+                    ],
+                    "minimum_should_match": 1,
                 }
             },
             size=100
