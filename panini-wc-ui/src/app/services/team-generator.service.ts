@@ -9,13 +9,13 @@ export class TeamGeneratorService {
   private http = inject(HttpClient);
 
   private api =
-    'http://localhost:8000';
+    'http://localhost:8001';
 
   getOwnedPlayers(
     email: string
   ): Observable<any> {
     return this.http.get<any>(
-      `${this.api}/players/${email}`
+      `${this.api}/players/${encodeURIComponent(email)}`
     );
   }
 
@@ -23,7 +23,7 @@ export class TeamGeneratorService {
     email: string
   ): Observable<any[]> {
     return this.http.get<any[]>(
-      `${this.api}/teams/${email}`
+      `${this.api}/teams/${encodeURIComponent(email)}`
     );
   }
 

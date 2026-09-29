@@ -10,7 +10,7 @@ export class TournamentService {
     inject(HttpClient);
 
   private readonly api =
-    'http://localhost:9094/api/tournaments';
+    'http://localhost:9095/api/tournaments';
 
   getAll(): Observable<any[]> {
     return this.http.get<any[]>(
@@ -22,7 +22,7 @@ export class TournamentService {
     email: string
   ): Observable<any[]> {
     return this.http.get<any[]>(
-      `${this.api}/user/${email}`
+      `${this.api}/email/${encodeURIComponent(email)}`
     );
   }
 
@@ -152,7 +152,7 @@ export class TournamentService {
     matchId: number
   ): Observable<any> {
     return this.http.get(
-      `http://localhost:9094/api/matches/${matchId}`
+      `http://localhost:9095/api/matches/${matchId}`
     );
   }
 
@@ -160,7 +160,7 @@ export class TournamentService {
     matchId: number
   ): Observable<any[]> {
     return this.http.get<any[]>(
-      `http://localhost:9094/api/matches/${matchId}/goals`
+      `http://localhost:9095/api/matches/${matchId}/goals`
     );
   }
 

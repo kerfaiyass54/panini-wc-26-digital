@@ -1,24 +1,24 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from threading import Thread
 
-from app.kafka.owned_players_consumer import (
-    start_consumer
-)
-
-from app.routes.team_routes import (
-    router as team_router
-)
+from app.kafka.owned_players_consumer import start_consumer
+from app.routes.team_routes import router as team_router
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:4200"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.on_event("startup")
 def startup():
-
-    Thread(
-        target=start_consumer,
-        daemon=True
-    ).start()
+    Thread(target=start_consumer, daemon=True).start()
 
 
 app.include_router(team_router)
@@ -26,7 +26,4 @@ app.include_router(team_router)
 
 @app.get("/")
 def health():
-
-    return {
-        "status": "running"
-    }
+    return {"status": "running"}

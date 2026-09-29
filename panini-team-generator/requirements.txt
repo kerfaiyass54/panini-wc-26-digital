@@ -1,5 +1,5 @@
 fastapi
 uvicorn
 kafka-python
-elasticsearch
+elasticsearch>=8,<9
 python-dotenv
