@@ -24,7 +24,7 @@ import {
   StickerService,
   Duplicate,
   PageResponse,
-} from '../../shared/services/services/sticker.service';
+} from '../../../shared/services/services/sticker.service';
 
 import { RouterLink } from '@angular/router';
 

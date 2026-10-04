@@ -12,7 +12,7 @@ import {
   CommonModule
 } from '@angular/common';
 import Keycloak from 'keycloak-js';
-import { StickerService } from '../shared/services/services/sticker.service';
+import { StickerService } from '../../../../shared/services/services/sticker.service';
 
 
 

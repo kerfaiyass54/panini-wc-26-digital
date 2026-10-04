@@ -11,7 +11,7 @@ import Keycloak from 'keycloak-js';
 
 import {
   DuplicateService,
-} from '../shared/services/services/duplicate.service';
+} from '../../../../shared/services/services/duplicate.service';
 import { RouterLink } from '@angular/router';
 
 @Component({

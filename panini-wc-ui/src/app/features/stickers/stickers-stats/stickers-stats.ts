@@ -11,7 +11,7 @@ import {
 import { CommonModule } from '@angular/common';
 
 import { AnalyticsService }
-  from '../../shared/services/services/analytics.service';
+  from '../../../shared/services/services/analytics.service';
 
 import {
   Chart,

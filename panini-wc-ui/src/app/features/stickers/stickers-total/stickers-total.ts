@@ -14,7 +14,7 @@ import Keycloak from 'keycloak-js';
 import {
   StatisticsResponse,
   StickerService
-} from '../../shared/services/services/sticker.service';
+} from '../../../shared/services/services/sticker.service';
 
 @Component({
   selector: 'app-stickers-total',

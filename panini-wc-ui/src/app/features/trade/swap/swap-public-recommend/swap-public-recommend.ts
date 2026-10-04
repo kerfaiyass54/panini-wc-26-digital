@@ -7,7 +7,7 @@ import {
 
 import { CommonModule } from '@angular/common';
 import Keycloak from 'keycloak-js';
-import { RecommendationService, TradeResponse } from '../shared/services/services/recommandation-service';
+import { RecommendationService, TradeResponse } from '../../../../shared/services/services/recommandation-service';
 
 
 

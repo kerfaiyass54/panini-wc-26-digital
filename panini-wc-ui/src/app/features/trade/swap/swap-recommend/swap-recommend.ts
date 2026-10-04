@@ -9,8 +9,8 @@ import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-import { RecommendationResponse } from '../shared/models/constants/recommendation.model';
-import { RecommendationService } from '../shared/services/services/recommandation-service';
+import { RecommendationResponse } from '../../../../shared/models/constants/recommendation.model';
+import { RecommendationService } from '../../../../shared/services/services/recommandation-service';
 import Keycloak from 'keycloak-js';
 
 @Component({

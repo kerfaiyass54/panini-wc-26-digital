@@ -17,7 +17,7 @@ import {
   StickerService,
   AddStickerRequest,
   DuplicateRequest,
-} from '../shared/services/services/sticker.service';
+} from '../../../shared/services/services/sticker.service';
 
 @Component({
   selector: 'app-nation-stickers',
