@@ -1,11 +1,11 @@
 import json
-
+import os
 from kafka import KafkaProducer
 
 GENERATED_TEAM_TOPIC = "generated-team-topic"
 
 producer = KafkaProducer(
-    bootstrap_servers="localhost:29092",
+    bootstrap_servers=os.getenv("KAFKA_BOOTSTRAP_SERVERS"),
     value_serializer=lambda v:
     json.dumps(v).encode("utf-8")
 )

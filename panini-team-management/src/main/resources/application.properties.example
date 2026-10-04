@@ -1,25 +1,10 @@
-spring.application.name=demo
+cors.allowed-origins=http://localhost:4200
 
+spring.application.name=panini-team-management
+server.port=9091
 
-server.port=9090
+spring.mongodb.uri=mongodb://localhost:27017/panini-team
 
-spring.datasource.url=jdbc:postgresql://localhost:5445/appdb
-spring.datasource.username=admin
-spring.datasource.password=secret
-spring.datasource.driver-class-name=org.postgresql.Driver
-
-# Connection pool (HikariCP)
-spring.datasource.hikari.maximum-pool-size=10
-spring.datasource.hikari.minimum-idle=2
-spring.datasource.hikari.idle-timeout=30000
-spring.datasource.hikari.connection-timeout=20000
-
-
-spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=false
-spring.jpa.properties.hibernate.format_sql=true
-spring.jpa.properties.hibernate.jdbc.time_zone=UTC
 
 
 spring.kafka.bootstrap-servers=localhost:29092
@@ -31,7 +16,6 @@ spring.kafka.producer.acks=all
 spring.kafka.producer.retries=3
 spring.kafka.producer.properties.enable.idempotence=true
 
-spring.mongodb.uri=mongodb://localhost:27017/panini
 
 # Consumer
 spring.kafka.consumer.group-id=demo-group

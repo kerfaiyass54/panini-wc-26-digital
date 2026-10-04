@@ -1,8 +1,7 @@
 from elasticsearch import Elasticsearch
+import os
 
-es = Elasticsearch(
-    "http://localhost:9200"
-)
+es = Elasticsearch(os.getenv("ELASTICSEARCH_URL"))
 
 PLAYERS_INDEX = "user_players"
 

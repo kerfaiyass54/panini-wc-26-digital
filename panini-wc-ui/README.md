@@ -1,59 +1,41 @@
-# PaniniWcUi
+# Panini WC UI
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.5.
+This is the frontend application for the Panini World Cup 2026 digital collection application. It is built with Angular and provides the user interface for managing sticker collections, trading with other users, and participating in tournaments.
 
-## Development server
+## Tech Stack
 
-To start a local development server, run:
+*   **Angular**
+*   **TypeScript**
+*   **Keycloak-Angular** (for authentication)
 
-```bash
-ng serve
-```
+## Setup
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+1.  **Install dependencies:**
 
-## Code scaffolding
+    ```bash
+    npm install
+    ```
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+2.  **Configure environment:**
 
-```bash
-ng generate component component-name
-```
+    The application uses `environment.ts` and `environment.prod.ts` for configuration. These files contain the Keycloak configuration and the API endpoints for the backend services.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Running the Application
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+To run the application in development mode, use the following command:
 
 ```bash
-ng build
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+This will start a development server on `http://localhost:4200`.
 
-## Running unit tests
+## Building the Application
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+To build the application for production, use the following command:
 
 ```bash
-ng test
+npm run build
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+This will create a `dist` folder with the production-ready application.

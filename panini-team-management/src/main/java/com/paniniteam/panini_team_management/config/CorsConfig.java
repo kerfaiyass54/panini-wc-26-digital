@@ -1,5 +1,6 @@
 package com.paniniteam.panini_team_management.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,6 +13,9 @@ import java.util.List;
 @Configuration
 public class CorsConfig {
 
+    @Value("${cors.allowed-origins}")
+    private String allowedOrigins;
+
     @Bean
     public CorsFilter corsFilter() {
 
@@ -20,9 +24,7 @@ public class CorsConfig {
 
         config.setAllowCredentials(true);
 
-        config.setAllowedOrigins(List.of(
-                "http://localhost:4200"
-        ));
+        config.setAllowedOrigins(List.of(allowedOrigins.split(",")));
 
         config.setAllowedHeaders(List.of("*"));
 
