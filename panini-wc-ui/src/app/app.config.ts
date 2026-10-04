@@ -18,11 +18,11 @@ import {
 
 import {
   provideKeycloakAngular
-} from './keycloak.config';
+} from './core/keycloak.config';
 
 import {
   authInterceptor
-} from './auth.interceptor';
+} from './core/interceptors/auth.interceptor';
 
 export const appConfig:
   ApplicationConfig = {

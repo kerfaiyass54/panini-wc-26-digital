@@ -1,0 +1,67 @@
+<main class="play-zone">
+  <section class="quick-actions" aria-label="Play Zone actions">
+    <button class="action-card tournament-action" type="button" (click)="createTournament()">
+      <span class="action-icon" aria-hidden="true">🏆</span>
+      <span class="action-copy"><strong>Create Tournament</strong><span>Start a new competition</span></span>
+      <span class="action-arrow" aria-hidden="true">↗</span>
+    </button>
+
+    <button class="action-card team-action" type="button" (click)="createTeam()">
+      <span class="action-icon" aria-hidden="true">👥</span>
+      <span class="action-copy"><strong>Create Team</strong><span>Generate or build a team</span></span>
+      <span class="action-arrow" aria-hidden="true">↗</span>
+    </button>
+  </section>
+
+  <section class="section" aria-labelledby="teams-heading">
+    <header class="section-header">
+      <div><span class="eyebrow">YOUR SQUADS</span><h1 id="teams-heading">My Teams</h1></div>
+      <span class="count-badge" aria-label="{{ teams.length }} teams">{{ teams.length }}</span>
+    </header>
+
+    @if (teamsLoading) {
+      <div class="state-panel" role="status"><span class="loader"></span><span>Loading your teams…</span></div>
+    } @else if (teamsError) {
+      <div class="state-panel error-panel"><span><strong>Teams could not be loaded</strong><small>{{ teamsError }}</small></span><button class="text-button" type="button" (click)="loadTeams()">Try again</button></div>
+    } @else if (teams.length === 0) {
+      <div class="state-panel empty-panel"><span class="empty-icon" aria-hidden="true">⚽</span><span><strong>Your squad starts here</strong><small>Create a team to see it in your collection.</small></span><button class="text-button" type="button" (click)="createTeam()">Create a team <span aria-hidden="true">→</span></button></div>
+    } @else {
+      <div class="cards-grid">
+        @for (team of teams; track team.team_id) {
+          <article class="collection-card team-card">
+            <div class="card-symbol" aria-hidden="true">⚽</div>
+            <div class="card-copy"><h2>{{ team.team_name }}</h2><p>{{ team.players.length }} players <span aria-hidden="true">·</span> {{ team.email || 'Your squad' }}</p></div>
+            <span class="card-index">TEAM</span>
+          </article>
+        }
+      </div>
+    }
+    <button class="section-link" type="button" (click)="createTeam()">Manage teams <span aria-hidden="true">→</span></button>
+  </section>
+
+  <section class="section tournament-section" aria-labelledby="tournaments-heading">
+    <header class="section-header">
+      <div><span class="eyebrow">COMPETE WITH YOUR SQUAD</span><h2 id="tournaments-heading">My Tournaments</h2></div>
+      <span class="count-badge" aria-label="{{ tournaments.length }} tournaments">{{ tournaments.length }}</span>
+    </header>
+
+    @if (tournamentsLoading) {
+      <div class="state-panel" role="status"><span class="loader"></span><span>Loading your tournaments…</span></div>
+    } @else if (tournamentsError) {
+      <div class="state-panel error-panel"><span><strong>Tournaments could not be loaded</strong><small>{{ tournamentsError }}</small></span><button class="text-button" type="button" (click)="loadTournaments()">Try again</button></div>
+    } @else if (tournaments.length === 0) {
+      <div class="state-panel empty-panel"><span class="empty-icon" aria-hidden="true">🏆</span><span><strong>No tournaments yet</strong><small>Create a competition and it will show up here.</small></span><button class="text-button" type="button" (click)="createTournament()">Create tournament <span aria-hidden="true">→</span></button></div>
+    } @else {
+      <div class="cards-grid">
+        @for (tournament of tournaments; track tournament.id) {
+          <button class="collection-card tournament-card" type="button" (click)="openTournament(tournament)">
+            <span class="card-symbol" aria-hidden="true">🏆</span>
+            <span class="card-copy"><strong>{{ tournament.tournament || 'Untitled tournament' }}</strong><small>Open competition <span aria-hidden="true">·</span> View standings and matches</small></span>
+            <span class="card-arrow" aria-hidden="true">↗</span>
+          </button>
+        }
+      </div>
+    }
+    <button class="section-link" type="button" (click)="createTournament()">Create a tournament <span aria-hidden="true">→</span></button>
+  </section>
+</main>

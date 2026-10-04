@@ -1,0 +1,110 @@
+<main class="page">
+  <a class="back-button" routerLink="/play-zone">
+    <span aria-hidden="true">←</span>
+    Back to Play Zone
+  </a>
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">YOUR SQUAD</div>
+      <h1>My Teams</h1>
+      <p>Build, manage and dominate tournaments.</p>
+    </div>
+    <div class="actions">
+      <button class="generate-btn" type="button" (click)="goToAutoGeneration()">⚡ Generate Team</button>
+      <button class="manual-btn" type="button" (click)="goToManualCreation()">＋ Manual Team</button>
+    </div>
+  </header>
+
+  <section class="stats-banner" aria-label="Team statistics">
+    <div class="stat-card"><span class="number">{{ teams.length }}</span><span class="label">Teams Created</span></div>
+    <div class="stat-card"><span class="number">{{ teams.length * 17 }}</span><span class="label">Players Managed</span></div>
+  </section>
+
+  <section class="teams-section" aria-label="Your teams">
+    <div class="section-header">
+      <div><div class="eyebrow">COLLECTION</div><h2>Your Teams</h2></div>
+      <span class="badge">{{ teams.length }}</span>
+    </div>
+
+    @if (loading) {
+      <div class="empty-state"><span class="loader"></span><p>Loading your teams…</p></div>
+    } @else if (loadError) {
+      <div class="empty-state error-state"><h3>Teams could not be loaded</h3><p>{{ loadError }}</p><button class="retry-btn" type="button" (click)="loadTeams()">Try again</button></div>
+    } @else if (teams.length === 0) {
+      <div class="empty-state"><div class="empty-icon">⚽</div><h3>No teams yet</h3><p>Create a team and it will appear here.</p></div>
+    } @else {
+      <div class="teams-container">
+        @for (team of teams; track team.team_id) {
+          <article class="team-card">
+            <div class="team-mark" aria-hidden="true">🏆</div>
+            <div class="team-info">
+              <h3>{{ team.team_name }}</h3>
+              <p>{{ team.players.length }} players <span>·</span> {{ team.email }}</p>
+            </div>
+            <div class="team-actions">
+              <button class="view-btn" type="button" (click)="openTeam(team)">View lineup</button>
+              <button class="delete-btn" type="button" (click)="deleteTeam(team.team_id)" [attr.aria-label]="'Delete ' + team.team_name">Delete</button>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </section>
+</main>
+
+@if (selectedTeam; as team) {
+  <div class="modal-backdrop" (click)="closeTeam()" (keydown.escape)="closeTeam()">
+    <section
+      class="team-modal"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="team.team_name + ' lineup'"
+      (click)="$event.stopPropagation()"
+    >
+      <header class="modal-header">
+        <div>
+          <div class="eyebrow">COMPLETE SQUAD · {{ team.players.length }} PLAYERS</div>
+          <h2>{{ team.team_name }}</h2>
+          <p>{{ team.email }}</p>
+          <p class="team-id">Team ID: {{ team.team_id }}</p>
+        </div>
+        <button class="modal-close" type="button" (click)="closeTeam()" aria-label="Close lineup">×</button>
+      </header>
+
+      <div class="formation-banner">Starting lineup <span>2 · 5 · 5 · 5</span></div>
+
+      <div class="lineup-grid">
+        @for (position of lineupPositions; track position.key) {
+          <section class="lineup-position">
+            <header class="position-heading">
+              <span class="position-icon" aria-hidden="true">{{ position.icon }}</span>
+              <h3>{{ position.label }}</h3>
+              <span class="position-total">{{ playersForPosition(team, position.key).length }}</span>
+            </header>
+            @if (playersForPosition(team, position.key).length) {
+              <div class="player-cards">
+                @for (player of playersForPosition(team, position.key); track player.id) {
+                  <article class="player-card">
+                    <div class="player-avatar">{{ player.name?.charAt(0) ?? '?' }}</div>
+                    <div class="player-main">
+                      <h4>{{ player.name || 'Unknown player' }}</h4>
+                      <span class="player-nationality">{{ player.nationality || 'Nationality unavailable' }}</span>
+                    </div>
+                    <div class="player-details">
+                      <span><small>Sticker</small>{{ player.code || '—' }}</span>
+                      <span><small>Position</small>{{ player.position || position.label }}</span>
+                      <span><small>Player ID</small>{{ player.id ?? '—' }}</span>
+                    </div>
+                  </article>
+                }
+              </div>
+            } @else {
+              <p class="position-empty">No {{ position.label.toLowerCase() }} in this team.</p>
+            }
+          </section>
+        }
+      </div>
+    </section>
+  </div>
+}
