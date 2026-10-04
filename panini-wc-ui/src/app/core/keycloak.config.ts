@@ -1,23 +1,10 @@
-import {
-  provideKeycloak
-} from 'keycloak-angular';
+import { provideKeycloak } from 'keycloak-angular';
+import { environment } from '../../environments/environment';
 
-export const provideKeycloakAngular =
-  provideKeycloak({
-
-    config: {
-
-      url: 'http://localhost:8080',
-
-      realm: 'panini',
-
-      clientId: 'panini-ui'
-    },
-
-    initOptions: {
-
-      onLoad: 'login-required',
-
-      checkLoginIframe: false
-    }
-  });
+export const provideKeycloakAngular = provideKeycloak({
+  config: environment.keycloak,
+  initOptions: {
+    onLoad: 'login-required',
+    checkLoginIframe: false,
+  },
+});
