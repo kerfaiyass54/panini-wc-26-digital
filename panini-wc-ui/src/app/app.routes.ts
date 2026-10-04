@@ -1,22 +1,22 @@
 import { Routes } from '@angular/router';
 import { App } from './app';
-import { MyTeam } from './play-zone/my-team/my-team';
-import { TeamDetails } from './play-zone/team-details/team-details';
-import { ManualTeam } from './play-zone/manual-team/manual-team';
-import { AutoTeam } from './play-zone/auto-team/auto-team';
-import { GenerateTeam } from './play-zone/generate-team/generate-team';
-import { CreateTournament } from './play-zone/create-tournament/create-tournament';
-import { TournamentDashboard } from './play-zone/tournament-dashboard/tournament-dashboard';
-import { TournamentStandings } from './play-zone/tournament-standings/tournament-standings';
-import { TournamentMatches } from './play-zone/tournament-matches/tournament-matches';
-import { TournamentStatistics } from './play-zone/tournament-statistics/tournament-statistics';
-import { TournamentTopScorers } from './play-zone/tournament-top-scorers/tournament-top-scorers';
-import { TournamentStatus } from './play-zone/tournament-status/tournament-status';
-import { MatchDetails } from './play-zone/match-details/match-details';
-import { TournamentResults } from './play-zone/tournament-results/tournament-results';
-import { Champion } from './play-zone/champion/champion';
-import { Profile } from './profile/profile';
-import { HallOfFame } from './hall-of-fame/hall-of-fame';
+import { MyTeam } from './features/play-zone/my-team/my-team';
+import { TeamDetails } from './features/play-zone/team-details/team-details';
+import { ManualTeam } from './features/play-zone/manual-team/manual-team';
+import { AutoTeam } from './features/play-zone/auto-team/auto-team';
+import { GenerateTeam } from './features/play-zone/generate-team/generate-team';
+import { CreateTournament } from './features/play-zone/create-tournament/create-tournament';
+import { TournamentDashboard } from './features/play-zone/tournament-dashboard/tournament-dashboard';
+import { TournamentStandings } from './features/play-zone/tournament-standings/tournament-standings';
+import { TournamentMatches } from './features/play-zone/tournament-matches/tournament-matches';
+import { TournamentStatistics } from './features/play-zone/tournament-statistics/tournament-statistics';
+import { TournamentTopScorers } from './features/play-zone/tournament-top-scorers/tournament-top-scorers';
+import { TournamentStatus } from './features/play-zone/tournament-status/tournament-status';
+import { MatchDetails } from './features/play-zone/match-details/match-details';
+import { TournamentResults } from './features/play-zone/tournament-results/tournament-results';
+import { Champion } from './features/play-zone/champion/champion';
+import { Profile } from './features/profile/profile/profile';
+import { HallOfFame } from './features/hall-of-fame/hall-of-fame';
 
 export const routes: Routes = [
   {
@@ -26,12 +26,12 @@ export const routes: Routes = [
       {
         path: '',
         loadComponent: () =>
-          import('./welcome-page/welcome-page').then(m => m.WelcomePage),
+          import('./features/home/welcome-page/welcome-page').then(m => m.WelcomePage),
       },
       {
         path: 'total-stats',
         loadComponent: () =>
-          import('./stickers-total/stickers-total').then(m => m.StickersTotal),
+          import('./features/stickers-total/stickers-total').then(m => m.StickersTotal),
       },
       {
         path: 'stickers-details',
@@ -44,35 +44,35 @@ export const routes: Routes = [
       },{
         path: 'nation-stickers/:nationality',
         loadComponent: () =>
-          import('./nation-stickers/nation-stickers').then(m => m.NationStickers),
+          import('./features/nation-stickers/nation-stickers').then(m => m.NationStickers),
       },{
         path: 'account-details',
         loadComponent: () =>
-          import('./account-details/account-details').then(m => m.AccountDetails),
+          import('./features/profile/account-details/account-details').then(m => m.AccountDetails),
       },{
         path: 'user-details/:email',
         loadComponent: () =>
-          import('./user-details/user-details').then(m => m.UserDetails),
+          import('./features/profile/user-details/user-details').then(m => m.UserDetails),
       },{
         path: 'duplicates',
         loadComponent: () =>
-          import('./duplicates-management/duplicates-management').then(m => m.DuplicatesManagement),
+          import('./features/duplicates/duplicates-management/duplicates-management').then(m => m.DuplicatesManagement),
       },{
         path: 'duplicates-compare/:email',
         loadComponent: () =>
-          import('./duplicates-compare/duplicates-compare').then(m => m.DuplicatesCompare),
+          import('./features/duplicates/duplicates-compare/duplicates-compare').then(m => m.DuplicatesCompare),
       },{
         path: 'swap-recommend/:email',
         loadComponent: () =>
-          import('./swap-recommend/swap-recommend').then(m => m.SwapRecommend),
+          import('./features/swap/swap-recommend/swap-recommend').then(m => m.SwapRecommend),
       },{
         path: 'swap-recommendation-public',
         loadComponent: () =>
-          import('./swap-public-recommend/swap-public-recommend').then(m => m.SwapPublicRecommend),
+          import('./features/swap/swap-public-recommend/swap-public-recommend').then(m => m.SwapPublicRecommend),
       },{
         path: 'play-zone',
         loadComponent: () =>
-          import('./play-zone/play-zone').then(m => m.PlayZone),
+          import('./features/play-zone/play-zone').then(m => m.PlayZone),
       },
       {
         path: 'my-teams',
