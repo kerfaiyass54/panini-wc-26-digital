@@ -1,5 +1,5 @@
 import json
-
+import os
 from kafka import KafkaConsumer
 
 from app.elastic.elastic_client import (
@@ -9,7 +9,7 @@ from app.elastic.elastic_client import (
 
 consumer = KafkaConsumer(
     "owned-players-response-topic",
-    bootstrap_servers="localhost:29092",
+    bootstrap_servers=os.getenv("KAFKA_BOOTSTRAP_SERVERS"),
     auto_offset_reset="earliest",
     enable_auto_commit=True,
     value_deserializer=lambda x:

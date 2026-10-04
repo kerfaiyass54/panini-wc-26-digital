@@ -1,3 +1,5 @@
+cors.allowed-origins=http://localhost:4200
+
 spring.application.name=paninitorunaments
 # =========================================
 # APPLICATION
@@ -46,4 +48,3 @@ logging.level.org.apache.kafka=INFO
 
 app.kafka.match-request-topic=match-request-topic
 app.kafka.match-result-topic=match-result-topic
-
